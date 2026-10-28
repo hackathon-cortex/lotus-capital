@@ -1,0 +1,79 @@
+{
+  "route": "/about-us",
+  "title": "About Us",
+  "headline": "Financial decisions deserve clear conversations.",
+  "intro": "Lotus Capital is a financial services business based in Godhra, Gujarat. It provides access to insurance, mutual funds, equity and other financial solutions for individuals and families. The team's approach is to explain the options, the costs and the risks, and then help clients with the process.",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Financial decisions deserve clear conversations.",
+      "copy": "Lotus Capital is a financial services business based in Godhra, Gujarat. It provides access to insurance, mutual funds, equity and other financial solutions for individuals and families. The team's approach is to explain the options, the costs and the risks, and then help clients with the process."
+    },
+    {
+      "id": "stats",
+      "type": "statStrip",
+      "title": "Lotus Capital in Numbers",
+      "statIds": ["clients_serviced", "mf_folios", "demat_accounts", "insurance_policies_total"]
+    },
+    {
+      "id": "leadership",
+      "type": "leadership",
+      "title": "Leadership",
+      "copy": "Our leadership team brings years of grounded market experience in Godhra."
+    },
+    {
+      "id": "mission-values",
+      "type": "values",
+      "title": "Mission & Values",
+      "values": [
+        { "title": "Clarity", "description": "Explaining products, structures, and options in plain words." },
+        { "title": "Responsible Communication", "description": "Never overpromising returns or obscuring terms." },
+        { "title": "Service", "description": "Assisting proactively before, during, and after transactions." },
+        { "title": "Transparency", "description": "Full disclosure of distributor roles and fees." }
+      ]
+    },
+    {
+      "id": "client-process",
+      "type": "processSteps",
+      "title": "Client Service Process",
+      "steps": [
+        "Enquiry and initial consultation",
+        "Understanding requirements and risk tolerance",
+        "Explaining eligible options and fee/cost structures",
+        "Application or transaction through the relevant provider",
+        "Regular servicing, claim support, and follow-up"
+      ]
+    },
+    {
+      "id": "milestones",
+      "type": "milestones",
+      "title": "Milestones"
+    },
+    {
+      "id": "achievements",
+      "type": "awards",
+      "title": "Awards & Recognition"
+    },
+    {
+      "id": "registrations",
+      "type": "registrationsTable",
+      "title": "Registrations and Affiliations",
+      "copy": "Wording and holder details verified against official regulatory registrations."
+    },
+    {
+      "id": "location",
+      "type": "officeLocation",
+      "title": "Office Location",
+      "address": "Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat"
+    },
+    {
+      "id": "cta",
+      "type": "cta",
+      "title": "Discuss Your Financial Goals",
+      "buttonText": "Talk to an Advisor",
+      "buttonLink": "/contact-us"
+    }
+  ]
+}
+

@@ -1,0 +1,82 @@
+{
+  "route": "/insights",
+  "title": "Insights",
+  "headline": "Learn before you decide.",
+  "intro": "Plain-language guides on insurance, mutual funds, equity and financial planning. For education only; not personalised advice.",
+  "articles": [
+    {
+      "slug": "mutual-funds-direct-vs-regular",
+      "title": "Mutual Funds: Direct Plan vs Regular Plan",
+      "summary": "Understand the structural differences, distributor commission impact, and servicing role between regular and direct plans.",
+      "category": "Mutual Fund Basics",
+      "publishedDate": "2026-08-15",
+      "readTime": "5 min read",
+      "relatedService": "mutual-funds",
+      "content": "Mutual funds offer two distinct routes to investment: Direct Plans and Regular Plans. In a Regular Plan, transactions are processed through an AMFI-registered distributor such as Lotus Capital. The AMC pays the distributor a distribution fee out of the scheme's Total Expense Ratio (TER). In Direct Plans, no distributor commission is paid, resulting in a lower TER. Investors choosing Regular Plans benefit from personalised onboarding, paper handling, scheme reviews, and dispute resolution assistance."
+    },
+    {
+      "slug": "what-nav-means",
+      "title": "What Net Asset Value (NAV) Means",
+      "summary": "Why a high or low NAV does not indicate whether a fund is cheap or expensive.",
+      "category": "Mutual Fund Basics",
+      "publishedDate": "2026-08-20",
+      "readTime": "4 min read",
+      "relatedService": "mutual-funds",
+      "content": "Net Asset Value (NAV) represents the per-unit market value of all underlying assets held in a mutual fund scheme minus its liabilities and expenses. A common misconception is that a lower NAV means a fund is cheap or offers better upside. In reality, NAV simply reflects current portfolio valuations. Growth depends on the percentage change in underlying portfolio securities, not the starting NAV value."
+    },
+    {
+      "slug": "how-sips-work",
+      "title": "SIPs: How They Work and What They Do Not Guarantee",
+      "summary": "The mechanics of rupee cost averaging, compounding, and managing expectations during down markets.",
+      "category": "Financial Planning",
+      "publishedDate": "2026-09-02",
+      "readTime": "6 min read",
+      "relatedService": "mutual-funds",
+      "content": "A Systematic Investment Plan (SIP) enables disciplined periodic investing. Through rupee-cost averaging, more units are accumulated when prices are lower and fewer when prices rise. However, SIPs do not shield an investor from market drawdowns or guarantee positive returns. Mutual funds remain subject to market forces and interest rate cycles."
+    },
+    {
+      "slug": "choosing-health-insurance",
+      "title": "Questions to Ask Before Choosing Health Insurance",
+      "summary": "Key policy clauses to verify: waiting periods, room-rent capping, co-pay clauses, and network hospitals.",
+      "category": "Insurance Basics",
+      "publishedDate": "2026-09-12",
+      "readTime": "5 min read",
+      "relatedService": "health-insurance",
+      "content": "Selecting healthcare cover requires scrutiny of more than just the annual premium. Essential factors to examine include pre-existing disease waiting periods (usually 1-3 years), room rent sub-limits which can trigger proportionate deductions across hospital bills, co-payment obligations, and hospital network empanelment in your locality."
+    },
+    {
+      "slug": "understanding-equity-risk",
+      "title": "Understanding Equity-Market Risk",
+      "summary": "Recognising volatility, business cycle risks, and the necessity of aligning equity with long-term capital.",
+      "category": "Equity & Market Risk",
+      "publishedDate": "2026-09-25",
+      "readTime": "5 min read",
+      "relatedService": "equity",
+      "content": "Equities offer ownership participation in listed companies but come with price fluctuations, business risks, and macro uncertainty. Investors should only allocate capital that is not needed for near-term commitments and maintain broad diversification to cushion company-specific risks."
+    },
+    {
+      "slug": "policy-exclusions-waiting-periods",
+      "title": "How to Review Policy Exclusions and Waiting Periods",
+      "summary": "Reading insurance policy wordings carefully to ensure expectations match policy terms during a claim.",
+      "category": "Insurance Basics",
+      "publishedDate": "2026-10-05",
+      "readTime": "5 min read",
+      "relatedService": "general-insurance",
+      "content": "Insurance policies operate under defined legal contracts with specific exclusions. In general and health insurance, common exclusions include non-medical consumables, pre-existing illnesses during the moratorium period, and cosmetic treatments. Reviewing these terms before committing avoids disputes during claim processing."
+    }
+  ],
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Learn before you decide.",
+      "copy": "Plain-language guides on insurance, mutual funds, equity and financial planning. For education only; not personalised advice."
+    },
+    {
+      "id": "articles-grid",
+      "type": "articleListing",
+      "title": "All Articles"
+    }
+  ]
+}
+

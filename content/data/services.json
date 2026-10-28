@@ -1,0 +1,57 @@
+[
+  {
+    "slug": "general-insurance",
+    "title": "General Insurance",
+    "shortDescription": "Understand cover for your vehicle, property and business.",
+    "category": "insurance",
+    "statId": "motor_policies",
+    "statDisplayText": "140+ motor policies",
+    "path": "/services/general-insurance"
+  },
+  {
+    "slug": "life-insurance",
+    "title": "Life Insurance",
+    "shortDescription": "Term, savings and retirement protection.",
+    "category": "insurance",
+    "statId": "life_policies",
+    "statDisplayText": "180+ life policies",
+    "path": "/services/life-insurance"
+  },
+  {
+    "slug": "health-insurance",
+    "title": "Health Insurance",
+    "shortDescription": "Compare individual, family and senior healthcare plans.",
+    "category": "insurance",
+    "statId": "health_policies",
+    "statDisplayText": "250+ health policies",
+    "path": "/services/health-insurance"
+  },
+  {
+    "slug": "mutual-funds",
+    "title": "Mutual Funds",
+    "shortDescription": "Goal-based SIP and lump-sum investing with disciplined reviews.",
+    "category": "investment",
+    "statId": "mf_folios",
+    "statDisplayText": "1,200+ mutual fund folios",
+    "path": "/investments/mutual-funds"
+  },
+  {
+    "slug": "equity",
+    "title": "Equity & Investments",
+    "shortDescription": "Demat, trading and IPO access through our broking partner.",
+    "category": "investment",
+    "statId": "demat_accounts",
+    "statDisplayText": "800+ demat accounts",
+    "path": "/investments/equity"
+  },
+  {
+    "slug": "other-solutions",
+    "title": "More Solutions",
+    "shortDescription": "Fixed deposits, bonds, NPS and related financial services.",
+    "category": "investment",
+    "statId": "fd_aum",
+    "statDisplayText": "₹50 lakh+ in fixed deposits (Tier B)",
+    "path": "/investments/other-solutions"
+  }
+]
+

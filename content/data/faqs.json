@@ -1,0 +1,87 @@
+[
+  {
+    "id": "faq_home_1",
+    "page": "home",
+    "question": "What services does Lotus Capital offer?",
+    "answer": "Lotus Capital assists with general insurance, life insurance, health insurance, mutual funds, equity access via Religare Broking Limited, and fixed deposits."
+  },
+  {
+    "id": "faq_home_2",
+    "page": "home",
+    "question": "How do I get started with Lotus Capital?",
+    "answer": "Start with a conversation. Reach out via our enquiry form or call our Godhra office to discuss your financial goals and requirements."
+  },
+  {
+    "id": "faq_home_3",
+    "page": "home",
+    "question": "What documents are required to begin investing or taking insurance?",
+    "answer": "Requirements vary by provider but generally include standard identity verification (KYC), address proof, and bank details."
+  },
+  {
+    "id": "faq_home_4",
+    "page": "home",
+    "question": "Where can I register a complaint or service grievance?",
+    "answer": "You can reach out directly via our complaints contact or visit our Complaints page for designated channels and provider escalation processes."
+  },
+  {
+    "id": "faq_gi_1",
+    "page": "general-insurance",
+    "question": "What general insurance policies can Lotus Capital assist with?",
+    "answer": "We facilitate motor insurance (car and two-wheeler), commercial property, marine, and business liability covers through confirmed insurance partners."
+  },
+  {
+    "id": "faq_gi_2",
+    "page": "general-insurance",
+    "question": "How do I renew my motor insurance policy?",
+    "answer": "Contact our team with your existing policy copy and vehicle RC before the expiry date to review quotes from our partner insurers."
+  },
+  {
+    "id": "faq_li_1",
+    "page": "life-insurance",
+    "question": "What is the difference between term and savings-oriented life insurance?",
+    "answer": "Term insurance provides pure financial protection for a specified period with a payout on demise. Savings or endowment plans combine protection with maturity benefits."
+  },
+  {
+    "id": "faq_li_2",
+    "page": "life-insurance",
+    "question": "What is a free-look period?",
+    "answer": "Most life insurance policies provide a free-look period (typically 15 to 30 days from policy receipt) allowing policyholders to review terms and request cancellation if not satisfied."
+  },
+  {
+    "id": "faq_hi_1",
+    "page": "health-insurance",
+    "question": "What are waiting periods in health insurance?",
+    "answer": "Waiting periods are initial durations during which specific treatments or pre-existing conditions are not covered. These vary by insurer and policy type."
+  },
+  {
+    "id": "faq_hi_2",
+    "page": "health-insurance",
+    "question": "What is cashless hospitalisation?",
+    "answer": "Cashless hospitalisation allows eligible medical expenses to be settled directly between the network hospital and the insurance company, subject to policy limits and deductibles."
+  },
+  {
+    "id": "faq_mf_1",
+    "page": "mutual-funds",
+    "question": "What is Net Asset Value (NAV)?",
+    "answer": "NAV represents the market value of securities held by the scheme divided by the total number of units. It can fluctuate daily based on market conditions."
+  },
+  {
+    "id": "faq_mf_2",
+    "page": "mutual-funds",
+    "question": "What is the difference between direct and regular mutual fund plans?",
+    "answer": "Regular plans are distributed through registered distributors like Lotus Capital and include distribution commission. Direct plans are purchased directly without distributor commission."
+  },
+  {
+    "id": "faq_eq_1",
+    "page": "equity",
+    "question": "In what capacity does Lotus Capital offer equity services?",
+    "answer": "Lotus Capital operates as an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963)."
+  },
+  {
+    "id": "faq_eq_2",
+    "page": "equity",
+    "question": "Are returns in equity markets guaranteed?",
+    "answer": "No. Investments in securities markets are subject to market risks. Stock prices can fluctuate and there is no guarantee or assurance of returns."
+  }
+]
+

@@ -1,0 +1,33 @@
+{
+  "route": "/terms-and-conditions",
+  "title": "Terms & Conditions",
+  "headline": "Terms & Conditions",
+  "lastUpdated": "October 2026",
+  "sections": [
+    {
+      "id": "permitted-use",
+      "type": "textBlock",
+      "title": "1. Website Ownership & Permitted Use",
+      "copy": "This website is owned and operated by Lotus Capital, Godhra, Gujarat. It is intended for general informational purposes for individuals residing in India seeking financial product distribution services."
+    },
+    {
+      "id": "nature-of-content",
+      "type": "textBlock",
+      "title": "2. Informational Nature of Content",
+      "copy": "Information on this website does not constitute financial advice, an investment recommendation, an offer to buy or sell securities, or an insurance solicitation until formally engaged. Product terms are governed exclusively by respective product issuers."
+    },
+    {
+      "id": "no-guarantee",
+      "type": "textBlock",
+      "title": "3. No Guarantee of Outcomes",
+      "copy": "Past performance is not an indicator of future returns. Lotus Capital makes no warranty, express or implied, regarding returns, capital safety, or claim payouts across insurance or investment schemes."
+    },
+    {
+      "id": "governing-law",
+      "type": "textBlock",
+      "title": "4. Governing Law & Jurisdiction",
+      "copy": "These terms and conditions are governed by the laws of India. Any legal dispute or proceeding arising out of website usage shall be subject to the exclusive jurisdiction of the competent courts in Godhra, Panchmahals, Gujarat."
+    }
+  ]
+}
+

@@ -1,0 +1,75 @@
+[
+  {
+    "id": "religare_broking",
+    "name": "Religare Broking Limited",
+    "category": "broking",
+    "relationshipLabel": "Broking Partner (Authorised Person)",
+    "logoPlaceholder": "religare_broking.svg",
+    "status": "confirmed"
+  },
+  {
+    "id": "care_health",
+    "name": "Care Health Insurance",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "care_health.svg",
+    "status": "confirmed"
+  },
+  {
+    "id": "icici_lombard",
+    "name": "ICICI Lombard",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "icici_lombard.svg",
+    "status": "pending_permission"
+  },
+  {
+    "id": "hdfc_ergo",
+    "name": "HDFC ERGO",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "hdfc_ergo.svg",
+    "status": "pending_permission"
+  },
+  {
+    "id": "bajaj_allianz",
+    "name": "Bajaj Allianz General Insurance",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "bajaj_allianz.svg",
+    "status": "pending_permission"
+  },
+  {
+    "id": "bharti_axa",
+    "name": "Bharti AXA Life Insurance",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "bharti_axa.svg",
+    "status": "pending_permission"
+  },
+  {
+    "id": "hdfc_life",
+    "name": "HDFC Life",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "hdfc_life.svg",
+    "status": "pending_permission"
+  },
+  {
+    "id": "icici_prudential",
+    "name": "ICICI Prudential Life Insurance",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "icici_prudential.svg",
+    "status": "pending_permission"
+  },
+  {
+    "id": "lic",
+    "name": "Life Insurance Corporation of India (LIC)",
+    "category": "insurance",
+    "relationshipLabel": "Insurance Partner",
+    "logoPlaceholder": "lic.svg",
+    "status": "pending_permission"
+  }
+]
+

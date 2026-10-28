@@ -1,0 +1,70 @@
+{
+  "route": "/investments/equity",
+  "title": "Equity & Investments",
+  "headline": "Understand the Markets. Make Informed Decisions.",
+  "intro": "Explore equity markets with the risk clearly understood.",
+  "serviceSlug": "equity",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Understand the Markets. Make Informed Decisions.",
+      "copy": "Share prices can rise and fall, and investors can lose part or all of the money invested. Equity services at Lotus Capital are offered as an Authorised Person of Religare Broking Limited. Speak with the team to confirm the service, the process, the costs and the disclosures before you begin."
+    },
+    {
+      "id": "stat-block",
+      "type": "statBlock",
+      "statIds": ["demat_accounts"]
+    },
+    {
+      "id": "broking-relationship",
+      "type": "registrationCallout",
+      "title": "Broking Partner & Authorised Person Details",
+      "wording": "Lotus Capital is an Authorised Person of Religare Broking Limited.",
+      "nseCode": "NSE AP007909931",
+      "bseCode": "BSE AP0130040172963",
+      "note": "Religare Broking Limited SEBI broker registration details available upon request."
+    },
+    {
+      "id": "services-available",
+      "type": "categories",
+      "title": "Equity Services Available",
+      "items": [
+        "Demat and trading account opening through Religare Broking Limited",
+        "Equity and derivative market trading execution platform access",
+        "Initial Public Offering (IPO) application support",
+        "Portfolio holding statements and ledger tracking",
+        "Investor education on trading mechanics and settlement cycles"
+      ]
+    },
+    {
+      "id": "onboarding-steps",
+      "type": "processSteps",
+      "title": "How Account Opening Works",
+      "steps": [
+        "Complete demat KYC documentation with Religare Broking Limited.",
+        "Link bank accounts for automated funds transfer (UPI / NetBanking).",
+        "Receive trading terminal login credentials, TPIN, and mobile application setup.",
+        "Review brokerage rate schedule, exchange statutory charges, and risk management policies."
+      ]
+    },
+    {
+      "id": "faqs",
+      "type": "faq",
+      "title": "Frequently Asked Questions",
+      "page": "equity"
+    },
+    {
+      "id": "risk-note",
+      "type": "riskNote",
+      "content": "Investments in securities market are subject to market risks. Read all related documents carefully before investing. Lotus Capital does not guarantee returns, price targets, or trading profits."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Enquire About Equity Services",
+      "serviceSlug": "equity"
+    }
+  ]
+}
+

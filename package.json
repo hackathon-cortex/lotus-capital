@@ -1,0 +1,16 @@
+{
+  "name": "lotus-capital",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lotus Capital website and backoffice starter codebase",
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "test": "npm run test --prefix frontend",
+    "test:frontend": "npm run test --prefix frontend",
+    "test:backend": ".\\backend\\.venv\\Scripts\\pytest.exe backend\\tests",
+    "backend:dev": ".\\backend\\.venv\\Scripts\\uvicorn.exe backend.app.main:app --reload --port 8000"
+  }
+}
+

@@ -1,0 +1,34 @@
+{
+  "route": "/complaints",
+  "title": "Complaints & Grievance Information",
+  "headline": "Complaints & Grievance Redressal",
+  "intro": "We want to understand and resolve your concerns. Please contact us through the channel below. If your concern relates to an insurer, broker, fund house or other provider, we will point you to that provider's official process where we can.",
+  "sections": [
+    {
+      "id": "intro",
+      "type": "textBlock",
+      "title": "Client Grievance Approach",
+      "copy": "We want to understand and resolve your concerns. Please contact us through the channel below. If your concern relates to an insurer, broker, fund house or other provider, we will point you to that provider's official process where we can."
+    },
+    {
+      "id": "contact-info",
+      "type": "complaintContact",
+      "title": "Lotus Capital Grievance Contact",
+      "phone": "+91 93288 52555",
+      "email": "lotuscapitalinfo@gmail.com",
+      "address": "Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat",
+      "grievanceOfficer": "[Name to be supplied by client upon compliance review]"
+    },
+    {
+      "id": "provider-escalation",
+      "type": "escalationGuide",
+      "title": "Provider Escalation Processes",
+      "points": [
+        "Broking / Demat issues: Escalated directly to Religare Broking Limited Grievance Cell or SCORES / SMART ODR portal.",
+        "Mutual Fund issues: AMC Investor Relations or SEBI SCORES portal.",
+        "Insurance issues: Respective insurance partner Grievance Office or IRDAI Bima Bharosa portal."
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,60 @@
+:root {
+  /* Colour */
+  --navy-950: #071b30;
+  --navy-900: #0a2540;
+  --navy-800: #0e3154;
+  --navy-700: #123d67;
+  --navy-600: #1b4f82;
+  --navy-100: #e6edf5;
+  --silver-300: #d7d9dc;
+  --silver-100: #f3f5f7;
+  --silver-500: #8a949d;
+  --white: #ffffff;
+  --red-300: #ff6b76;
+  --red-500: #e92332;
+  --red-600: #c81b29;
+  --red-700: #a91621;
+  --ink: #1f2933;
+  --muted: #5b6770;
+  --success: #1e7f4f;
+  --warning: #9a6700;
+  --danger: #b42318;
+
+  /* Type */
+  --font-heading: "Poppins", system-ui, "Noto Sans Gujarati", sans-serif;
+  --font-body: "Inter", system-ui, "Noto Sans Gujarati", sans-serif;
+
+  /* Layout */
+  --container: 1240px;
+  --header-h: 88px;
+  --header-h-scrolled: 72px;
+  --sidebar-w: 248px;
+  --sidebar-w-collapsed: 72px;
+  --topbar-h: 64px;
+
+  /* Shape and elevation */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-1: 0 6px 20px rgba(10, 37, 64, 0.08);
+  --shadow-2: 0 16px 40px rgba(10, 37, 64, 0.14);
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px #fff, 0 0 0 6px var(--navy-600);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-h: 72px;
+    --header-h-scrolled: 64px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-h: 64px;
+    --header-h-scrolled: 56px;
+  }
+}
+

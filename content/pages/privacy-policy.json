@@ -1,0 +1,39 @@
+{
+  "route": "/privacy-policy",
+  "title": "Privacy Policy",
+  "headline": "Privacy Policy",
+  "lastUpdated": "October 2026",
+  "sections": [
+    {
+      "id": "legal-entity",
+      "type": "textBlock",
+      "title": "1. Legal Entity & Contact",
+      "copy": "Lotus Capital operates as a financial services firm located at Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat. For privacy-related inquiries, contact us at lotuscapitalinfo@gmail.com."
+    },
+    {
+      "id": "data-collected",
+      "type": "textBlock",
+      "title": "2. Data We Collect",
+      "copy": "We collect information submitted voluntarily through our enquiry forms, including your full name, 10-digit mobile number, optional email address, selected service of interest, message text, preferred contact method, source URL, and campaign attribution (UTM parameters). We never collect PAN, Aadhaar, bank passwords, or OTPs on this website."
+    },
+    {
+      "id": "purpose-processing",
+      "type": "textBlock",
+      "title": "3. Purpose of Processing",
+      "copy": "Information is used solely to respond to your service enquiry, clarify requirements, coordinate with authorised product providers, and maintain administrative records as required by regulatory compliance."
+    },
+    {
+      "id": "disclosure-third-parties",
+      "type": "textBlock",
+      "title": "4. Sharing with Third Parties",
+      "copy": "Your details are only shared with partner insurers, broking partner Religare Broking Limited, or Asset Management Companies (AMCs) after your explicit instruction to proceed with an application or account opening."
+    },
+    {
+      "id": "security-retention",
+      "type": "textBlock",
+      "title": "5. Security & Retention",
+      "copy": "We implement transport layer security (HTTPS), strict role-based access controls for staff, and audit logs. Data is retained for periods required by applicable Indian financial regulations."
+    }
+  ]
+}
+

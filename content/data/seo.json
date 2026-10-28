@@ -1,0 +1,73 @@
+{
+  "/": {
+    "title": "Lotus Capital — Partnering Wealth Creation | Godhra",
+    "description": "Insurance, mutual funds, equity and financial solutions from Lotus Capital in Godhra, Gujarat. Talk to our team about your goals."
+  },
+  "/about-us": {
+    "title": "About Us | Lotus Capital, Godhra",
+    "description": "Meet the Lotus Capital team in Godhra, Gujarat. Learn about our services, our approach and our registrations."
+  },
+  "/services": {
+    "title": "Services | Lotus Capital, Godhra",
+    "description": "Insurance, mutual funds, equity and other financial services from Lotus Capital in Godhra, Gujarat."
+  },
+  "/services/general-insurance": {
+    "title": "General Insurance | Lotus Capital, Godhra",
+    "description": "Motor, property and business insurance through Lotus Capital in Godhra, Gujarat. Request a quote."
+  },
+  "/services/life-insurance": {
+    "title": "Life Insurance | Lotus Capital, Godhra",
+    "description": "Term, savings and retirement life insurance through Lotus Capital in Godhra, Gujarat."
+  },
+  "/services/health-insurance": {
+    "title": "Health Insurance | Lotus Capital, Godhra",
+    "description": "Compare individual, family and senior health insurance with Lotus Capital in Godhra, Gujarat."
+  },
+  "/investments/mutual-funds": {
+    "title": "Mutual Funds | Lotus Capital, Godhra",
+    "description": "SIP and lump-sum mutual fund investing explained, with Lotus Capital in Godhra, Gujarat."
+  },
+  "/investments/equity": {
+    "title": "Equity & Investments | Lotus Capital, Godhra",
+    "description": "Demat, trading and IPO services through Lotus Capital, an Authorised Person of Religare Broking Limited, in Godhra."
+  },
+  "/investments/other-solutions": {
+    "title": "More Solutions | Lotus Capital, Godhra",
+    "description": "Fixed deposits, bonds, NPS and related financial services through Lotus Capital in Godhra, Gujarat."
+  },
+  "/insights": {
+    "title": "Insights | Lotus Capital, Godhra",
+    "description": "Guides on insurance, mutual funds and equity from Lotus Capital in Godhra, Gujarat."
+  },
+  "/contact-us": {
+    "title": "Contact Us | Lotus Capital, Godhra",
+    "description": "Contact Lotus Capital in Godhra, Gujarat for insurance, mutual funds and equity services."
+  },
+  "/enquiry/thank-you": {
+    "title": "Thank You | Lotus Capital",
+    "description": "Your enquiry has been received by Lotus Capital.",
+    "noindex": true
+  },
+  "/privacy-policy": {
+    "title": "Privacy Policy | Lotus Capital",
+    "description": "Privacy policy and data protection principles for Lotus Capital."
+  },
+  "/terms-and-conditions": {
+    "title": "Terms & Conditions | Lotus Capital",
+    "description": "Website terms and conditions of use for Lotus Capital."
+  },
+  "/disclosures": {
+    "title": "Disclosures | Lotus Capital",
+    "description": "Regulatory and risk disclosures for Lotus Capital and its partners."
+  },
+  "/complaints": {
+    "title": "Complaints | Lotus Capital",
+    "description": "Grievance redressal procedure and contact details for Lotus Capital."
+  },
+  "*": {
+    "title": "Not Found | Lotus Capital",
+    "description": "The page you are looking for does not exist.",
+    "noindex": true
+  }
+}
+

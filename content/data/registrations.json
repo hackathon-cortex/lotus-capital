@@ -1,0 +1,69 @@
+[
+  {
+    "id": "amfi_mfd",
+    "clientEntry": "AMFI",
+    "number": "ARN-160174",
+    "holder": "Abhilash Chudasama (individual)",
+    "role": "Mutual Fund Distributor",
+    "recommendedWording": "Abhilash Chudasama is an AMFI-registered Mutual Fund Distributor (ARN-160174).",
+    "verifyBeforePublishing": "Validity date; whether the firm has its own ARN; EUIN, if applicable",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "religare_ap_nse",
+    "clientEntry": "SEBI – NSE",
+    "number": "AP007909931",
+    "holder": "Lotus Capital",
+    "role": "Authorised Person of Religare Broking Limited",
+    "recommendedWording": "Lotus Capital is an Authorised Person of Religare Broking Limited (NSE AP registration AP007909931).",
+    "verifyBeforePublishing": "Exact registration type; Religare Broking Ltd's SEBI broker registration number (usually required alongside); validity",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "religare_ap_bse",
+    "clientEntry": "SEBI – BSE",
+    "number": "AP0130040172963",
+    "holder": "Lotus Capital",
+    "role": "Authorised Person of Religare Broking Limited",
+    "recommendedWording": "Lotus Capital is an Authorised Person of Religare Broking Limited (BSE AP registration AP0130040172963).",
+    "verifyBeforePublishing": "Exact registration type; Religare Broking Ltd's SEBI broker registration number (usually required alongside); validity",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "irdai_codes",
+    "clientEntry": "IRDA (correct name: IRDAI)",
+    "number": "RLH20126535, HDF01032560, LIC03693848, 3248307",
+    "holder": "To be confirmed (firm or individual)",
+    "role": "Insurance Agent / POSP",
+    "recommendedWording": "One line per insurer once mapped, for example [Insurer name] — agent/POSP code [code]",
+    "verifyBeforePublishing": "Which insurer each code belongs to; whether each is held by the firm or by an individual; validity. The last code (3248307) has no prefix, so its insurer is unknown.",
+    "validityDate": null,
+    "status": "to_confirm"
+  },
+  {
+    "id": "nps_religare",
+    "clientEntry": "NPS",
+    "number": "POSP 4199",
+    "holder": "Religare Broking Ltd",
+    "role": "NPS POP / POSP facilitator",
+    "recommendedWording": "NPS services are offered through Religare Broking Limited (registration 4199).",
+    "verifyBeforePublishing": "The exact PFRDA role name; whether Lotus Capital is an authorised person or sub-agent under Religare",
+    "validityDate": null,
+    "status": "to_confirm"
+  },
+  {
+    "id": "rera_gujarat",
+    "clientEntry": "RERA Gujarat",
+    "number": "Under process",
+    "holder": "Lotus Capital",
+    "role": "Real Estate Brokerage / Facilitator (under process)",
+    "recommendedWording": "RERA registration under process.",
+    "verifyBeforePublishing": "Registration status and date. Compliance to decide whether real-estate brokerage may be promoted before registration. Do not say RERA registered.",
+    "validityDate": null,
+    "status": "under_process"
+  }
+]
+
