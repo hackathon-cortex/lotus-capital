@@ -181,10 +181,10 @@ Before moving to production, the client and compliance must sign off on:
 - [ ] **As-of Dates:** Confirmation of exact as-of dates for 2,500+ clients, 1,200+ folios, 800+ demat accounts, 250+ health, 180+ life, and 140+ motor policies.
 - [ ] **Tier B Definitions:** Clear definition of ₹50 crore+ "AUM" (segments included, market value vs invested amount) and ₹50 lakh+ corporate FDs.
 - [ ] **Tier C Performance Claim:** Written calculation methodology, benchmark, and compliance approval for the approx. 23% CAGR advisory equity figure. If missing, keep withheld.
-- [ ] **IRDAI Insurer Mapping:** Clarify which partner insurer each agency/POSP code belongs to (`RLH20126535`, `HDF01032560`, `LIC03693848`, `3248307`).
+- [x] **IRDAI Insurer Mapping:** Confirmed by client (`RLH20126535` Care Health, `HDF01032560` HDFC, `LIC03693848` LIC; code `3248307` removed).
 - [ ] **NPS Role Capacity:** Official PFRDA role wording under Religare Broking Limited (registration 4199).
 - [ ] **RERA Status:** Compliance review on whether real estate brokerage in Vadodara/Ahmedabad may be advertised before registration completes.
-- [ ] **Official WhatsApp:** Confirm verified business WhatsApp number before enabling floating contact widget.
+- [x] **Official WhatsApp:** Confirmed business WhatsApp number `+91 93288 52555` enabled.
 
 ---
 

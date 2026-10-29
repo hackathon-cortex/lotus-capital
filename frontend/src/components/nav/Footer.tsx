@@ -2,29 +2,37 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import disclaimersData from '@content/data/disclaimers.json';
 import contactData from '@content/data/contact.json';
+import { LotusLogo } from '../common/LotusLogo';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="footer" role="contentinfo" data-testid="global-footer">
-      <div className="container">
+    <footer className="footer" role="contentinfo" data-testid="global-footer" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div
+        style={{
+          position: 'absolute',
+          right: '-60px',
+          bottom: '-60px',
+          width: '400px',
+          height: '400px',
+          opacity: 0.05,
+          pointerEvents: 'none',
+        }}
+      >
+        <LotusLogo variant="watermark" width="100%" height="100%" />
+      </div>
+
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div className="grid grid-cols-4">
           {/* Column 1: Lotus Capital Info */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <img
-                src="/assets/lotus_capital_logo_traced.svg"
-                alt="Lotus Capital"
-                style={{ height: '36px', filter: 'brightness(0) invert(1)' }}
-              />
-              <span style={{ fontWeight: 700, fontSize: '1.2rem', color: 'var(--white)' }}>
-                Lotus Capital
-              </span>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <LotusLogo variant="light" height={42} />
             </div>
-            <p style={{ fontSize: '0.875rem' }}>
+            <p style={{ fontSize: '0.875rem', lineHeight: '1.6', color: 'var(--silver-300)' }}>
               Partnering Wealth Creation. Guiding individuals and families with insurance,
               mutual funds, and equity solutions in Godhra, Gujarat.
             </p>
-            <p style={{ fontSize: '0.8rem', color: 'var(--silver-500)' }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--silver-500)', marginTop: '0.75rem' }}>
               AMFI-registered Mutual Fund Distributor (ARN-160174) & Authorised Person of Religare Broking Limited.
             </p>
           </div>
@@ -53,24 +61,33 @@ export const Footer: React.FC = () => {
               <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
               <li><Link to="/disclosures">Disclosures</Link></li>
               <li><Link to="/complaints">Complaints</Link></li>
+              {import.meta.env.DEV && (
+                <li>
+                  <Link to="/dev/data-register" style={{ color: 'var(--warning)', fontWeight: 600 }}>
+                    🛠 Data Register (Dev)
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
           {/* Column 4: Contact */}
           <div>
             <h4>Contact Godhra Office</h4>
-            <p style={{ fontSize: '0.85rem' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--silver-300)' }}>
               {contactData.address.full}
             </p>
-            <p style={{ fontSize: '0.85rem' }}>
-              Phone: <a href={`tel:${contactData.phone}`}>{contactData.phoneDisplay}</a>
+            <p style={{ fontSize: '0.85rem', marginTop: '0.5rem' }}>
+              Phone: <a href={`tel:${contactData.phone}`} style={{ color: 'var(--white)' }}>{contactData.phoneDisplay}</a>
             </p>
-            <p style={{ fontSize: '0.85rem' }}>
-              Email: <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
+            <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>
+              Email: <a href={`mailto:${contactData.email}`} style={{ color: 'var(--white)' }}>{contactData.email}</a>
             </p>
-            <p style={{ fontSize: '0.8rem', color: 'var(--silver-500)' }}>
-              Hours: {contactData.officeHours}
-            </p>
+            {'officeHours' in contactData && (contactData as any).officeHours ? (
+              <p style={{ fontSize: '0.8rem', color: 'var(--silver-500)', marginTop: '0.5rem' }}>
+                Hours: {(contactData as any).officeHours}
+              </p>
+            ) : null}
           </div>
         </div>
 
@@ -98,4 +115,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-

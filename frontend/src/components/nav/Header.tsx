@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { LotusLogo } from '../common/LotusLogo';
 
 export const Header: React.FC = () => {
-  const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 24);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
-
-  // Handle scroll state
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Handle ESC key for mobile menu
   useEffect(() => {
@@ -49,24 +50,32 @@ export const Header: React.FC = () => {
 
   const isServicesActive =
     location.pathname.startsWith('/services') ||
-    location.pathname === '/investments/other-solutions';
+    location.pathname.startsWith('/investments');
+
+  // Hero pages where header sits over photo initially
+  const isHeroPage =
+    location.pathname === '/' ||
+    location.pathname.startsWith('/services') ||
+    location.pathname.startsWith('/investments') ||
+    location.pathname === '/about-us';
+
+  const headerClass = scrolled
+    ? 'header--scrolled'
+    : isHeroPage
+      ? 'header--over-photo'
+      : 'header--solid';
 
   return (
-    <header className={`header ${scrolled ? 'header--scrolled' : ''}`} role="banner">
+    <header className={`header ${headerClass}`} role="banner">
       <div className="container header__inner">
         <Link to="/" className="header__logo-link" aria-label="Lotus Capital Home">
-          <img
-            src="/assets/lotus_capital_logo_traced.svg"
-            alt="Lotus Capital Logo"
-            className="header__logo"
-          />
-          <span style={{ fontWeight: 700, fontSize: '1.25rem', color: 'var(--navy-900)' }}>
-            Lotus Capital
-          </span>
+          <div className="header__logo-container">
+            <LotusLogo variant="light" height={scrolled ? 50 : 58} width="auto" />
+          </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="header__nav" aria-label="Main Navigation" style={{ display: 'flex' }}>
+        {/* Desktop Navigation - nowrap, collapsed under 1100px */}
+        <nav className="header__nav" aria-label="Main Navigation">
           <Link
             to="/"
             className="nav-link"
@@ -179,77 +188,89 @@ export const Header: React.FC = () => {
             Contact Us
           </Link>
 
-          {import.meta.env.DEV && (
-            <Link
-              to="/dev/data-register"
-              className="badge badge-warning"
-              style={{ textDecoration: 'none' }}
-              title="Dev View: All statistics, registrations and data discrepancies"
-            >
-              Dev Register
-            </Link>
-          )}
-
-          <Link to={advisorCtaLink} className="btn btn-primary" style={{ padding: '0.5rem 1rem' }}>
+          <Link
+            to={advisorCtaLink}
+            className="btn btn-primary"
+            style={{ padding: '0.5rem 1.15rem', whiteSpace: 'nowrap' }}
+          >
             Talk to an Advisor
           </Link>
         </nav>
 
-        {/* Mobile menu button */}
+        {/* Mobile menu toggle (Visible below 1100px) */}
         <button
-          className="btn btn-secondary mobile-toggle"
+          className="mobile-toggle"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={mobileMenuOpen}
-          style={{ display: 'none' }}
         >
           {mobileMenuOpen ? '✕' : '☰'}
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
         <div
           className="mobile-drawer"
           style={{
             position: 'fixed',
-            top: 'var(--header-h)',
+            top: scrolled ? 'var(--header-h-scrolled)' : 'var(--header-h)',
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'var(--white)',
-            padding: '1.5rem',
+            backgroundColor: 'var(--navy-950)',
+            padding: '2rem 1.5rem',
             overflowY: 'auto',
-            borderTop: '1px solid var(--silver-300)',
+            borderTop: '1px solid rgba(215, 217, 220, 0.15)',
             zIndex: 999,
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/about-us" className="nav-link">About Us</Link>
-            <div>
-              <strong style={{ color: 'var(--navy-900)' }}>Services</strong>
-              <div style={{ paddingLeft: '1rem', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <Link to="/services/general-insurance">General Insurance</Link>
-                <Link to="/services/life-insurance">Life Insurance</Link>
-                <Link to="/services/health-insurance">Health Insurance</Link>
-                <Link to="/investments/other-solutions">More Solutions</Link>
-                <Link to="/services">All Services</Link>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <Link to="/" className="nav-link" style={{ fontSize: '1.1rem' }}>
+              Home
+            </Link>
+            <Link to="/about-us" className="nav-link" style={{ fontSize: '1.1rem' }}>
+              About Us
+            </Link>
+
+            <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1rem' }}>
+              <span style={{ color: 'var(--silver-500)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                Services
+              </span>
+              <div style={{ paddingLeft: '0.5rem', marginTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                <Link to="/services/general-insurance" className="nav-link" style={{ fontSize: '0.95rem', color: 'var(--silver-300)' }}>
+                  General Insurance
+                </Link>
+                <Link to="/services/life-insurance" className="nav-link" style={{ fontSize: '0.95rem', color: 'var(--silver-300)' }}>
+                  Life Insurance
+                </Link>
+                <Link to="/services/health-insurance" className="nav-link" style={{ fontSize: '0.95rem', color: 'var(--silver-300)' }}>
+                  Health Insurance
+                </Link>
+                <Link to="/investments/other-solutions" className="nav-link" style={{ fontSize: '0.95rem', color: 'var(--silver-300)' }}>
+                  More Solutions
+                </Link>
+                <Link to="/services" className="nav-link" style={{ fontSize: '0.95rem', color: 'var(--silver-300)' }}>
+                  All Services
+                </Link>
               </div>
             </div>
-            <Link to="/investments/mutual-funds" className="nav-link">Mutual Funds</Link>
-            <Link to="/investments/equity" className="nav-link">Equity</Link>
-            <Link to="/insights" className="nav-link">Insights</Link>
-            <Link to="/contact-us" className="nav-link">Contact Us</Link>
 
-            {import.meta.env.DEV && (
-              <Link to="/dev/data-register" className="badge badge-warning">
-                Dev Register
-              </Link>
-            )}
+            <Link to="/investments/mutual-funds" className="nav-link" style={{ fontSize: '1.1rem' }}>
+              Mutual Funds
+            </Link>
+            <Link to="/investments/equity" className="nav-link" style={{ fontSize: '1.1rem' }}>
+              Equity
+            </Link>
+            <Link to="/insights" className="nav-link" style={{ fontSize: '1.1rem' }}>
+              Insights
+            </Link>
+            <Link to="/contact-us" className="nav-link" style={{ fontSize: '1.1rem' }}>
+              Contact Us
+            </Link>
 
-            <div style={{ marginTop: '1.5rem' }}>
-              <Link to={advisorCtaLink} className="btn btn-primary" style={{ width: '100%' }}>
+            <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+              <Link to={advisorCtaLink} className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>
                 Talk to an Advisor
               </Link>
             </div>
@@ -259,4 +280,3 @@ export const Header: React.FC = () => {
     </header>
   );
 };
-

@@ -2,20 +2,19 @@
   {
     "id": "abhilash-chudasama",
     "name": "Abhilash Dineshchandra Chudasama",
-    "designation": "Proprietor / Founder",
+    "designation": "Founder & Proprietor",
     "credentials": "AMFI-registered Mutual Fund Distributor (ARN-160174)",
     "bio": "Founder of Lotus Capital, leading client relationships in mutual funds, insurance, and equity services across Godhra and Gujarat.",
     "photoPath": "/assets/Owner.png",
-    "approvalStatus": "pending"
+    "approvalStatus": "approved"
   },
   {
     "id": "kajal-chudasama",
     "name": "Kajal Abhilash Chudasama",
-    "designation": "Co-founder / Partner",
+    "designation": "Co-founder",
     "credentials": "Financial Services Associate",
     "bio": "Co-founder at Lotus Capital, supporting operations, client coordination, and servicing.",
-    "photoPath": "/assets/placeholder-avatar.svg",
-    "approvalStatus": "pending"
+    "photoPath": "/assets/Kajal Abhilash Chudasama.png",
+    "approvalStatus": "approved"
   }
 ]
-

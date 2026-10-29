@@ -23,25 +23,48 @@
   /* Type */
   --font-heading: "Poppins", system-ui, "Noto Sans Gujarati", sans-serif;
   --font-body: "Inter", system-ui, "Noto Sans Gujarati", sans-serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
 
   /* Layout */
   --container: 1240px;
-  --header-h: 88px;
-  --header-h-scrolled: 72px;
+  --header-h: 96px;
+  --header-h-scrolled: 76px;
   --sidebar-w: 248px;
   --sidebar-w-collapsed: 72px;
   --topbar-h: 64px;
 
-  /* Shape and elevation */
+  /* Shape and elevation (Global Style Upgrade) */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
+  --radius-card: 24px;
+  --radius-panel: 32px;
+  --radius-btn: 14px;
   --radius-pill: 999px;
   --shadow-1: 0 6px 20px rgba(10, 37, 64, 0.08);
   --shadow-2: 0 16px 40px rgba(10, 37, 64, 0.14);
+  --shadow-soft: 0 10px 30px rgba(10, 37, 64, 0.08), 0 2px 6px rgba(10, 37, 64, 0.05);
+  --shadow-hover: 0 24px 48px rgba(10, 37, 64, 0.16);
+  --border-dark-inner: inset 0 0 0 1px rgba(215, 217, 220, 0.12);
 
   /* Focus */
   --focus-ring: 0 0 0 3px #fff, 0 0 0 6px var(--navy-600);
+
+  /* Motion tokens (Design.md 12.2) */
+  --dur-instant: 80ms;
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 400ms;
+  --dur-slower: 640ms;
+  --dur-count: 1600ms;
+
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --reveal-distance: 24px;
+  --stagger: 80ms;
 }
 
 @media (max-width: 1023px) {

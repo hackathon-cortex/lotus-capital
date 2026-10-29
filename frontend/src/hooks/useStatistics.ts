@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import statisticsData from '@content/data/statistics.json';
+import siteData from '@content/data/site.json';
 import { StatisticItem } from '@content/data/types';
 
 export interface RenderableStat {
@@ -39,9 +40,10 @@ export function filterPublicStats(
     })
     .map((item) => {
       const isUnverified = item.approvalStatus === 'pending';
-      const asOfText = item.asOfDate
-        ? `As of ${item.asOfDate}`
-        : 'As of [date to be confirmed]';
+      // For approved stats, public pages use the group caption from site.json
+      const asOfText = isUnverified
+        ? 'As of [date to be confirmed]'
+        : '';
 
       return {
         id: item.id,
@@ -51,7 +53,7 @@ export function filterPublicStats(
         unit: item.unit,
         tier: item.tier,
         asOfText,
-        definitionNote: item.definitionNote,
+        definitionNote: isUnverified ? item.definitionNote : undefined,
         isUnverified,
       };
     });
@@ -75,6 +77,5 @@ export function useStatistics(pageIdOrIds?: string | string[]) {
     return filterPublicStats(relevantList, showPending);
   }, [pageIdOrIds, showPending]);
 
-  return { stats, allRawStats: statisticsData as StatisticItem[] };
+  return { stats, allRawStats: statisticsData as StatisticItem[], statsAsOf: siteData.statsAsOf };
 }
-

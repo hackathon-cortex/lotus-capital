@@ -1,4 +1,5 @@
 import pytest
+from fastapi import BackgroundTasks
 from pydantic import ValidationError
 from backend.app.schemas.enquiry import EnquiryCreate
 from backend.app.routers.public import create_enquiry
@@ -6,6 +7,7 @@ from backend.app.db.session import SessionLocal
 
 def test_valid_enquiry_schema_and_creation():
     db = SessionLocal()
+    bg_tasks = BackgroundTasks()
     payload = EnquiryCreate(
         full_name="Ramesh Patel",
         mobile="9825012345",
@@ -19,11 +21,13 @@ def test_valid_enquiry_schema_and_creation():
         utm_medium="cpc",
         utm_campaign="diwali2026",
     )
-    res = create_enquiry(payload, db=db)
+    res = create_enquiry(payload, background_tasks=bg_tasks, db=db)
     db.close()
 
     assert res.enquiry_id.startswith("LC-")
     assert "submitted" in res.message.lower()
+    # Verify email notification was scheduled
+    assert len(bg_tasks.tasks) == 1
 
 def test_invalid_mobile_fails_validation():
     with pytest.raises(ValidationError) as exc_info:
