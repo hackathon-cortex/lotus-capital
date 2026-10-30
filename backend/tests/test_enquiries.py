@@ -13,6 +13,7 @@ def test_valid_enquiry_schema_and_creation():
         mobile="9825012345",
         email="ramesh@example.com",
         service="mutual-funds",
+        service_detail=["SIP", "Tax Saving ELSS"],
         message="Interested in long-term SIP plans.",
         contact_method="phone",
         source_path="/investments/mutual-funds",
@@ -28,6 +29,17 @@ def test_valid_enquiry_schema_and_creation():
     assert "submitted" in res.message.lower()
     # Verify email notification was scheduled
     assert len(bg_tasks.tasks) == 1
+
+def test_service_detail_optional_and_sanitized():
+    enquiry = EnquiryCreate(
+        full_name="Pooja Shah",
+        mobile="9825012345",
+        service="general-insurance",
+        service_detail=["  Vehicle ", "Property  "],
+        source_path="/services/general-insurance",
+        consent=True,
+    )
+    assert enquiry.service_detail == ["Vehicle", "Property"]
 
 def test_invalid_mobile_fails_validation():
     with pytest.raises(ValidationError) as exc_info:

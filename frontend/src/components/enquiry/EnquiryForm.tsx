@@ -30,6 +30,7 @@ export const enquirySchema = z.object({
     ],
     { required_error: 'Please select a service' }
   ),
+  service_detail: z.array(z.string()).optional(),
   message: z.string().max(1000, 'Message cannot exceed 1000 characters').optional(),
   contact_method: z.enum(['phone', 'whatsapp', 'email']).default('phone'),
   consent: z.literal(true, {

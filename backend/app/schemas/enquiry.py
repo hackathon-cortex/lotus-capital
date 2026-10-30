@@ -1,5 +1,5 @@
 import re
-from typing import Optional, Literal
+from typing import Optional, Literal, List
 from pydantic import BaseModel, Field, field_validator
 
 class EnquiryCreate(BaseModel):
@@ -14,6 +14,7 @@ class EnquiryCreate(BaseModel):
         "equity",
         "other-solutions",
     ]
+    service_detail: Optional[List[str]] = Field(None, max_length=10)
     message: Optional[str] = Field(None, max_length=1000)
     contact_method: Optional[Literal["phone", "whatsapp", "email"]] = "phone"
     source_path: str = Field(..., max_length=255)
@@ -21,6 +22,18 @@ class EnquiryCreate(BaseModel):
     utm_source: Optional[str] = Field(None, max_length=100)
     utm_medium: Optional[str] = Field(None, max_length=100)
     utm_campaign: Optional[str] = Field(None, max_length=100)
+
+    @field_validator("service_detail")
+    @classmethod
+    def validate_service_detail(cls, v: Optional[List[str]]) -> Optional[List[str]]:
+        if v is not None:
+            sanitized = []
+            for item in v:
+                cleaned = str(item).strip()
+                if cleaned and len(cleaned) <= 50:
+                    sanitized.append(cleaned)
+            return sanitized
+        return v
 
     @field_validator("mobile")
     @classmethod

@@ -20,6 +20,8 @@ def send_enquiry_notification_email(enquiry_data: Dict[str, Any]) -> Dict[str, A
     mobile = enquiry_data.get("mobile", "")
     email = enquiry_data.get("email") or "Not provided"
     service = enquiry_data.get("service", "General Enquiry")
+    service_detail = enquiry_data.get("service_detail") or []
+    detail_str = ", ".join(service_detail) if service_detail else "General inquiry"
     contact_method = enquiry_data.get("contact_method", "phone")
     message = enquiry_data.get("message") or "No message provided"
     source_path = enquiry_data.get("source_path", "/")
@@ -33,6 +35,7 @@ Client Name:  {full_name}
 Mobile:       {mobile}
 Email:        {email}
 Service:      {service}
+Categories:   {detail_str}
 Contact Via:  {contact_method}
 Source Page:  {source_path}
 
@@ -78,6 +81,7 @@ Godhra, Gujarat | Phone: +91 93288 52555
         <tr><td class="label">Mobile Number:</td><td class="value"><a href="tel:{mobile}" style="color:#123D67; text-decoration:none; font-weight:600;">{mobile}</a></td></tr>
         <tr><td class="label">Email Address:</td><td class="value">{email}</td></tr>
         <tr><td class="label">Selected Service:</td><td class="value" style="color:#C81B29; font-weight:600;">{service}</td></tr>
+        <tr><td class="label">Categories:</td><td class="value"><strong>{detail_str}</strong></td></tr>
         <tr><td class="label">Preferred Contact:</td><td class="value" style="text-transform:capitalize;">{contact_method}</td></tr>
         <tr><td class="label">Source Route:</td><td class="value"><code>{source_path}</code></td></tr>
       </table>

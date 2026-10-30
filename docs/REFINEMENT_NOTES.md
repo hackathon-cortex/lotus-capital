@@ -185,3 +185,52 @@ The following items are flagged for client confirmation before final production 
 5. **Client Testimonial Consents**:
    - Obtain formal written marketing consents before publishing real investor names, locations, and quotations on public pages.
 
+
+
+---
+
+## 7. General Insurance v2 Refinement Log (`/services/general-insurance`)
+
+- **Design System Alignment**:
+  - Rebuilt `/services/general-insurance` into an institutional, modular page utilizing reusable insurance components: `ServiceHero`, `CategoryBento`, `PolicyAnatomy`, `StepScroller`, `FaqAccordion`, and `EnquiryPanel`.
+  - Inside-hero breadcrumbs: `Home > Services > General Insurance` cleanly integrated underneath fixed transparent header.
+  - Coverage Board with 570+ aggregate insurance policy count-up, 3-segment SVG proportional ring (Health 250+, Life 180+, Motor 140+), and 6 interactive coverage chips.
+  - 4-Column Category Bento featuring Vehicle Protection with dual car/bike line art and 140+ serviced badge, Property, Marine, Liability, Business, and Travel.
+  - Interactive Policy Anatomy with 6 comparison nodes (`idv`, `zero_dep`, `deductibles`, `cashless`, `consumables`, `ncb`) and auto-cycle preview.
+  - 400vh pinned stage `StepScroller` with giant rolling numerals, red vertical progress rail, and 4 device card mockups.
+  - Dual-column sticky `FaqAccordion` with 6 motor and property FAQs filtered by categories.
+  - Reassurance-backed single-viewport `EnquiryPanel` with circular progress ring around submit button and drawing lotus confirmation.
+  - All 22 responsive screenshots (1440px desktop & 375px mobile) captured to `docs/screenshots/general-insurance-v2/`.
+
+---
+
+## 8. Life Insurance v2 Refinement Log (`/services/life-insurance`)
+
+- **Design System & Visual Theming**:
+  - Life Insurance has a distinct visual identity defined in `content/data/services.json`: accent teal-navy `#1F6F8B`, deep navy `#123D67`, `#0A2540`, soft silver, subtle rose-tint highlight (`rgba(244, 63, 94, 0.08)`), and Lotus Red strictly on interactive primary buttons.
+  - Full-bleed hero with Playfair Display headline (*"Protect Your Family. Plan for Tomorrow."*), animated drawing red underline, and inside-hero breadcrumb (`Home > Services > Life Insurance`).
+- **Life Protection Board**:
+  - Glass-navy 32px card with 180+ count-up (`life_policies` stat), "Figures as of October 2026" caption, and 570+ total policies chip.
+  - Segmented pill control for 5 policy categories (Term, Savings-oriented, Participating / non-participating, Unit-linked, Retirement and pension) crossfading one-line educational descriptions.
+  - "Life stages" interactive slider with 4 stops (*Starting out*, *Building a family*, *Peak earning years*, *Planning retirement*), curved SVG drawing rail with glowing traveling marker, and dynamic focus guidance line labeled *"Illustration only. Not advice or a recommendation."*
+  - 3 action cards linking to `#enquiry`, `#compare`, and `#types`.
+- **Policy Types Sticky Card Stack (`#types`)**:
+  - Sticky left column with Playfair heading (*"Choose by purpose, not by name."*), purpose intro, and vertical dot active-state tracker.
+  - Right column with 5 compact cards (max 220px tall) sticking near the top with 24px progressive offsets; previous cards scale to 0.96 and dim to 0.7 as new cards arrive.
+  - Clear purpose tags (*Protection*, *Savings*, *Market-linked*, *Retirement*) and "Ask us ->" link preselecting the category in the enquiry form.
+- **Interactive Term vs. Savings Comparison (`#compare`)**:
+  - Segmented switch [ Term Life Cover | Savings-Oriented Plans ] smoothly morphing 5 comparison rows (*Primary Purpose*, *Cover Period*, *Premium Focus*, *Benefits Payout*, *What to Inspect*).
+  - 8 Key Considerations chip cloud (*Sum Assured*, *Policy Term*, *Premium Affordability*, *Exclusions*, *Surrender Conditions*, *Riders*, *Nominee Details*, *Claim Requirements*) opening active detail cards on click.
+  - Strictly removed HLV rules of thumb, speed guarantees, and unsupported return claims.
+- **Process Timeline (`#process`)**:
+  - Central drawing gradient rail with traveling lotus bloom marker and 6 alternating steps from `05-life-insurance.md` (*Send an Enquiry*, *Discuss Your Needs*, *Review Options*, *Apply*, *Policy Issue*, *Servicing & Renewals*).
+  - Mobile fallback to left-aligned vertical line.
+- **Underwriting Partners Marquee (`#partners`)**:
+  - 2-row opposite-direction continuous marquee with confirmed life insurers: Bharti AXA Life (priority partner with custom vector SVG), HDFC Life, ICICI Prudential, and LIC.
+- **Life FAQ Accordion (`#faqs`)**:
+  - 8 educational FAQs covering term vs savings, sum assured, free-look period (guidelines without arbitrary numbers), nominees, riders, premiums, documents, and policy delivery. Category filters: *All*, *Basics*, *Policy terms*, *Claims & renewals*.
+- **Single-Viewport Enquiry Panel (`#enquiry`)**:
+  - Preselection wired to Section 2 policy types. Desktop height <= 560px with no inner scrolling, floating labels, circular progress ring, and drawing lotus confirmation.
+- **Testing & Verification**:
+  - All 43 frontend tests and 9 backend pytest tests pass.
+  - All 28 screenshots (1440px desktop & 375px mobile) captured to `docs/screenshots/life-insurance-v2/`.

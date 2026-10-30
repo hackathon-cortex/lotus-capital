@@ -79,3 +79,4 @@ export function useStatistics(pageIdOrIds?: string | string[]) {
 
   return { stats, allRawStats: statisticsData as StatisticItem[], statsAsOf: siteData.statsAsOf };
 }
+

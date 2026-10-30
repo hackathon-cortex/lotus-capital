@@ -6,7 +6,14 @@
     "category": "insurance",
     "statId": "motor_policies",
     "statDisplayText": "140+ motor policies",
-    "path": "/services/general-insurance"
+    "path": "/services/general-insurance",
+    "theme": {
+      "accent": "#0A2540",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "boardVariant": "coverage-ring",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 100%)"
+    }
   },
   {
     "slug": "life-insurance",
@@ -15,7 +22,16 @@
     "category": "insurance",
     "statId": "life_policies",
     "statDisplayText": "180+ life policies",
-    "path": "/services/life-insurance"
+    "path": "/services/life-insurance",
+    "theme": {
+      "accent": "#1F6F8B",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "subtleHighlight": "rgba(31, 111, 139, 0.15)",
+      "warmRose": "rgba(244, 63, 94, 0.08)",
+      "boardVariant": "protection-board",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 60%, #1F6F8B 100%)"
+    }
   },
   {
     "slug": "health-insurance",
@@ -24,7 +40,14 @@
     "category": "insurance",
     "statId": "health_policies",
     "statDisplayText": "250+ health policies",
-    "path": "/services/health-insurance"
+    "path": "/services/health-insurance",
+    "theme": {
+      "accent": "#0D9488",
+      "secondaryAccent": "#115E59",
+      "highlight": "#14B8A6",
+      "boardVariant": "health-shield",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #115E59 100%)"
+    }
   },
   {
     "slug": "mutual-funds",
@@ -33,7 +56,14 @@
     "category": "investment",
     "statId": "mf_folios",
     "statDisplayText": "1,200+ mutual fund folios",
-    "path": "/investments/mutual-funds"
+    "path": "/investments/mutual-funds",
+    "theme": {
+      "accent": "#059669",
+      "secondaryAccent": "#065F46",
+      "highlight": "#10B981",
+      "boardVariant": "wealth-dashboard",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #065F46 100%)"
+    }
   },
   {
     "slug": "equity",
@@ -42,7 +72,14 @@
     "category": "investment",
     "statId": "demat_accounts",
     "statDisplayText": "800+ demat accounts",
-    "path": "/investments/equity"
+    "path": "/investments/equity",
+    "theme": {
+      "accent": "#2563EB",
+      "secondaryAccent": "#1E40AF",
+      "highlight": "#3B82F6",
+      "boardVariant": "market-access",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #1E40AF 100%)"
+    }
   },
   {
     "slug": "other-solutions",
@@ -51,7 +88,13 @@
     "category": "investment",
     "statId": "fd_aum",
     "statDisplayText": "₹50 lakh+ in fixed deposits (Tier B)",
-    "path": "/investments/other-solutions"
+    "path": "/investments/other-solutions",
+    "theme": {
+      "accent": "#7C3AED",
+      "secondaryAccent": "#5B21B6",
+      "highlight": "#8B5CF6",
+      "boardVariant": "solutions-grid",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #5B21B6 100%)"
+    }
   }
 ]
-

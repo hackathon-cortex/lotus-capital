@@ -2183,3 +2183,201 @@ textarea:focus-visible {
 
 
 
+
+/* ==========================================================================
+   GENERAL INSURANCE V2 & REUSABLE INSURANCE COMPONENT STYLES
+   ========================================================================== */
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 260;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.gi-partner-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(10, 37, 64, 0.14), 0 0 24px rgba(18, 61, 103, 0.1) !important;
+  border-color: var(--navy-600, #123d67) !important;
+}
+
+.gi-partner-card:hover .gi-partner-img {
+  filter: grayscale(0%) !important;
+}
+
+/* Category Bento Tile Hovers */
+.category-bento-tile {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.category-bento-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(10, 37, 64, 0.12), 0 2px 6px rgba(10, 37, 64, 0.04) !important;
+  border-color: var(--navy-600, #123d67) !important;
+}
+
+/* Policy Anatomy Interactive Callout Nodes */
+.anatomy-node-btn {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.anatomy-node-btn:hover {
+  transform: scale(1.08);
+}
+
+/* Enquiry Split Card Interactive Elements */
+.enquiry-split-card {
+  transition: box-shadow 0.3s ease;
+}
+
+@media (max-width: 991px) {
+  .faq-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .faq-intro-col {
+    position: relative !important;
+    top: 0 !important;
+    margin-bottom: 1.5rem;
+  }
+  .enquiry-split-card {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+  }
+  .enquiry-navy-pane {
+    padding: 2rem 1.5rem !important;
+  }
+  .enquiry-form-pane {
+    padding: 2rem 1.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .gi-stacked-section {
+    border-top-left-radius: 24px !important;
+    border-top-right-radius: 24px !important;
+    margin-top: -24px !important;
+  }
+  .enquiry-split-card {
+    border-radius: 24px !important;
+  }
+  .gi-partner-card {
+    min-width: 100% !important;
+  }
+}
+
+/* ==========================================================================
+   STEP SCROLLER STYLES
+   ========================================================================== */
+
+.step-scroller-wrapper {
+  position: relative;
+  min-height: 380vh;
+  background-color: var(--navy-950, #051329);
+}
+
+.step-scroller-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2rem 0;
+}
+
+.step-scroller-mobile {
+  display: none;
+}
+
+@keyframes stepCardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .step-scroller-wrapper {
+    min-height: auto !important;
+  }
+  .step-scroller-sticky {
+    display: none !important;
+  }
+  .step-scroller-mobile {
+    display: block !important;
+    background-color: var(--navy-950, #051329);
+  }
+}
+
+/* ==========================================================================
+   LIFE INSURANCE V2 STYLES & INTERACTIVE STACK
+   ========================================================================== */
+
+.sticky-type-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: #1F6F8B !important;
+  box-shadow: 0 20px 48px rgba(10, 37, 64, 0.14) !important;
+}
+
+.partner-logo-tile:hover {
+  filter: grayscale(0%) !important;
+  border-color: #1F6F8B !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px rgba(10, 37, 64, 0.12) !important;
+}
+
+.marquee-outer:hover .marquee-track-left,
+.marquee-outer:hover .marquee-track-right {
+  animation-play-state: paused;
+}
+
+@media (max-width: 991px) {
+  .policy-types-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .policy-types-sticky-intro {
+    position: relative !important;
+    top: 0 !important;
+    margin-bottom: 2rem;
+  }
+  .policy-types-cards-stack {
+    min-height: auto !important;
+  }
+  .sticky-type-card {
+    position: relative !important;
+    top: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .life-timeline-row {
+    grid-template-columns: 40px 1fr !important;
+    gap: 1rem !important;
+  }
+  .life-timeline-desktop > div:first-child {
+    left: 20px !important;
+    transform: none !important;
+  }
+  .life-timeline-row > div:nth-child(2) {
+    grid-column: 1 !important;
+  }
+  .life-timeline-row > div:first-child {
+    grid-column: 2 !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+  .life-timeline-row > div:last-child {
+    display: none !important;
+  }
+}

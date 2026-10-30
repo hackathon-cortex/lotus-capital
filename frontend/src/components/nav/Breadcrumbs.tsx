@@ -10,8 +10,8 @@ export const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
 
-  // Don't render breadcrumbs on homepage
-  if (path === '/' || path.startsWith('/admin')) {
+  // Don't render global breadcrumbs on homepage or pages embedding their breadcrumb in hero
+  if (path === '/' || path === '/services/general-insurance' || path === '/services/life-insurance' || path.startsWith('/admin')) {
     return null;
   }
 

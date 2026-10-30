@@ -43,9 +43,9 @@
     "id": "bharti_axa",
     "name": "Bharti AXA Life Insurance",
     "category": "insurance",
-    "relationshipLabel": "Insurance Partner",
-    "logoPlaceholder": "/images/partners/placeholder-avatar.svg",
-    "status": "pending_permission"
+    "relationshipLabel": "Insurance Partner (Priority Partner)",
+    "logoPlaceholder": "/images/partners/bharti_axa.svg",
+    "status": "confirmed"
   },
   {
     "id": "hdfc_life",
