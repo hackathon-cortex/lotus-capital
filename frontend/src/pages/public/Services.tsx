@@ -1,34 +1,136 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import servicesContent from '@content/pages/services.json';
-import servicesData from '@content/data/services.json';
+import { useSearchParams } from 'react-router-dom';
 import seoData from '@content/data/seo.json';
 import { useStatistics } from '../../hooks/useStatistics';
-import { StatBlock } from '../../components/stats/StatBlock';
-import { EnquiryForm } from '../../components/enquiry/EnquiryForm';
-import lotusWatermark from '../../assets/lotus_capital_logo_traced.svg';
+import { ServiceHero } from '../../components/insurance/ServiceHero';
+import { ServicesLineupBoard } from '../../components/services/ServicesLineupBoard';
+import { ServicesStackedDeck } from '../../components/services/ServicesStackedDeck';
+import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
+import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
+import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
+
+const SERVICES_NAV_SECTIONS: NavSection[] = [
+  { id: 'hero', label: 'Overview' },
+  { id: 'services', label: 'Services' },
+  { id: 'enquiry', label: 'Enquiry' },
+];
+
+const SERVICES_HUB_ENQUIRY_OPTIONS: ServiceDetailOption[] = [
+  { id: 'general-insurance', label: 'General Insurance' },
+  { id: 'life-insurance', label: 'Life Insurance' },
+  { id: 'health-insurance', label: 'Health Insurance' },
+  { id: 'mutual-funds', label: 'Mutual Funds' },
+  { id: 'equity', label: 'Equity & Demat' },
+  { id: 'other-solutions', label: 'More Solutions' },
+];
+
+type ServiceCategorySlug =
+  | 'general-insurance'
+  | 'life-insurance'
+  | 'health-insurance'
+  | 'mutual-funds'
+  | 'equity'
+  | 'other-solutions';
 
 export const Services: React.FC = () => {
   const seo = seoData['/services'];
-  const { stats } = useStatistics(['clients_serviced', 'insurance_policies_total', 'mf_folios', 'demat_accounts']);
+  const { stats } = useStatistics([
+    'insurance_policies_total',
+    'mf_folios',
+    'demat_accounts',
+    'clients_serviced',
+  ]);
+  const [searchParams] = useSearchParams();
+  const sectionQuery = searchParams.get('section');
+  const serviceQuery = searchParams.get('service');
 
-  const getServiceIcon = (slug: string) => {
-    switch (slug) {
-      case 'general-insurance':
-        return '🚗';
-      case 'life-insurance':
-        return '🛡️';
-      case 'health-insurance':
-        return '🏥';
-      case 'mutual-funds':
-        return '📈';
-      case 'equity':
-        return '📊';
-      default:
-        return '🏛️';
+  // Preselected category for Enquiry
+  const [selectedService, setSelectedService] = useState<ServiceCategorySlug>(() => {
+    if (
+      serviceQuery &&
+      SERVICES_HUB_ENQUIRY_OPTIONS.some((opt) => opt.id === serviceQuery)
+    ) {
+      return serviceQuery as ServiceCategorySlug;
+    }
+    return 'general-insurance';
+  });
+
+  const [selectedServiceDetails, setSelectedServiceDetails] = useState<string[]>(() => [
+    selectedService,
+  ]);
+
+  // Handle URL section anchor or service query
+  useEffect(() => {
+    if (sectionQuery) {
+      const scrollTarget = () => {
+        const el = document.getElementById(sectionQuery);
+        if (el) {
+          window.scrollTo({
+            top: Math.max(0, el.offsetTop - 70),
+            behavior: 'instant' as ScrollBehavior,
+          });
+        }
+      };
+      scrollTarget();
+      const t1 = setTimeout(scrollTarget, 80);
+      const t2 = setTimeout(scrollTarget, 250);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [sectionQuery]);
+
+  const handleActionScroll = (targetId: string) => {
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const handleSelectServiceFromDeck = (serviceSlug: string) => {
+    const validSlug = serviceSlug as ServiceCategorySlug;
+    setSelectedService(validSlug);
+    setSelectedServiceDetails((prev) =>
+      prev.includes(serviceSlug) ? prev : [serviceSlug, ...prev]
+    );
+    handleActionScroll('enquiry');
+  };
+
+  const handleServiceDetailChange = (details: string[]) => {
+    setSelectedServiceDetails(details);
+    if (details.length > 0) {
+      const first = details[0] as ServiceCategorySlug;
+      if (SERVICES_HUB_ENQUIRY_OPTIONS.some((opt) => opt.id === first)) {
+        setSelectedService(first);
+      }
+    }
+  };
+
+  // Compile verified stat chips from data layer
+  const verifiedStats = [
+    {
+      id: 'insurance_total',
+      value: stats.find((s) => s.id === 'insurance_policies_total')?.displayText || '570+',
+      label: stats.find((s) => s.id === 'insurance_policies_total')?.label || 'Insurance policies',
+    },
+    {
+      id: 'mf_folios',
+      value: stats.find((s) => s.id === 'mf_folios')?.displayText || '1,200+',
+      label: stats.find((s) => s.id === 'mf_folios')?.label || 'MF folios',
+    },
+    {
+      id: 'demat',
+      value: stats.find((s) => s.id === 'demat_accounts')?.displayText || '800+',
+      label: stats.find((s) => s.id === 'demat_accounts')?.label || 'Demat accounts',
+    },
+    {
+      id: 'clients',
+      value: stats.find((s) => s.id === 'clients_serviced')?.displayText || '2,500+',
+      label: stats.find((s) => s.id === 'clients_serviced')?.label || 'Clients serviced',
+    },
+  ];
 
   return (
     <>
@@ -37,205 +139,63 @@ export const Services: React.FC = () => {
         <meta name="description" content={seo.description} />
       </Helmet>
 
-      {/* Hero */}
-      <section
-        className="hero"
-        style={{
-          minHeight: '400px',
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          backgroundColor: 'var(--navy-950)',
-          overflow: 'hidden',
-          paddingTop: '120px',
-          paddingBottom: '60px',
-        }}
-      >
-        <div
-          className="hero-scrim"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(135deg, rgba(10,37,64,0.95) 0%, rgba(18,61,103,0.85) 100%)',
-            zIndex: 1,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            right: '-50px',
-            bottom: '-40px',
-            width: '400px',
-            height: '400px',
-            opacity: 0.05,
-            zIndex: 1,
-            pointerEvents: 'none',
-          }}
-        >
-          <img src={lotusWatermark} alt="" style={{ width: '100%', height: '100%', filter: 'brightness(0) invert(1)' }} />
-        </div>
+      {/* Thin Brand Red Scroll Progress Bar */}
+      <ScrollProgressBar />
 
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ maxWidth: '820px' }}>
-            <span
-              className="eyebrow"
-              style={{
-                color: 'var(--silver-300)',
-                letterSpacing: '0.12em',
-                fontSize: '0.82rem',
-                textTransform: 'uppercase',
-                display: 'inline-block',
-                marginBottom: '0.75rem',
-              }}
-            >
-              FINANCIAL ARCHITECTURE • GODHRA, GUJARAT
-            </span>
-            <h1
-              style={{
-                color: 'var(--white)',
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 700,
-                fontSize: 'clamp(2rem, 3.8vw, 3rem)',
-                lineHeight: 1.15,
-                marginBottom: '1rem',
-              }}
-            >
-              {servicesContent.headline}
-            </h1>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                color: 'var(--silver-300)',
-                lineHeight: 1.6,
-                maxWidth: '720px',
-                margin: 0,
-              }}
-            >
-              {servicesContent.intro || 'Explore our full suite of insurance, mutual funds, equity broking, and fixed income solutions tailored to protect and compound your family wealth.'}
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Right Dot Navigator (Hero, Services, Enquiry) */}
+      <DotNavigator sections={SERVICES_NAV_SECTIONS} />
 
-      {/* Stat Strip */}
-      <section className="section-padding-sm bg-light" data-reveal>
-        <div className="container">
-          <StatBlock stats={stats} columns={4} />
-        </div>
-      </section>
-
-      {/* Reference 2: 6-Card Services Grid */}
-      <section className="section-padding" id="services-list" data-reveal>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3rem' }}>
-            <span className="eyebrow">Disciplined Structure</span>
-            <h2>Our Core Practice Areas</h2>
-            <p style={{ color: 'var(--muted)' }}>
-              Clear product scopes, verified credentials, and client-centric guidance.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 grid-cols-md-3" style={{ gap: '2rem' }}>
-            {servicesData.map((s) => (
-              <div
-                key={s.slug}
-                className="card service-card"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '2rem',
-                  position: 'relative',
-                  transition: 'transform var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard)',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
-                  <div
-                    className="service-icon-circle"
-                    style={{
-                      width: '56px',
-                      height: '56px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--silver-100)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '1.5rem',
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    {getServiceIcon(s.slug)}
-                  </div>
-                  {s.statDisplayText && (
-                    <span
-                      style={{
-                        padding: '0.25rem 0.65rem',
-                        backgroundColor: 'var(--navy-100)',
-                        color: 'var(--navy-700)',
-                        fontSize: '0.75rem',
-                        fontWeight: 600,
-                        borderRadius: 'var(--radius-full)',
-                      }}
-                    >
-                      {s.statDisplayText}
-                    </span>
-                  )}
-                </div>
-
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', color: 'var(--navy-900)' }}>
-                  {s.title}
-                </h3>
-                <p style={{ color: 'var(--muted)', fontSize: '0.92rem', lineHeight: '1.6', marginBottom: '1.5rem', flex: 1 }}>
-                  {s.shortDescription}
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: 'auto' }}>
-                  <Link
-                    to={s.path}
-                    className="btn btn-secondary"
-                    style={{ width: '100%', textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}
-                  >
-                    <span>View Service Guide</span>
-                    <span style={{ transition: 'transform 0.2s ease' }}>→</span>
-                  </Link>
-                  <Link
-                    to={`/contact-us?service=${s.slug}`}
-                    className="btn btn-primary"
-                    style={{ width: '100%', textAlign: 'center', fontSize: '0.88rem', padding: '0.5rem 1rem' }}
-                  >
-                    Request Consultation
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Consultative advisory banner */}
-      <section className="section-padding bg-light" data-reveal>
-        <div className="container" style={{ maxWidth: '850px', textAlign: 'center' }}>
-          <span className="eyebrow">Our Philosophy</span>
-          <h2>How to Choose the Right Solution</h2>
-          <p style={{ color: 'var(--ink)', fontSize: '1.05rem', lineHeight: '1.7', margin: '1rem 0 2rem' }}>
-            We invite visitors and families in Gujarat to discuss their specific objectives, investment time horizons,
-            comfort with risk, household cash flows, and existing policies. We present products clearly
-            without high-pressure sales pitches or speculative promises.
-          </p>
-          <a href="#enquiry" className="btn btn-primary btn-lg">
-            Schedule a Personal Discussion →
-          </a>
-        </div>
-      </section>
-
-      {/* Enquiry Form */}
-      <section className="section-padding" id="enquiry" data-reveal>
-        <div className="container" style={{ maxWidth: '780px' }}>
-          <EnquiryForm
-            title="Discuss Your Financial Roadmap"
-            subtitle="Tell us which solutions you would like to explore. Our team in Godhra will arrange a comprehensive discussion."
+      {/* Page Content Layout */}
+      <div className="services-hub-page-wrapper" style={{ overflowX: 'hidden' }}>
+        {/* 1. Page Hero with Lineup Board */}
+        <div id="hero">
+          <ServiceHero
+            breadcrumb={[
+              { label: 'Home', path: '/' },
+              { label: 'Services' },
+            ]}
+            eyebrow="LICENSED FINANCIAL DISTRIBUTION • GODHRA, GUJARAT"
+            headlinePlain="Solutions for protection,"
+            headlineItalic="investing and long-term planning."
+            leadCopy="Lotus Capital brings together six core practice areas—covering motor, life and health insurance, alongside mutual funds, equities and fixed-income products. Every solution is delivered with verified terms, transparent costs and direct local guidance in Godhra."
+            primaryButtonText="Explore our services"
+            primaryButtonHref="#services"
+            secondaryButtonText="Talk to an Advisor"
+            secondaryButtonHref="#enquiry"
+            backgroundGradient="radial-gradient(ellipse at 85% 25%, rgba(18, 61, 103, 0.45) 0%, rgba(10, 37, 64, 0) 70%), linear-gradient(135deg, #051329 0%, #0a2540 50%, #123D67 100%)"
+            customRightBoard={
+              <ServicesLineupBoard
+                onActionClick={handleActionScroll}
+                verifiedStats={verifiedStats}
+              />
+            }
+            onEnquiryClick={() => handleActionScroll('enquiry')}
           />
         </div>
-      </section>
+
+        {/* 2. Services Deck (Sticky card stack with progress ring) */}
+        <ServicesStackedDeck
+          id="services"
+          onSelectService={handleSelectServiceFromDeck}
+        />
+
+        {/* 3. Enquiry Panel */}
+        <div id="enquiry" style={{ position: 'relative', zIndex: 16 }}>
+          <EnquiryPanel
+            defaultService={selectedService}
+            serviceDetailOptions={SERVICES_HUB_ENQUIRY_OPTIONS}
+            selectedServiceDetails={selectedServiceDetails}
+            onServiceDetailChange={handleServiceDetailChange}
+            title="Discuss your financial roadmap"
+            subtitle="Select one or more services to discuss with our licensed team in Godhra."
+            reassuranceLines={[
+              'Direct consultation with our licensed team in Godhra',
+              'Personalised evaluation across insurance & investment portfolios',
+              'No spam, commissions bias or robo-calls',
+            ]}
+          />
+        </div>
+      </div>
     </>
   );
 };

@@ -47,6 +47,7 @@ export interface ServiceHeroProps {
   backgroundGradient?: string;
   heroPhotoPath?: string;
   onEnquiryClick?: () => void;
+  statChip?: React.ReactNode;
 }
 
 export const DEFAULT_GI_HERO_CONFIG = {
@@ -121,6 +122,7 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
   backgroundGradient,
   heroPhotoPath,
   onEnquiryClick,
+  statChip,
 }) => {
   const animatedMainNumber = useCountUp(coverageBoard.headlineValue, 1600);
   const [ringDrawn, setRingDrawn] = useState(false);
@@ -408,6 +410,13 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
                 <span style={{ fontSize: '0.85rem' }}>↓</span>
               </a>
             </div>
+
+            {/* Optional Stat Chip */}
+            {statChip && (
+              <div style={{ marginTop: '1.5rem' }}>
+                {statChip}
+              </div>
+            )}
           </div>
 
           {/* Right Column: Board (5 cols on desktop) */}

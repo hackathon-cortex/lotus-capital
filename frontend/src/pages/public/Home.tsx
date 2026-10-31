@@ -1,3 +1,4 @@
+import { useContactDrawer } from '../../context/ContactDrawerContext';
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -12,14 +13,11 @@ import { useCountUp, useScrollProgress, useParallax } from '../../motion';
 import { LotusLogo } from '../../components/common/LotusLogo';
 import { DotNavigator } from '../../components/common/DotNavigator';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
+import { SipIllustrationBoard } from '../../components/investments/SipIllustrationBoard';
 import ownerPhoto from '../../assets/Owner.png';
 
-// Number comma formatter
-function formatWithCommas(num: number): string {
-  return num.toLocaleString('en-IN');
-}
-
 export const Home: React.FC = () => {
+  const { openContactDrawer } = useContactDrawer();
   const seo = seoData['/'];
 
   // Scroll Parallax for Hero
@@ -59,37 +57,6 @@ export const Home: React.FC = () => {
   // Insurance Highlights active tab
   const [activeInsuranceTab, setActiveInsuranceTab] = useState<'health' | 'life' | 'general'>('health');
 
-  // SIP Calculator State
-  const [monthlySip, setMonthlySip] = useState<number>(10000);
-  const [sipYears, setSipYears] = useState<number>(5);
-
-  // Calculate SIP Future Value at assumed 12% p.a.
-  const calculateSip = (monthly: number, years: number) => {
-    const i = 0.12 / 12; // monthly interest
-    const n = years * 12; // total months
-    const fv = monthly * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
-    const invested = monthly * n;
-    const wealthGain = fv - invested;
-    return {
-      invested: Math.round(invested),
-      wealthGain: Math.round(wealthGain),
-      totalValue: Math.round(fv),
-    };
-  };
-
-  const sipResults = calculateSip(monthlySip, sipYears);
-
-  // Format INR shorthand
-  const formatInr = (val: number) => {
-    if (val >= 10000000) {
-      return `₹${(val / 10000000).toFixed(2)} Cr`;
-    }
-    if (val >= 100000) {
-      return `₹${(val / 100000).toFixed(2)} Lakh`;
-    }
-    return `₹${val.toLocaleString('en-IN')}`;
-  };
-
   // Trust band count-up
   const trustCount = useCountUp(2500, 1600);
 
@@ -110,6 +77,26 @@ export const Home: React.FC = () => {
       <Helmet>
         <title>{seo.title}</title>
         <meta name="description" content={seo.description} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': ['FinancialService', 'LocalBusiness'],
+            name: 'Lotus Capital',
+            image: 'https://lotuscapital.org/images/hero.jpg',
+            telephone: '+919328852555',
+            email: 'lotuscapitalinfo@gmail.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1',
+              addressLocality: 'Godhra',
+              postalCode: '389001',
+              addressRegion: 'Gujarat',
+              addressCountry: 'IN'
+            },
+            areaServed: 'Godhra, Panchmahals, Gujarat, India',
+            url: 'https://lotuscapital.org'
+          })}
+        </script>
       </Helmet>
 
       {/* Reading Progress Bar under header */}
@@ -180,13 +167,14 @@ export const Home: React.FC = () => {
               >
                 Explore Our Services
               </Link>
-              <Link
-                to="/contact-us"
+              <button
+                type="button"
+                onClick={(e) => openContactDrawer(undefined, e.currentTarget)}
                 className="btn btn-secondary-light btn-lg"
-                style={{ borderRadius: 'var(--radius-btn)' }}
+                style={{ borderRadius: 'var(--radius-btn)', cursor: 'pointer' }}
               >
                 Talk to an Advisor
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -902,193 +890,8 @@ export const Home: React.FC = () => {
             </span>
           </div>
 
-          {/* Rounded 32px Board Fitting in ONE frame */}
-          <div
-            style={{
-              backgroundColor: 'var(--navy-900)',
-              borderRadius: '32px',
-              border: '1px solid rgba(215, 217, 220, 0.15)',
-              boxShadow: 'var(--shadow-hover)',
-              padding: '2.25rem',
-            }}
-          >
-            <div className="grid grid-cols-1 grid-cols-md-12" style={{ gap: '2.5rem', alignItems: 'center' }}>
-              {/* Left Column (5 Cols): Sliders & Assumed-Rate Note */}
-              <div className="col-span-12 col-span-md-5">
-                <span className="eyebrow" style={{ color: 'var(--silver-300)' }}>Compounding Simulator</span>
-                <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--white)', margin: '0.25rem 0 1.5rem', fontSize: '1.6rem' }}>
-                  Plan Your SIP Journey
-                </h3>
-
-                {/* Slider 1: Monthly Investment */}
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <label style={{ fontSize: '0.86rem', color: 'var(--silver-300)' }}>Monthly Investment</label>
-                    <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--white)', fontFamily: 'var(--font-heading)' }}>
-                      ₹{formatWithCommas(monthlySip)}
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1000"
-                    max="100000"
-                    step="1000"
-                    value={monthlySip}
-                    onChange={(e) => setMonthlySip(Number(e.target.value))}
-                    style={{ width: '100%', accentColor: 'var(--red-500)', cursor: 'pointer' }}
-                  />
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--silver-500)', marginTop: '4px' }}>
-                    <span>₹1,000</span>
-                    <span>₹1,00,000</span>
-                  </div>
-                </div>
-
-                {/* Slider 2: Investment Horizon */}
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <label style={{ fontSize: '0.86rem', color: 'var(--silver-300)' }}>Time Horizon</label>
-                    <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--white)', fontFamily: 'var(--font-heading)' }}>
-                      {sipYears} {sipYears === 1 ? 'Year' : 'Years'}
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="30"
-                    step="1"
-                    value={sipYears}
-                    onChange={(e) => setSipYears(Number(e.target.value))}
-                    style={{ width: '100%', accentColor: 'var(--red-500)', cursor: 'pointer' }}
-                  />
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--silver-500)', marginTop: '4px' }}>
-                    <span>1 Year</span>
-                    <span>30 Years</span>
-                  </div>
-                </div>
-
-                {/* Assumed-rate note */}
-                <p style={{ fontSize: '0.78rem', color: 'var(--silver-300)', lineHeight: '1.5', margin: 0, opacity: 0.85 }}>
-                  *Assumed growth rate 12% p.a. purely for compounding demonstration. Mutual fund returns are market-dependent.
-                </p>
-              </div>
-
-              {/* Right Column (7 Cols): Result Figures, Compact Chart & 2 Mini Rings */}
-              <div className="col-span-12 col-span-md-7">
-                {/* Result Row */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: '1rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    padding: '1.25rem',
-                    borderRadius: '16px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    textAlign: 'center',
-                    marginBottom: '1.25rem',
-                  }}
-                >
-                  <div>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--silver-300)' }}>Invested Amount</span>
-                    <div style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--white)', marginTop: '2px' }}>
-                      {formatInr(sipResults.invested)}
-                    </div>
-                  </div>
-                  <div>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--silver-300)' }}>Est. Returns</span>
-                    <div style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--success)', marginTop: '2px' }}>
-                      +{formatInr(sipResults.wealthGain)}
-                    </div>
-                  </div>
-                  <div>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--silver-300)' }}>Total Value</span>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--white)', marginTop: '2px' }}>
-                      {formatInr(sipResults.totalValue)}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Compact SVG Line Chart */}
-                <div style={{ height: '90px', width: '100%', marginBottom: '1.25rem' }}>
-                  <svg viewBox="0 0 500 100" style={{ width: '100%', height: '100%' }}>
-                    <defs>
-                      <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#c81b29" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="#c81b29" stopOpacity="0.0" />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      d={`M 0 95 Q 150 90 300 ${Math.max(20, 90 - sipYears * 2.2)} T 500 15 L 500 100 L 0 100 Z`}
-                      fill="url(#chartAreaGrad)"
-                    />
-                    <path
-                      d={`M 0 95 Q 150 90 300 ${Math.max(20, 90 - sipYears * 2.2)} T 500 15`}
-                      fill="none"
-                      stroke="#c81b29"
-                      strokeWidth="3"
-                    />
-                    <circle cx="500" cy="15" r="5" fill="#FFFFFF" stroke="#c81b29" strokeWidth="2" />
-                  </svg>
-                </div>
-
-                {/* Compact Row of Two Mini Rings (Goal Trackers) */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '1rem',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                    paddingTop: '1rem',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <svg width="44" height="44" viewBox="0 0 44 44">
-                      <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="4" />
-                      <circle
-                        cx="22"
-                        cy="22"
-                        r="18"
-                        fill="none"
-                        stroke="#e92332"
-                        strokeWidth="4"
-                        strokeDasharray="113"
-                        strokeDashoffset="36"
-                        transform="rotate(-90 22 22)"
-                      />
-                      <text x="22" y="26" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="700">68%</text>
-                    </svg>
-                    <div>
-                      <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--white)' }}>Child Higher Education</h5>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--silver-300)' }}>Target Corpus Tracker</span>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <svg width="44" height="44" viewBox="0 0 44 44">
-                      <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="4" />
-                      <circle
-                        cx="22"
-                        cy="22"
-                        r="18"
-                        fill="none"
-                        stroke="#1b4f82"
-                        strokeWidth="4"
-                        strokeDasharray="113"
-                        strokeDashoffset="62"
-                        transform="rotate(-90 22 22)"
-                      />
-                      <text x="22" y="26" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="700">45%</text>
-                    </svg>
-                    <div>
-                      <h5 style={{ margin: 0, fontSize: '0.85rem', color: 'var(--white)' }}>Retirement Corpus</h5>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--silver-300)' }}>Milestone Progress</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Unified SIP Illustration Board */}
+          <SipIllustrationBoard id="mutual-funds" compact={true} />
         </div>
       </section>
 
@@ -1643,8 +1446,9 @@ export const Home: React.FC = () => {
                 Schedule a confidential consultation with Abhilash Chudasama in Godhra.
               </p>
             </div>
-            <Link
-              to="/contact-us"
+            <button
+              type="button"
+              onClick={(e) => openContactDrawer(undefined, e.currentTarget)}
               className="btn btn-primary"
               style={{
                 backgroundColor: 'var(--red-600)',
@@ -1652,10 +1456,12 @@ export const Home: React.FC = () => {
                 padding: '0.75rem 1.75rem',
                 fontWeight: 600,
                 whiteSpace: 'nowrap',
+                border: 'none',
+                cursor: 'pointer',
               }}
             >
               Talk to an Advisor &rarr;
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -1907,13 +1713,14 @@ export const Home: React.FC = () => {
                 <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6', marginBottom: '1.25rem' }}>
                   Speak directly with our team in Godhra. No sales pressure, just straightforward, factual answers.
                 </p>
-                <Link
-                  to="/contact-us"
+                <button
+                  type="button"
+                  onClick={(e) => openContactDrawer(undefined, e.currentTarget)}
                   className="btn btn-primary"
-                  style={{ borderRadius: 'var(--radius-btn)', padding: '0.6rem 1.4rem' }}
+                  style={{ borderRadius: 'var(--radius-btn)', padding: '0.6rem 1.4rem', border: 'none', cursor: 'pointer' }}
                 >
                   Talk to an Advisor &rarr;
-                </Link>
+                </button>
               </div>
             </div>
 

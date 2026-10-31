@@ -23,5 +23,7 @@
     "number": "+919328852555",
     "statusNote": "Confirmed official WhatsApp business contact"
   },
+  "whatsappConfirmed": false,
+  "hours": null,
   "officeHours": null
 }

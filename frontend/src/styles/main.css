@@ -183,6 +183,45 @@ textarea:focus-visible {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
+
+@media (min-width: 992px) {
+  .col-span-lg-7 {
+    grid-column: span 7 / span 7;
+  }
+  .col-span-lg-5 {
+    grid-column: span 5 / span 5;
+  }
+  .col-span-lg-6 {
+    grid-column: span 6 / span 6;
+  }
+  .col-span-lg-8 {
+    grid-column: span 8 / span 8;
+  }
+  .col-span-lg-4 {
+    grid-column: span 4 / span 4;
+  }
+}
+
+@media (max-width: 991px) {
+  .grid-cols-12 {
+    grid-template-columns: 1fr;
+  }
+  .col-span-lg-7,
+  .col-span-lg-5,
+  .col-span-lg-6,
+  .col-span-lg-8,
+  .col-span-lg-4 {
+    grid-column: span 1 / span 1;
+  }
+}
+
 @media (max-width: 1023px) {
   .grid-cols-3,
   .grid-cols-4 {
@@ -307,7 +346,7 @@ textarea:focus-visible {
 .header__nav {
   display: flex;
   align-items: center;
-  gap: 1.15rem;
+  gap: 32px;
   white-space: nowrap;
 }
 
@@ -2381,3 +2420,655 @@ textarea:focus-visible {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   Health Insurance Refinement v2 Styles
+   ========================================================================== */
+
+.health-tile-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--navy-700, #0d2b4a) !important;
+  box-shadow: 0 10px 24px rgba(10, 37, 64, 0.08);
+}
+
+.health-category-card:hover {
+  transform: translateY(-4px);
+}
+
+@media (max-width: 992px) {
+  .health-overview-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .health-inspector-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .health-timeline-container .timeline-center-line,
+  .health-timeline-container .timeline-progress-line {
+    left: 20px !important;
+    transform: none !important;
+  }
+  .health-timeline-container .timeline-lotus-marker {
+    left: 20px !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  .timeline-step-row {
+    grid-template-columns: 40px 1fr !important;
+    gap: 1rem !important;
+  }
+  .timeline-step-row > div:nth-child(2) {
+    grid-column: 1 !important;
+  }
+  .timeline-step-row.step-odd .timeline-card-col-left {
+    grid-column: 2 !important;
+    padding: 0 !important;
+    display: block !important;
+    text-align: left !important;
+  }
+  .timeline-step-row.step-even .timeline-card-col-right {
+    grid-column: 2 !important;
+    padding: 0 !important;
+    display: block !important;
+    text-align: left !important;
+  }
+}
+
+/* ==========================================================================
+   More Solutions (Other Solutions) Refinement v2 Styles
+   ========================================================================== */
+
+.solution-sticky-card:hover {
+  border-color: var(--navy-900, #123D67) !important;
+  box-shadow: 0 16px 36px rgba(10, 37, 64, 0.12), 0 4px 12px rgba(10, 37, 64, 0.05) !important;
+}
+
+@media (max-width: 992px) {
+  .solutions-stack-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .solutions-stack-intro {
+    position: static !important;
+    top: auto !important;
+  }
+  .solutions-cards-container {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .solution-sticky-card {
+    position: relative !important;
+    top: 0 !important;
+    max-height: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    padding: 1.25rem !important;
+  }
+  .solutions-important-notice {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    padding: 1.25rem !important;
+  }
+}
+
+/* ==========================================================================
+   Services Hub (Lineup & Stacked Deck) Refinement v2 Styles
+   ========================================================================== */
+
+.services-deck-card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.services-deck-card:hover {
+  transform: translateY(-6px) !important;
+  border-top: 3px solid var(--red-500, #d9232d) !important;
+  box-shadow: 0 20px 40px rgba(10, 37, 64, 0.14) !important;
+}
+
+@media (max-width: 992px) {
+  .services-deck-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .services-deck-intro {
+    position: static !important;
+    top: auto !important;
+  }
+  .services-deck-cards-container {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-deck-card {
+    position: relative !important;
+    top: 0 !important;
+    max-height: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    padding: 1.25rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-deck-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Mutual Funds Refinement v2 Styles
+   ========================================================================== */
+
+/* Custom Royal Blue Range Slider */
+.custom-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(91, 141, 184, 0.25);
+  border-radius: 4px;
+}
+
+.custom-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #2F6FB0;
+  box-shadow: 0 0 10px rgba(47, 111, 176, 0.6);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.custom-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 14px rgba(47, 111, 176, 0.85);
+}
+
+.custom-range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #2F6FB0;
+  box-shadow: 0 0 10px rgba(47, 111, 176, 0.6);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.way-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 44px rgba(10, 37, 64, 0.14) !important;
+}
+
+/* Three Ways to Invest Micro-Animations */
+@keyframes coinDropLoop {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(3px); opacity: 0.85; }
+}
+
+@keyframes dialSweepLoop {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(18deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.sip-coin-icon {
+  animation: coinDropLoop 2.4s ease-in-out infinite;
+}
+
+.dial-sweep-icon {
+  animation: dialSweepLoop 3s ease-in-out infinite;
+  transform-origin: 12px 12px;
+}
+
+@media (max-width: 992px) {
+  .sip-board-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .category-explorer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .ways-to-invest-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 1.25rem !important;
+    padding-bottom: 1rem !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ways-to-invest-grid .way-card {
+    min-width: 280px !important;
+    max-width: 320px !important;
+    scroll-snap-align: center !important;
+    flex-shrink: 0 !important;
+  }
+  .category-tabs-column {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding-bottom: 0.5rem !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .category-tabs-column button {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+  .mf-floating-tiles-stack {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .way-card,
+  .sip-coin-icon,
+  .dial-sweep-icon,
+  .custom-range-slider::-webkit-slider-thumb {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* -------------------------------------------------------------
+ * Equity & Investments Refinement Styles (Equity v2)
+ * ------------------------------------------------------------- */
+@keyframes rotateSealRing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-seal-svg {
+  animation: rotateSealRing 40s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes equityDrift1 {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes equityDrift2 {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.equity-drift-1 {
+  animation: equityDrift1 4s ease-in-out infinite;
+}
+
+.equity-drift-2 {
+  animation: equityDrift2 4.5s ease-in-out infinite;
+}
+
+.equity-action-card:hover {
+  background-color: rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(143, 163, 200, 0.45) !important;
+  transform: translateY(-2px);
+}
+
+.equity-action-card:hover .action-icon-flip {
+  transform: rotateY(180deg);
+  transition: transform 0.4s ease;
+}
+
+.equity-action-card:hover .action-icon-pulse {
+  transform: scale(1.15);
+  transition: transform 0.25s ease;
+}
+
+.equity-action-card:hover .action-icon-slide {
+  transform: translateX(4px);
+  transition: transform 0.25s ease;
+}
+
+.broking-code-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(143, 163, 200, 0.5) !important;
+}
+
+.equity-stage-action-pill:hover {
+  background-color: #4F5FB0 !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+  .broking-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    text-align: center;
+  }
+  .broking-seal-column {
+    margin: 0 auto;
+  }
+  .broking-info-column {
+    align-items: center;
+    text-align: center;
+  }
+  .authorised-person-seal {
+    width: 220px !important;
+    height: 220px !important;
+  }
+  .equity-market-floor {
+    grid-template-columns: 1fr !important;
+  }
+  .equity-tabs-sidebar {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .equity-tab-item {
+    min-width: 220px;
+    flex-shrink: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotating-seal-svg,
+  .equity-drift-1,
+  .equity-drift-2,
+  .equity-action-card,
+  .broking-code-card,
+  .equity-stage-action-pill {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   INSIGHTS LEARNING HUB & ARTICLE STYLES
+   ========================================================================== */
+
+.insights-canvas-bg {
+  background-color: #EEF1F4;
+  background-image: 
+    radial-gradient(#CBD5E1 1px, transparent 1px),
+    linear-gradient(to bottom, #EEF1F4 0%, #E6EAF0 100%);
+  background-size: 24px 24px, 100% 100%;
+}
+
+@media (max-width: 900px) {
+  .featured-guide-inner {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+.jargon-flip-card-container:focus-visible {
+  outline: 2px solid var(--navy-600, #123D67);
+  outline-offset: 4px;
+  border-radius: 24px;
+}
+
+@media (max-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Article Table of Contents Responsive Rules */
+@media (max-width: 992px) {
+  .article-layout-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .article-toc-aside {
+    position: static !important;
+    max-width: 100% !important;
+  }
+
+  .article-toc-mobile-toggle {
+    display: block !important;
+  }
+
+  .article-toc-body {
+    display: none !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-toc-body--expanded {
+    display: block !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jargon-flip-card-inner,
+  .insight-bento-card,
+  .featured-guide-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   CONTACT DRAWER STYLES & ANIMATIONS
+   ========================================================================== */
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheetSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes sheetSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Shared NavLinkButton & FooterLink Component Styles */
+.nav-link-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color 200ms ease;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* Header NavLinkButton variant */
+.nav-link-item--header {
+  font-family: var(--font-primary, Poppins, sans-serif);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--white, #ffffff);
+  padding: 0.5rem 0.25rem;
+  white-space: nowrap;
+}
+
+.nav-link-item--header:hover {
+  color: var(--silver-200, #e2e8f0);
+}
+
+.header--scrolled .nav-link-item--header {
+  color: var(--silver-200, #e2e8f0);
+}
+
+.header--scrolled .nav-link-item--header:hover {
+  color: #ffffff;
+}
+
+/* Footer Link variant */
+.nav-link-item--footer {
+  font-family: var(--font-body, Inter, sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  color: #C9CED4;
+  text-align: left;
+}
+
+.nav-link-item--footer:hover {
+  color: #FFFFFF;
+}
+
+/* 2px red underline growing from the left, 200ms */
+.nav-link-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 2px;
+  background-color: var(--red-500, #D9232D);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+}
+
+.nav-link-item:hover::after,
+.nav-link-item.is-active::after,
+.nav-link-item[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Fallback for native nav-link class if applied */
+button.nav-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--white);
+  padding: 0.5rem 0.25rem;
+  position: relative;
+  transition: color 200ms ease;
+}
+
+button.nav-link:hover {
+  color: var(--silver-200);
+}
+
+button.footer-link-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body, Inter, sans-serif);
+  font-size: 15px;
+  font-weight: 400;
+  color: #C9CED4;
+  padding: 0;
+  text-decoration: none;
+  text-align: left;
+  position: relative;
+  transition: color 200ms ease;
+}
+
+button.footer-link-button:hover {
+  color: #FFFFFF;
+}
+
+@media (max-width: 991px) {
+  .legal-grid-layout {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .legal-toc-sidebar {
+    display: none !important;
+  }
+
+  .mobile-toc-wrapper {
+    display: block !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-columns-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .contact-drawer-sheet {
+    width: 100% !important;
+    max-height: 92vh !important;
+    height: auto !important;
+    top: auto !important;
+    bottom: 0 !important;
+    border-top-left-radius: 32px !important;
+    border-top-right-radius: 32px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    animation: sheetSlideUp 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  .contact-drawer-drag-handle {
+    display: flex !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-drawer-backdrop,
+  .contact-drawer-sheet {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+
+
+
+
+
+

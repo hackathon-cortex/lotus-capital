@@ -72,7 +72,7 @@
       "type": "cta",
       "title": "Discuss Your Financial Goals",
       "buttonText": "Talk to an Advisor",
-      "buttonLink": "/contact-us"
+      "buttonLink": "/?contact=open"
     }
   ]
 }

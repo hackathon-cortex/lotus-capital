@@ -1,34 +1,41 @@
 {
   "route": "/complaints",
-  "title": "Complaints & Grievance Information",
+  "title": "Complaints & Grievance Information | Lotus Capital",
   "headline": "Complaints & Grievance Redressal",
-  "intro": "We want to understand and resolve your concerns. Please contact us through the channel below. If your concern relates to an insurer, broker, fund house or other provider, we will point you to that provider's official process where we can.",
+  "summary": "Grievance redressal process, direct contact channels, and official escalation pathways for client concerns.",
+  "lastUpdated": null,
+  "_comment": "TODO: Client / compliance reviewer to confirm effective date upon final review.",
   "sections": [
     {
-      "id": "intro",
+      "id": "approach",
       "type": "textBlock",
-      "title": "Client Grievance Approach",
-      "copy": "We want to understand and resolve your concerns. Please contact us through the channel below. If your concern relates to an insurer, broker, fund house or other provider, we will point you to that provider's official process where we can."
+      "title": "1. Client Grievance Approach",
+      "copy": "We want to understand and resolve your concerns promptly. If your query or complaint relates to services facilitated by Lotus Capital, please reach out directly through our Godhra office channels. If your concern relates to an insurer, broker, fund house or other provider, we will point you to that provider's official grievance process."
     },
     {
       "id": "contact-info",
       "type": "complaintContact",
-      "title": "Lotus Capital Grievance Contact",
+      "title": "2. Lotus Capital Grievance Contact",
       "phone": "+91 93288 52555",
       "email": "lotuscapitalinfo@gmail.com",
       "address": "Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat",
-      "grievanceOfficer": "[Name to be supplied by client upon compliance review]"
+      "grievanceOfficer": "[To be supplied by client upon compliance review]"
+    },
+    {
+      "id": "complaint-details",
+      "type": "calloutBlock",
+      "title": "3. Information to Include in a Complaint",
+      "copy": "When lodging a complaint, please provide your full name, registered mobile number, scheme or policy name, and a concise summary of the issue. Never include account passwords, OTPs, PINs, or sensitive banking credentials in your correspondence."
     },
     {
       "id": "provider-escalation",
       "type": "escalationGuide",
-      "title": "Provider Escalation Processes",
+      "title": "4. Regulated Provider Escalation Pathways",
       "points": [
-        "Broking / Demat issues: Escalated directly to Religare Broking Limited Grievance Cell or SCORES / SMART ODR portal.",
-        "Mutual Fund issues: AMC Investor Relations or SEBI SCORES portal.",
-        "Insurance issues: Respective insurance partner Grievance Office or IRDAI Bima Bharosa portal."
+        "Broking / Demat issues: Escalated directly to Religare Broking Limited Grievance Cell or official regulatory mechanisms including SEBI SCORES portal (scores.gov.in) and SMART ODR portal (smartodr.in).",
+        "Mutual Fund issues: Directly to the respective Asset Management Company (AMC) Investor Relations officer, followed by the SEBI SCORES portal.",
+        "Insurance issues: Directly to the respective insurance partner's designated Grievance Redressal Officer (GRO), followed by the IRDAI Bima Bharosa portal."
       ]
     }
   ]
 }
-

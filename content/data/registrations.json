@@ -7,7 +7,9 @@
     "role": "Mutual Fund Distributor",
     "recommendedWording": "Abhilash Chudasama is an AMFI-registered Mutual Fund Distributor (ARN-160174).",
     "verifyBeforePublishing": "Validity date; whether the firm has its own ARN; EUIN, if applicable",
-    "validityDate": null,
+    "euin": "E303534",
+    "validityDate": "03-Oct-2027",
+    "verified": false,
     "status": "active"
   },
   {

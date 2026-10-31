@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LotusLogo } from '../common/LotusLogo';
+import { useContactDrawer } from '../../context/ContactDrawerContext';
+import { NavLinkButton } from './NavLinkButton';
 
 export const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { openContactDrawer } = useContactDrawer();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,9 +47,6 @@ export const Header: React.FC = () => {
   };
 
   const currentService = getServiceSlug(location.pathname);
-  const advisorCtaLink = currentService
-    ? `/contact-us?service=${currentService}`
-    : '/contact-us';
 
   const isServicesActive =
     location.pathname.startsWith('/services') ||
@@ -57,6 +57,7 @@ export const Header: React.FC = () => {
     location.pathname === '/' ||
     location.pathname.startsWith('/services') ||
     location.pathname.startsWith('/investments') ||
+    location.pathname.startsWith('/insights') ||
     location.pathname === '/about-us';
 
   const headerClass = scrolled
@@ -74,27 +75,27 @@ export const Header: React.FC = () => {
           </div>
         </Link>
 
-        {/* Desktop Navigation - nowrap, collapsed under 1100px */}
-        <nav className="header__nav" aria-label="Main Navigation">
-          <Link
+        {/* Desktop Navigation - equal 32px gap between items */}
+        <nav className="header__nav" aria-label="Main Navigation" style={{ gap: '32px' }}>
+          <NavLinkButton
             to="/"
-            className="nav-link"
-            aria-current={location.pathname === '/' ? 'page' : undefined}
+            variant="header"
+            isActive={location.pathname === '/'}
           >
             Home
-          </Link>
-          <Link
+          </NavLinkButton>
+          <NavLinkButton
             to="/about-us"
-            className="nav-link"
-            aria-current={location.pathname === '/about-us' ? 'page' : undefined}
+            variant="header"
+            isActive={location.pathname === '/about-us'}
           >
             About Us
-          </Link>
+          </NavLinkButton>
 
           {/* Services Dropdown */}
           <div className="dropdown">
             <span
-              className="nav-link"
+              className={`nav-link-item nav-link-item--header ${isServicesActive ? 'is-active' : ''}`}
               style={{ cursor: 'pointer' }}
               aria-current={isServicesActive ? 'page' : undefined}
               role="button"
@@ -157,44 +158,42 @@ export const Header: React.FC = () => {
             </div>
           </div>
 
-          <Link
+          <NavLinkButton
             to="/investments/mutual-funds"
-            className="nav-link"
-            aria-current={
-              location.pathname === '/investments/mutual-funds' ? 'page' : undefined
-            }
+            variant="header"
+            isActive={location.pathname === '/investments/mutual-funds'}
           >
             Mutual Funds
-          </Link>
-          <Link
+          </NavLinkButton>
+          <NavLinkButton
             to="/investments/equity"
-            className="nav-link"
-            aria-current={location.pathname === '/investments/equity' ? 'page' : undefined}
+            variant="header"
+            isActive={location.pathname === '/investments/equity'}
           >
             Equity
-          </Link>
-          <Link
+          </NavLinkButton>
+          <NavLinkButton
             to="/insights"
-            className="nav-link"
-            aria-current={location.pathname.startsWith('/insights') ? 'page' : undefined}
+            variant="header"
+            isActive={location.pathname.startsWith('/insights')}
           >
             Insights
-          </Link>
-          <Link
-            to="/contact-us"
-            className="nav-link"
-            aria-current={location.pathname === '/contact-us' ? 'page' : undefined}
+          </NavLinkButton>
+          <NavLinkButton
+            onClick={(e) => openContactDrawer(undefined, e.currentTarget)}
+            variant="header"
           >
             Contact Us
-          </Link>
+          </NavLinkButton>
 
-          <Link
-            to={advisorCtaLink}
+          <button
+            type="button"
+            onClick={(e) => openContactDrawer(currentService || undefined, e.currentTarget)}
             className="btn btn-primary"
             style={{ padding: '0.5rem 1.15rem', whiteSpace: 'nowrap' }}
           >
             Talk to an Advisor
-          </Link>
+          </button>
         </nav>
 
         {/* Mobile menu toggle (Visible below 1100px) */}
@@ -265,14 +264,30 @@ export const Header: React.FC = () => {
             <Link to="/insights" className="nav-link" style={{ fontSize: '1.1rem' }}>
               Insights
             </Link>
-            <Link to="/contact-us" className="nav-link" style={{ fontSize: '1.1rem' }}>
+            <button
+              type="button"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                openContactDrawer(undefined, e.currentTarget);
+              }}
+              className="nav-link"
+              style={{ fontSize: '1.1rem', textAlign: 'left', width: '100%', paddingLeft: 0 }}
+            >
               Contact Us
-            </Link>
+            </button>
 
             <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-              <Link to={advisorCtaLink} className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>
+              <button
+                type="button"
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  openContactDrawer(currentService || undefined, e.currentTarget);
+                }}
+                className="btn btn-primary"
+                style={{ width: '100%', textAlign: 'center' }}
+              >
                 Talk to an Advisor
-              </Link>
+              </button>
             </div>
           </div>
         </div>

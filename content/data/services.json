@@ -42,11 +42,11 @@
     "statDisplayText": "250+ health policies",
     "path": "/services/health-insurance",
     "theme": {
-      "accent": "#0D9488",
-      "secondaryAccent": "#115E59",
-      "highlight": "#14B8A6",
-      "boardVariant": "health-shield",
-      "gradient": "linear-gradient(135deg, #0A2540 0%, #115E59 100%)"
+      "accent": "#0A2540",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "boardVariant": "care-board",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 100%)"
     }
   },
   {
@@ -58,11 +58,12 @@
     "statDisplayText": "1,200+ mutual fund folios",
     "path": "/investments/mutual-funds",
     "theme": {
-      "accent": "#059669",
-      "secondaryAccent": "#065F46",
-      "highlight": "#10B981",
-      "boardVariant": "wealth-dashboard",
-      "gradient": "linear-gradient(135deg, #0A2540 0%, #065F46 100%)"
+      "accent": "#2F6FB0",
+      "secondaryAccent": "#123D67",
+      "silverBlue": "#5B8DB8",
+      "highlight": "#D9232D",
+      "boardVariant": "sip-illustration",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 60%, #2F6FB0 100%)"
     }
   },
   {
@@ -74,11 +75,13 @@
     "statDisplayText": "800+ demat accounts",
     "path": "/investments/equity",
     "theme": {
-      "accent": "#2563EB",
-      "secondaryAccent": "#1E40AF",
-      "highlight": "#3B82F6",
-      "boardVariant": "market-access",
-      "gradient": "linear-gradient(135deg, #0A2540 0%, #1E40AF 100%)"
+      "accent": "#4F5FB0",
+      "secondaryAccent": "#123D67",
+      "coolSteel": "#8FA3C8",
+      "silver": "#D7D9DC",
+      "highlight": "#D9232D",
+      "boardVariant": "market-board",
+      "gradient": "linear-gradient(135deg, #051329 0%, #0A2540 50%, #4F5FB0 100%)"
     }
   },
   {
@@ -87,14 +90,32 @@
     "shortDescription": "Fixed deposits, bonds, NPS and related financial services.",
     "category": "investment",
     "statId": "fd_aum",
-    "statDisplayText": "₹50 lakh+ in fixed deposits (Tier B)",
+    "statDisplayText": "₹50 lakh+ in fixed deposits across corporate issuers",
     "path": "/investments/other-solutions",
     "theme": {
-      "accent": "#7C3AED",
-      "secondaryAccent": "#5B21B6",
-      "highlight": "#8B5CF6",
-      "boardVariant": "solutions-grid",
-      "gradient": "linear-gradient(135deg, #0A2540 0%, #5B21B6 100%)"
+      "accent": "#0A2540",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "boardVariant": "options-board",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 100%)"
+    }
+  },
+  {
+    "slug": "insights",
+    "title": "Educational Insights",
+    "shortDescription": "Creative learning hub, clear guides, and financial jargon buster.",
+    "category": "education",
+    "statId": "insights_guides",
+    "statDisplayText": "6 in-depth guides",
+    "path": "/insights",
+    "theme": {
+      "accent": "#5B8DB8",
+      "secondaryAccent": "#123D67",
+      "canvas": "#EEF1F4",
+      "cardBg": "#FFFFFF",
+      "highlight": "#D9232D",
+      "boardVariant": "learning-hub",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 60%, #5B8DB8 100%)"
     }
   }
 ]

@@ -11,8 +11,83 @@ export interface ServiceDetailOption {
   label: string;
 }
 
+export type SupportedService =
+  | 'general-insurance'
+  | 'life-insurance'
+  | 'health-insurance'
+  | 'mutual-funds'
+  | 'equity'
+  | 'other-solutions';
+
+export const ALL_SERVICES_CONFIG: Record<
+  SupportedService,
+  { label: string; details: ServiceDetailOption[] }
+> = {
+  'general-insurance': {
+    label: 'General Insurance',
+    details: [
+      { id: 'vehicle', label: 'Vehicle' },
+      { id: 'property', label: 'Property' },
+      { id: 'marine', label: 'Marine' },
+      { id: 'liability', label: 'Liability' },
+      { id: 'business', label: 'Business' },
+      { id: 'travel', label: 'Travel' },
+    ],
+  },
+  'life-insurance': {
+    label: 'Life Insurance',
+    details: [
+      { id: 'term', label: 'Term Life' },
+      { id: 'savings', label: 'Guaranteed Savings' },
+      { id: 'retirement', label: 'Annuity & Pension' },
+      { id: 'child', label: 'Child Education' },
+      { id: 'ulip', label: 'Unit-Linked Protection' },
+    ],
+  },
+  'health-insurance': {
+    label: 'Health Insurance',
+    details: [
+      { id: 'individual', label: 'Individual Plan' },
+      { id: 'family-floater', label: 'Family Floater' },
+      { id: 'senior-citizen', label: 'Senior Citizen' },
+      { id: 'critical-illness', label: 'Critical Illness Rider' },
+      { id: 'super-topup', label: 'Super Top-Up' },
+    ],
+  },
+  'mutual-funds': {
+    label: 'Mutual Funds',
+    details: [
+      { id: 'sip-start', label: 'Start new SIP' },
+      { id: 'portfolio-review', label: 'Review existing portfolio' },
+      { id: 'tax-saving', label: 'Tax-saving (ELSS)' },
+      { id: 'lumpsum-plan', label: 'Lump-sum deployment' },
+      { id: 'stp-swp', label: 'STP / SWP setup' },
+    ],
+  },
+  'equity': {
+    label: 'Equity & Demat',
+    details: [
+      { id: 'demat', label: 'Demat account' },
+      { id: 'trading', label: 'Trading account' },
+      { id: 'equity', label: 'Equity trading' },
+      { id: 'commodity', label: 'Commodity trading' },
+      { id: 'ipo', label: 'IPO applications' },
+      { id: 'education', label: 'Market education' },
+    ],
+  },
+  'other-solutions': {
+    label: 'More Solutions',
+    details: [
+      { id: 'corporate-fd', label: 'Corporate Fixed Deposits' },
+      { id: 'bonds', label: 'Capital Gain & Tax-Free Bonds' },
+      { id: 'nps', label: 'National Pension System (NPS)' },
+      { id: 'secondary-bonds', label: 'Secondary Market Debt' },
+    ],
+  },
+};
+
 export interface EnquiryPanelProps {
-  defaultService?: 'general-insurance' | 'life-insurance' | 'health-insurance' | 'mutual-funds' | 'equity' | 'other-solutions';
+  defaultService?: SupportedService;
   serviceDetailOptions?: ServiceDetailOption[];
   selectedServiceDetails?: string[];
   onServiceDetailChange?: (details: string[]) => void;
@@ -20,20 +95,15 @@ export interface EnquiryPanelProps {
   subtitle?: string;
   reassuranceLines?: string[];
   className?: string;
+  variant?: 'default' | 'compact';
+  showServiceSelector?: boolean;
 }
 
-const DEFAULT_OPTIONS: ServiceDetailOption[] = [
-  { id: 'vehicle', label: 'Vehicle' },
-  { id: 'property', label: 'Property' },
-  { id: 'marine', label: 'Marine' },
-  { id: 'liability', label: 'Liability' },
-  { id: 'business', label: 'Business' },
-  { id: 'travel', label: 'Travel' },
-];
+const DEFAULT_OPTIONS: ServiceDetailOption[] = ALL_SERVICES_CONFIG['general-insurance'].details;
 
 export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
   defaultService = 'general-insurance',
-  serviceDetailOptions = DEFAULT_OPTIONS,
+  serviceDetailOptions: externalDetailOptions,
   selectedServiceDetails: externalSelectedDetails,
   onServiceDetailChange,
   title = 'Request a General Insurance quotation',
@@ -44,14 +114,27 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
     'Personalised coverage & IDV evaluation',
   ],
   className = '',
+  variant = 'default',
+  showServiceSelector = false,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const [currentService, setCurrentService] = useState<SupportedService>(defaultService);
+
+  // Sync currentService when defaultService prop changes
+  useEffect(() => {
+    setCurrentService(defaultService);
+  }, [defaultService]);
+
+  // Derive active sub-service options based on active service or explicit prop
+  const activeDetailOptions =
+    externalDetailOptions || ALL_SERVICES_CONFIG[currentService]?.details || DEFAULT_OPTIONS;
+
   // Internal chip selection state if not controlled externally
   const [internalDetails, setInternalDetails] = useState<string[]>(
-    externalSelectedDetails || (serviceDetailOptions.length > 0 ? [serviceDetailOptions[0].id] : [])
+    externalSelectedDetails || (activeDetailOptions.length > 0 ? [activeDetailOptions[0].id] : [])
   );
 
   const selectedDetails = externalSelectedDetails !== undefined ? externalSelectedDetails : internalDetails;
@@ -85,7 +168,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
       full_name: '',
       mobile: '',
       email: '',
-      service: defaultService,
+      service: currentService,
       service_detail: selectedDetails,
       message: '',
       contact_method: 'phone',
@@ -100,10 +183,25 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
   const watchConsent = watch('consent');
   const watchContactMethod = watch('contact_method') || 'phone';
 
-  // Keep form service_detail in sync with selected chips
+  // Keep form service & service_detail in sync
+  useEffect(() => {
+    setValue('service', currentService);
+  }, [currentService, setValue]);
+
   useEffect(() => {
     setValue('service_detail', selectedDetails);
   }, [selectedDetails, setValue]);
+
+  // Handle service selector change
+  const handleServiceSelect = (svc: SupportedService) => {
+    setCurrentService(svc);
+    const newDetails = ALL_SERVICES_CONFIG[svc]?.details || [];
+    const firstId = newDetails.length > 0 ? [newDetails[0].id] : [];
+    setInternalDetails(firstId);
+    if (onServiceDetailChange) {
+      onServiceDetailChange(firstId);
+    }
+  };
 
   // Calculate completeness score (0 to 3)
   const isNameValid = watchName.trim().length >= 2;
@@ -124,6 +222,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
 
     const payload = {
       ...data,
+      service: currentService,
       service_detail: selectedDetails,
       source_path: location.pathname,
       utm_source: searchParams.get('utm_source') || null,
@@ -161,6 +260,478 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
     }
   };
 
+  // Success Overlay Renderer
+  const renderSuccessOverlay = () => (
+    <div
+      className="enquiry-success-overlay"
+      style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundColor: 'var(--navy-950, #051329)',
+        color: 'var(--white, #ffffff)',
+        zIndex: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '2.5rem',
+        borderRadius: variant === 'compact' ? '24px' : '32px',
+        animation: 'fadeIn 0.4s ease-out forwards',
+      }}
+    >
+      <div
+        style={{
+          width: '80px',
+          height: '80px',
+          marginBottom: '1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <svg width="74" height="74" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" stroke="#d9232d" strokeWidth="2.5" strokeDasharray="300" strokeDashoffset="0" opacity="0.4" />
+          <path
+            d="M50 18 C56 34 68 46 82 50 C68 54 56 66 50 82 C44 66 32 54 18 50 C32 46 44 34 50 18 Z"
+            stroke="#ffffff"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+          <path
+            d="M50 30 C53 40 60 47 70 50 C60 53 53 60 50 70 C47 60 40 53 30 50 C40 47 47 40 50 30 Z"
+            fill="#d9232d"
+            opacity="0.85"
+          />
+        </svg>
+      </div>
+
+      <h3
+        style={{
+          fontFamily: "'Playfair Display', Georgia, serif",
+          fontSize: '1.6rem',
+          fontWeight: 700,
+          color: '#ffffff',
+          marginBottom: '0.5rem',
+        }}
+      >
+        Enquiry Received
+      </h3>
+
+      <p style={{ color: 'var(--silver-300, #d7d9dc)', fontSize: '0.88rem', maxWidth: '320px', lineHeight: 1.5, margin: 0 }}>
+        Reference: <strong style={{ color: '#ffffff' }}>{submittedRef}</strong>. Our team in Godhra will contact you shortly.
+      </p>
+    </div>
+  );
+
+  // --------------------------------------------------------------------------
+  // COMPACT VARIANT (Used inside ContactDrawer)
+  // --------------------------------------------------------------------------
+  if (variant === 'compact') {
+    return (
+      <div className={`enquiry-compact-pane ${className}`} style={{ position: 'relative' }}>
+        {submittedRef && renderSuccessOverlay()}
+
+        {serverError && (
+          <div
+            style={{
+              padding: '0.65rem 0.85rem',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(217, 35, 45, 0.1)',
+              color: 'var(--red-500, #d9232d)',
+              fontSize: '0.82rem',
+              marginBottom: '0.85rem',
+              border: '1px solid rgba(217, 35, 45, 0.25)',
+            }}
+          >
+            {serverError}
+          </div>
+        )}
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}
+        >
+          {/* Service Selector (when opened from header or general CTA) */}
+          {showServiceSelector && (
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--navy-900, #0a2540)',
+                  marginBottom: '0.3rem',
+                }}
+              >
+                Service Category <span style={{ color: 'var(--red-500, #d9232d)' }}>*</span>
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {(Object.keys(ALL_SERVICES_CONFIG) as SupportedService[]).map((svcKey) => {
+                  const isSelected = currentService === svcKey;
+                  return (
+                    <button
+                      key={svcKey}
+                      type="button"
+                      onClick={() => handleServiceSelect(svcKey)}
+                      style={{
+                        padding: '0.32rem 0.7rem',
+                        borderRadius: '18px',
+                        fontSize: '0.74rem',
+                        fontWeight: 600,
+                        backgroundColor: isSelected ? 'var(--navy-900, #0a2540)' : '#f1f5f9',
+                        color: isSelected ? '#ffffff' : 'var(--navy-800, #0a2540)',
+                        border: `1px solid ${isSelected ? 'var(--navy-900, #0a2540)' : '#cbd5e1'}`,
+                        cursor: 'pointer',
+                        transition: 'all 0.16s ease',
+                      }}
+                    >
+                      {ALL_SERVICES_CONFIG[svcKey].label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Row 1: Name + Mobile */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+            <div>
+              <label
+                htmlFor="drawer_full_name"
+                style={{
+                  display: 'block',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--navy-900, #0a2540)',
+                  marginBottom: '0.2rem',
+                }}
+              >
+                Full Name <span style={{ color: 'var(--red-500, #d9232d)' }}>*</span>
+              </label>
+              <input
+                id="drawer_full_name"
+                type="text"
+                placeholder="e.g. Ramesh Patel"
+                {...register('full_name')}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem 0.75rem',
+                  borderRadius: '12px',
+                  border: `1px solid ${errors.full_name ? 'var(--red-500, #d9232d)' : 'var(--silver-300, #d7d9dc)'}`,
+                  fontSize: '0.86rem',
+                  outline: 'none',
+                  backgroundColor: '#fbfcfd',
+                }}
+              />
+              {errors.full_name && (
+                <span style={{ fontSize: '0.7rem', color: 'var(--red-500, #d9232d)', marginTop: '0.15rem', display: 'block' }}>
+                  {errors.full_name.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="drawer_mobile"
+                style={{
+                  display: 'block',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--navy-900, #0a2540)',
+                  marginBottom: '0.2rem',
+                }}
+              >
+                Mobile Number <span style={{ color: 'var(--red-500, #d9232d)' }}>*</span>
+              </label>
+              <input
+                id="drawer_mobile"
+                type="tel"
+                placeholder="10-digit mobile"
+                maxLength={10}
+                {...register('mobile')}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem 0.75rem',
+                  borderRadius: '12px',
+                  border: `1px solid ${errors.mobile ? 'var(--red-500, #d9232d)' : 'var(--silver-300, #d7d9dc)'}`,
+                  fontSize: '0.86rem',
+                  outline: 'none',
+                  backgroundColor: '#fbfcfd',
+                }}
+              />
+              {errors.mobile && (
+                <span style={{ fontSize: '0.7rem', color: 'var(--red-500, #d9232d)', marginTop: '0.15rem', display: 'block' }}>
+                  {errors.mobile.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Row 2: Email + Preferred Contact Method */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', alignItems: 'start' }}>
+            <div>
+              <label
+                htmlFor="drawer_email"
+                style={{
+                  display: 'block',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--navy-900, #0a2540)',
+                  marginBottom: '0.2rem',
+                }}
+              >
+                Email Address <span style={{ color: 'var(--muted, #556270)', fontWeight: 400 }}>(Optional)</span>
+              </label>
+              <input
+                id="drawer_email"
+                type="email"
+                placeholder="ramesh@example.com"
+                {...register('email')}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem 0.75rem',
+                  borderRadius: '12px',
+                  border: `1px solid ${errors.email ? 'var(--red-500, #d9232d)' : 'var(--silver-300, #d7d9dc)'}`,
+                  fontSize: '0.86rem',
+                  outline: 'none',
+                  backgroundColor: '#fbfcfd',
+                }}
+              />
+              {errors.email && (
+                <span style={{ fontSize: '0.7rem', color: 'var(--red-500, #d9232d)', marginTop: '0.15rem', display: 'block' }}>
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--navy-900, #0a2540)',
+                  marginBottom: '0.2rem',
+                }}
+              >
+                Contact Via
+              </label>
+              <div style={{ display: 'flex', gap: '0.25rem' }}>
+                {(['phone', 'whatsapp', 'email'] as const).map((method) => {
+                  const isChecked = watchContactMethod === method;
+                  const labelText = method === 'phone' ? 'Phone' : method === 'whatsapp' ? 'WhatsApp' : 'Email';
+                  return (
+                    <label
+                      key={method}
+                      style={{
+                        flex: 1,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        padding: '0.5rem 0.15rem',
+                        borderRadius: '10px',
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        backgroundColor: isChecked ? 'var(--navy-900, #0a2540)' : '#f8f9fa',
+                        color: isChecked ? '#ffffff' : 'var(--navy-700, #0d2b4a)',
+                        border: `1px solid ${isChecked ? 'var(--navy-900, #0a2540)' : '#d7d9dc'}`,
+                        userSelect: 'none',
+                        transition: 'all 0.16s ease',
+                      }}
+                    >
+                      <input
+                        type="radio"
+                        value={method}
+                        {...register('contact_method')}
+                        style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}
+                      />
+                      {labelText}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Row 3: Sub-service chips */}
+          {activeDetailOptions.length > 0 && (
+            <div>
+              <label
+                style={{
+                  display: 'block',
+                  fontSize: '0.74rem',
+                  fontWeight: 600,
+                  color: 'var(--navy-900, #0a2540)',
+                  marginBottom: '0.3rem',
+                }}
+              >
+                Specific Topics <span style={{ color: 'var(--muted, #556270)', fontWeight: 400 }}>(Select all applicable)</span>
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                {activeDetailOptions.map((opt) => {
+                  const isSelected = selectedDetails.includes(opt.id);
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => toggleDetail(opt.id)}
+                      style={{
+                        border: 'none',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        padding: '0.32rem 0.65rem',
+                        borderRadius: '9999px',
+                        fontSize: '0.74rem',
+                        fontWeight: 600,
+                        backgroundColor: isSelected ? 'rgba(217, 35, 45, 0.1)' : '#f8f9fa',
+                        color: isSelected ? 'var(--red-600, #b91c1c)' : 'var(--navy-800, #0a2540)',
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderColor: isSelected ? 'var(--red-500, #d9232d)' : '#d7d9dc',
+                        transition: 'all 0.18s ease',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.3rem',
+                      }}
+                    >
+                      <span style={{ fontSize: '0.75rem', lineHeight: 1 }}>{isSelected ? '✓' : '+'}</span>
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Row 4: Message (2 rows) */}
+          <div>
+            <label
+              htmlFor="drawer_message"
+              style={{
+                display: 'block',
+                fontSize: '0.74rem',
+                fontWeight: 600,
+                color: 'var(--navy-900, #0a2540)',
+                marginBottom: '0.2rem',
+              }}
+            >
+              Message or Goal Notes <span style={{ color: 'var(--muted, #556270)', fontWeight: 400 }}>(Optional)</span>
+            </label>
+            <textarea
+              id="drawer_message"
+              rows={2}
+              placeholder="Tell us what you would like to explore..."
+              {...register('message')}
+              style={{
+                width: '100%',
+                padding: '0.45rem 0.75rem',
+                borderRadius: '12px',
+                border: '1px solid var(--silver-300, #d7d9dc)',
+                fontSize: '0.84rem',
+                outline: 'none',
+                resize: 'none',
+                backgroundColor: '#fbfcfd',
+                fontFamily: 'inherit',
+              }}
+            />
+          </div>
+
+          {/* Row 5: Consent + Submit with circular progress ring */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', marginTop: '0.1rem' }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.4rem', cursor: 'pointer', margin: 0 }}>
+                <input
+                  type="checkbox"
+                  {...register('consent')}
+                  style={{ marginTop: '2px', accentColor: 'var(--navy-900, #0a2540)' }}
+                />
+                <span style={{ fontSize: '0.71rem', color: 'var(--muted, #556270)', lineHeight: 1.35 }}>
+                  I agree to be contacted by Lotus Capital advisors regarding this enquiry.
+                </span>
+              </label>
+              {errors.consent && (
+                <span style={{ fontSize: '0.7rem', color: 'var(--red-500, #d9232d)', marginTop: '0.15rem', display: 'block' }}>
+                  {errors.consent.message}
+                </span>
+              )}
+            </div>
+
+            {/* Submit button with circular progress ring */}
+            <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 44 44"
+                style={{
+                  position: 'absolute',
+                  right: '-6px',
+                  transform: 'rotate(-90deg)',
+                  pointerEvents: 'none',
+                }}
+              >
+                <circle cx="22" cy="22" r={ringRadius} stroke="rgba(215, 217, 220, 0.4)" strokeWidth="3" fill="none" />
+                <circle
+                  cx="22"
+                  cy="22"
+                  r={ringRadius}
+                  stroke="var(--red-500, #d9232d)"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeDasharray={ringCircumference}
+                  strokeDashoffset={strokeDashoffset}
+                  strokeLinecap="round"
+                  style={{ transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                />
+              </svg>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn btn-primary"
+                style={{
+                  padding: '0.55rem 1.35rem 0.55rem 1.15rem',
+                  borderRadius: '12px',
+                  fontWeight: 600,
+                  fontSize: '0.84rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  border: 'none',
+                }}
+              >
+                {isSubmitting ? (
+                  <span>Sending...</span>
+                ) : (
+                  <>
+                    <span>Submit Request</span>
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        padding: '0.1rem 0.35rem',
+                        borderRadius: '9999px',
+                        backgroundColor: progressPercent === 100 ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.15)',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {validScore}/3
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  // --------------------------------------------------------------------------
+  // DEFAULT VARIANT (Full Page Section / Split Card)
+  // --------------------------------------------------------------------------
   return (
     <section className={`enquiry-panel-section section-padding ${className}`} id="enquiry" style={{ padding: '4rem 1.5rem' }}>
       <div
@@ -184,118 +755,22 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
             gridTemplateColumns: 'minmax(320px, 4fr) minmax(420px, 6fr)',
           }}
         >
-          {/* Submission Confirmation Overlay (Flip / Crossfade) */}
-          {submittedRef && (
-            <div
-              className="enquiry-success-overlay"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundColor: 'var(--navy-950, #051329)',
-                color: 'var(--white, #ffffff)',
-                zIndex: 50,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                padding: '2.5rem',
-                animation: 'fadeIn 0.4s ease-out forwards',
-              }}
-            >
-              <div
-                style={{
-                  width: '90px',
-                  height: '90px',
-                  marginBottom: '1.25rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {/* Drawing Lotus Bloom SVG */}
-                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="50" cy="50" r="46" stroke="#d9232d" strokeWidth="2.5" strokeDasharray="300" strokeDashoffset="0" opacity="0.4" />
-                  <path
-                    d="M50 18 C56 34 68 46 82 50 C68 54 56 66 50 82 C44 66 32 54 18 50 C32 46 44 34 50 18 Z"
-                    fill="rgba(217, 35, 45, 0.2)"
-                    stroke="#d9232d"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{
-                      strokeDasharray: 260,
-                      strokeDashoffset: 0,
-                      animation: 'dash 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                    }}
-                  />
-                  <path
-                    d="M40 50 L47 57 L62 42"
-                    stroke="#ffffff"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
+          {submittedRef && renderSuccessOverlay()}
 
-              <span
-                style={{
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  color: 'var(--silver-300, #d7d9dc)',
-                  marginBottom: '0.5rem',
-                }}
-              >
-                ENQUIRY RECEIVED
-              </span>
-
-              <h3
-                style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  fontSize: '2rem',
-                  marginBottom: '0.75rem',
-                  color: 'var(--white, #ffffff)',
-                }}
-              >
-                Thank You!
-              </h3>
-
-              <p style={{ color: 'var(--silver-300, #d7d9dc)', maxWidth: '440px', lineHeight: 1.6, fontSize: '0.96rem', marginBottom: '1.25rem' }}>
-                Your enquiry reference is <strong style={{ color: '#ffffff', letterSpacing: '0.04em' }}>{submittedRef}</strong>. Our licensed advisor will contact you during business hours.
-              </p>
-
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '0.82rem',
-                  color: 'rgba(255,255,255,0.7)',
-                }}
-              >
-                <span className="spinner-border spinner-border-sm" style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#ffffff', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-                <span>Redirecting to confirmation page...</span>
-              </div>
-            </div>
-          )}
-
-          {/* Left 40% Navy Brand & Reassurance Panel */}
+          {/* Left 40% Navy Direct Advisory Panel */}
           <div
-            className="enquiry-navy-pane"
+            className="enquiry-reassurance-pane"
             style={{
-              backgroundColor: 'var(--navy-950, #051329)',
-              padding: '2.5rem 2.25rem',
-              color: 'var(--white, #ffffff)',
               position: 'relative',
-              overflow: 'hidden',
+              background: 'linear-gradient(135deg, var(--navy-950, #051329) 0%, var(--navy-900, #0a2540) 100%)',
+              color: 'var(--white, #ffffff)',
+              padding: '2.5rem 2.25rem',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
+              overflow: 'hidden',
             }}
           >
-            {/* Watermark Lotus */}
             <div
               style={{
                 position: 'absolute',
@@ -349,7 +824,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 {subtitle}
               </p>
 
-              {/* Reassurance List */}
               <ul
                 style={{
                   listStyle: 'none',
@@ -396,7 +870,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
               </ul>
             </div>
 
-            {/* Direct Contact Footer */}
             <div
               style={{
                 borderTop: '1px solid rgba(255,255,255,0.12)',
@@ -428,7 +901,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
             </div>
           </div>
 
-          {/* Right 60% Compact Form */}
+          {/* Right 60% Form */}
           <div
             className="enquiry-form-pane"
             style={{
@@ -455,7 +928,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-              {/* Row 1: Name + Mobile */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
                 <div>
                   <label htmlFor="panel_full_name" style={{ display: 'block', fontSize: '0.76rem', fontWeight: 600, color: 'var(--navy-900, #0a2540)', marginBottom: '0.25rem' }}>
@@ -511,7 +983,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 </div>
               </div>
 
-              {/* Row 2: Email + Preferred Contact Method */}
               <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '0.85rem', alignItems: 'start' }}>
                 <div>
                   <label htmlFor="panel_email" style={{ display: 'block', fontSize: '0.76rem', fontWeight: 600, color: 'var(--navy-900, #0a2540)', marginBottom: '0.25rem' }}>
@@ -579,13 +1050,12 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 </div>
               </div>
 
-              {/* Row 3: Insurance-Type Chips (Multi-Select) */}
               <div>
                 <label style={{ display: 'block', fontSize: '0.76rem', fontWeight: 600, color: 'var(--navy-900, #0a2540)', marginBottom: '0.35rem' }}>
                   Coverage Needs <span style={{ color: 'var(--muted, #556270)', fontWeight: 400 }}>(Select all applicable)</span>
                 </label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
-                  {serviceDetailOptions.map((opt) => {
+                  {activeDetailOptions.map((opt) => {
                     const isSelected = selectedDetails.includes(opt.id);
                     return (
                       <button
@@ -619,7 +1089,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 </div>
               </div>
 
-              {/* Row 4: Message (2 rows) */}
               <div>
                 <label htmlFor="panel_message" style={{ display: 'block', fontSize: '0.76rem', fontWeight: 600, color: 'var(--navy-900, #0a2540)', marginBottom: '0.25rem' }}>
                   Message or Asset Notes <span style={{ color: 'var(--muted, #556270)', fontWeight: 400 }}>(Optional)</span>
@@ -627,7 +1096,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 <textarea
                   id="panel_message"
                   rows={2}
-                  placeholder="e.g. 2022 Honda City renew due next month, looking for zero-dep cover"
+                  placeholder="e.g. 2022 Honda City renewal due next month, looking for zero-dep cover"
                   {...register('message')}
                   style={{
                     width: '100%',
@@ -643,7 +1112,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 />
               </div>
 
-              {/* Row 5: Consent + Submit with circular progress ring */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginTop: '0.25rem' }}>
                 <div style={{ flex: 1 }}>
                   <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer', margin: 0 }}>
@@ -663,9 +1131,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                   )}
                 </div>
 
-                {/* Submit button with circular progress ring */}
                 <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-                  {/* Circular progress SVG */}
                   <svg
                     width="44"
                     height="44"
@@ -677,14 +1143,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                       pointerEvents: 'none',
                     }}
                   >
-                    <circle
-                      cx="22"
-                      cy="22"
-                      r={ringRadius}
-                      stroke="rgba(215, 217, 220, 0.4)"
-                      strokeWidth="3"
-                      fill="none"
-                    />
+                    <circle cx="22" cy="22" r={ringRadius} stroke="rgba(215, 217, 220, 0.4)" strokeWidth="3" fill="none" />
                     <circle
                       cx="22"
                       cy="22"
@@ -695,9 +1154,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                       strokeDasharray={ringCircumference}
                       strokeDashoffset={strokeDashoffset}
                       strokeLinecap="round"
-                      style={{
-                        transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-                      }}
+                      style={{ transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
                     />
                   </svg>
 
@@ -743,10 +1200,8 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
               </div>
             </form>
           </div>
-
         </div>
       </div>
     </section>
   );
 };
-

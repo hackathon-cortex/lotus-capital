@@ -1,3 +1,4 @@
+import { useContactDrawer } from '../../context/ContactDrawerContext';
 import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -48,6 +49,7 @@ const AnimatedNum: React.FC<{ value: string; isDark?: boolean }> = ({ value, isD
 };
 
 export const AboutUs: React.FC = () => {
+  const { openContactDrawer } = useContactDrawer();
   const seo = seoData['/about-us'];
   const [searchParams] = useSearchParams();
   const progressQuery = searchParams.get('milestoneProgress');
@@ -212,9 +214,9 @@ export const AboutUs: React.FC = () => {
                   marginBottom: '2.5rem',
                 }}
               >
-                <Link to="/contact-us" className="btn btn-primary btn-lg">
+                <button type="button" onClick={(e) => openContactDrawer(undefined, e.currentTarget)} className="btn btn-primary btn-lg" style={{ border: "none", cursor: "pointer" }}>
                   Discuss Your Goals &rarr;
-                </Link>
+                </button>
                 <Link
                   to="/services"
                   className="btn btn-outline btn-lg"
@@ -1180,9 +1182,9 @@ export const AboutUs: React.FC = () => {
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/contact-us" className="btn btn-primary btn-lg">
+            <button type="button" onClick={(e) => openContactDrawer(undefined, e.currentTarget)} className="btn btn-primary btn-lg" style={{ border: "none", cursor: "pointer" }}>
               Discuss Your Goals &rarr;
-            </Link>
+            </button>
             <Link
               to="/services"
               className="btn btn-outline btn-lg"

@@ -1,7 +1,9 @@
-# Contact Us — `/contact-us`
+# Contact Drawer — Replaced standalone `/contact-us` page
+
+> **Implementation Note**: The standalone `/contact-us` route has been retired and replaced by a global, accessible `ContactDrawer` mounted in the layout and opened from all CTAs, header buttons, footer links, and the client-side redirect `/contact-us` -> `/?contact=open`. This file serves as the authoritative content source for the `ContactDrawer`.
 
 ## Purpose
-Make it easy to contact Lotus Capital and route each enquiry to the right service.
+Make it easy to contact Lotus Capital and route each enquiry to the right service directly within the user's browsing flow via an accessible slide-over drawer.
 
 ## Headline
 **Tell us what you would like to explore.**

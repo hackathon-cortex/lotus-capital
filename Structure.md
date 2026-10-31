@@ -39,7 +39,7 @@ This document defines every page, navigation element and route (public, admin an
 │   └── /investments/other-solutions  More Solutions (FDs, bonds, NPS, real estate, loans)
 ├── /insights                       Insights listing (Proposed)
 │   └── /insights/:slug             Insight article (Proposed)
-├── /contact-us                     Contact and enquiry
+├── (Global ContactDrawer)          Contact slide-over drawer (replaces standalone /contact-us)
 ├── /enquiry/thank-you              Enquiry confirmation (Proposed)
 ├── /privacy-policy                 Privacy policy (Proposed)
 ├── /terms-and-conditions           Terms and conditions (Proposed)

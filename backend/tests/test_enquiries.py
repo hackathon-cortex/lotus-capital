@@ -47,7 +47,7 @@ def test_invalid_mobile_fails_validation():
             full_name="Ramesh Patel",
             mobile="12345",  # Invalid Indian mobile
             service="mutual-funds",
-            source_path="/contact-us",
+            source_path="/?contact=open",
             consent=True,
         )
     assert "mobile" in str(exc_info.value).lower()
@@ -58,7 +58,7 @@ def test_missing_consent_fails_validation():
             full_name="Ramesh Patel",
             mobile="9825012345",
             service="life-insurance",
-            source_path="/contact-us",
+            source_path="/?contact=open",
             consent=False,  # Must be True
         )
     assert "consent" in str(exc_info.value).lower()
@@ -69,7 +69,7 @@ def test_invalid_service_slug_fails_validation():
             full_name="Ramesh Patel",
             mobile="9825012345",
             service="cryptocurrency-speculation",  # type: ignore
-            source_path="/contact-us",
+            source_path="/?contact=open",
             consent=True,
         )
     assert "service" in str(exc_info.value).lower()
@@ -80,7 +80,7 @@ def test_short_name_fails_validation():
             full_name="R",  # Too short
             mobile="9825012345",
             service="health-insurance",
-            source_path="/contact-us",
+            source_path="/?contact=open",
             consent=True,
         )
     assert "full_name" in str(exc_info.value).lower()

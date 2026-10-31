@@ -18,7 +18,6 @@ import { Equity } from '../pages/public/Equity';
 import { OtherSolutions } from '../pages/public/OtherSolutions';
 import { Insights } from '../pages/public/Insights';
 import { InsightArticle } from '../pages/public/InsightArticle';
-import { ContactUs } from '../pages/public/ContactUs';
 import { EnquiryThankYou } from '../pages/public/EnquiryThankYou';
 import { LegalPage } from '../pages/public/LegalPage';
 import { NotFound } from '../pages/public/NotFound';
@@ -31,6 +30,15 @@ import { AdminLogin, AdminForgotPassword, AdminResetPassword } from '../pages/ad
 import { AdminDashboard } from '../pages/admin/AdminDashboard';
 import { AdminPlaceholder } from '../pages/admin/AdminPlaceholder';
 
+import { useSearchParams } from 'react-router-dom';
+
+const ContactRedirect: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const nextParams = new URLSearchParams(searchParams);
+  nextParams.set('contact', 'open');
+  return <Navigate to={`/?${nextParams.toString()}`} replace />;
+};
+
 export const AppRoutes: React.FC = () => {
   return (
     <TrailingSlashRedirect>
@@ -39,7 +47,7 @@ export const AppRoutes: React.FC = () => {
         {/* 1. Structure.md Section 3.5 Redirects                     */}
         {/* ========================================================= */}
         <Route path="/about" element={<Navigate to="/about-us" replace />} />
-        <Route path="/contact" element={<Navigate to="/contact-us" replace />} />
+        <Route path="/contact" element={<ContactRedirect />} />
         <Route path="/mutual-funds" element={<Navigate to="/investments/mutual-funds" replace />} />
         <Route path="/equity" element={<Navigate to="/investments/equity" replace />} />
         <Route path="/general-insurance" element={<Navigate to="/services/general-insurance" replace />} />
@@ -48,6 +56,13 @@ export const AppRoutes: React.FC = () => {
         <Route path="/investments" element={<Navigate to="/services" replace />} />
         <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
         <Route path="/terms" element={<Navigate to="/terms-and-conditions" replace />} />
+        
+        {/* Insights legacy slug redirects */}
+        <Route path="/insights/mutual-funds-direct-vs-regular" element={<Navigate to="/insights/mutual-funds-direct-vs-regular-plan" replace />} />
+        <Route path="/insights/what-nav-means" element={<Navigate to="/insights/what-is-nav" replace />} />
+        <Route path="/insights/how-sips-work" element={<Navigate to="/insights/sips-how-they-work" replace />} />
+        <Route path="/insights/choosing-health-insurance" element={<Navigate to="/insights/questions-before-choosing-health-insurance" replace />} />
+        <Route path="/insights/policy-exclusions-waiting-periods" element={<Navigate to="/insights/how-to-review-policy-exclusions-and-waiting-periods" replace />} />
 
         {/* ========================================================= */}
         {/* 2. Public Routes (PublicLayout)                           */}
@@ -64,7 +79,7 @@ export const AppRoutes: React.FC = () => {
           <Route path="/investments/other-solutions" element={<OtherSolutions />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/insights/:slug" element={<InsightArticle />} />
-          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/contact-us" element={<ContactRedirect />} />
           <Route path="/enquiry/thank-you" element={<EnquiryThankYou />} />
           <Route path="/privacy-policy" element={<LegalPage />} />
           <Route path="/terms-and-conditions" element={<LegalPage />} />

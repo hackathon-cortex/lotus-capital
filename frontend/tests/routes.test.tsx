@@ -92,12 +92,10 @@ describe('Route Table Coverage & Redirects', () => {
       );
     });
 
-    it('renders Contact Us route (/contact-us)', () => {
+    it('redirects /contact-us -> /?contact=open and opens ContactDrawer', () => {
       renderAt('/contact-us');
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        /Tell us what you would like to explore/i
-      );
-      expect(screen.getByTestId('enquiry-form')).toBeInTheDocument();
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      expect(screen.getByText(/Tell us what you would like to/i)).toBeInTheDocument();
     });
 
     it('renders Thank You route (/enquiry/thank-you)', () => {
@@ -124,11 +122,10 @@ describe('Route Table Coverage & Redirects', () => {
       );
     });
 
-    it('redirects /contact -> /contact-us', () => {
+    it('redirects /contact -> /?contact=open and opens ContactDrawer', () => {
       renderAt('/contact');
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        /Tell us what you would like to explore/i
-      );
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      expect(screen.getByText(/Tell us what you would like to/i)).toBeInTheDocument();
     });
 
     it('redirects /mutual-funds -> /investments/mutual-funds', () => {

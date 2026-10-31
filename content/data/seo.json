@@ -39,10 +39,6 @@
     "title": "Insights | Lotus Capital, Godhra",
     "description": "Guides on insurance, mutual funds and equity from Lotus Capital in Godhra, Gujarat."
   },
-  "/contact-us": {
-    "title": "Contact Us | Lotus Capital, Godhra",
-    "description": "Contact Lotus Capital in Godhra, Gujarat for insurance, mutual funds and equity services."
-  },
   "/enquiry/thank-you": {
     "title": "Thank You | Lotus Capital",
     "description": "Your enquiry has been received by Lotus Capital.",
@@ -70,4 +66,3 @@
     "noindex": true
   }
 }
-

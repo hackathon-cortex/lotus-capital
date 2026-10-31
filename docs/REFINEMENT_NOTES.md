@@ -234,3 +234,289 @@ The following items are flagged for client confirmation before final production 
 - **Testing & Verification**:
   - All 43 frontend tests and 9 backend pytest tests pass.
   - All 28 screenshots (1440px desktop & 375px mobile) captured to `docs/screenshots/life-insurance-v2/`.
+
+
+---
+
+## 13. Equity & Investments Page Refinement (`/investments/equity`)
+
+The `/investments/equity` route was comprehensively refined in strict adherence to `08-equity.md`, prompt specifications, and the brand design system:
+
+- **Midnight Indigo Visual Identity**:
+  - Configured custom theme in `content/data/services.json`: accent midnight indigo `#4F5FB0`, secondary `#123D67`, cool steel `#8FA3C8`, silver `#D7D9DC`, brand red `#D9232D` strictly for primary action buttons.
+  - No green/red gain-loss colouring, no ticker flashing, no live stock prices, no speculative return metrics.
+  - Strict compliance rule: `equity_cagr` (23%) NEVER appears anywhere on this page or in components.
+- **Hero & Market Board (`#hero`)**:
+  - Global header sits transparently over the hero; global breadcrumb suppressed and inside breadcrumb rendered (`Home > Equity & Investments`) in small silver/white text.
+  - Eyebrow: `EQUITY & TRADING • GODHRA, GUJARAT`.
+  - Playfair Display headline: *"Understand the Markets. Make Informed Decisions."* with animated Lotus red underline.
+  - Lead copy strictly from `08-equity.md`: market risk disclosure, Authorised Person notice, and client guidance to speak with the team regarding services, processes, costs, and disclosures.
+  - Action buttons: primary Lotus red button *"Open a Demat Account →"* (scrolls to `#enquiry` with Demat account chip preselected) and clearly visible outlined secondary button *"See broking credentials ↓"* (scrolls to `#broking`).
+  - Stat chip: *"800+ demat accounts serviced • Figures as of October 2026"* with count-up animation.
+  - Right-side `<EquityMarketBoard>`: 32px glass-navy card with floating drifting `NSE` and `BSE` chips, 800+ demat count-up card, outlined market risk note chip, abstract animated candlestick and trendline illustration with zero gain/loss coloring, and 3 compact action cards (*"Open a Demat Account"*, *"Trade via Broking Partner"*, *"Apply for IPOs"*).
+- **Broking Partner Frame (`#broking`)**:
+  - Expanded into a dedicated single full-viewport desktop frame (`min-height: 100vh`).
+  - Left 45%: Animated circular Authorised Person seal with 40s slow rotation SVG text ring (`AUTHORISED PERSON • RELIGARE BROKING LIMITED`), center Lotus logo, and concentric rings.
+  - Partnership timeline chip: *"Partner since 2008 • 18+ Years"* sourced from `milestones.json`.
+  - Right 55%: Eyebrow *"BROKING PARTNER"*, Playfair heading *"Lotus Capital is an Authorised Person of Religare Broking Limited"*, trimmed Religare logo pill, authoritative paragraph from `08-equity.md`.
+  - Two large AP registration code cards for NSE (`AP007909931`) and BSE (`AP0130040172963`) with copy-to-clipboard buttons and animated toast indicator.
+  - Religare SEBI broker registration number rendered only when `verified: true` in `registrations.json` (currently unverified, so cleanly omitted).
+  - Cleaned all unapproved phrases: removed *"SEBI REGISTERED AUTHORISED PERSON"* (used *"AUTHORISED PERSON"*), removed *"Institutional Broking Partner"* (used *"Broking partner"*), removed *"duly appointed"*, *"modern trading platforms"*, and *"surrounding districts"*.
+- **Services Stage (`#services`)**:
+  - Compact "market floor" layout in ONE frame replacing tall stacked cards.
+  - Left vertical tab list with icons, title, subtitle, and sliding active indicator bar; right detail stage crossfading in 320ms.
+  - Sourced directly from content with `offered` flag gating:
+    1. Demat & Trading Account Opening (`offered: true`)
+    2. Equity & Commodity Trading Access (`offered: true`)
+    3. IPO Applications (`offered: true`)
+    4. Portfolio Review or Reporting (`offered: false` — cleanly hidden)
+    5. Market Education (`offered: true` — links to `/insights`)
+  - Neutral copy only; removed unapproved terminology (*"paperless KYC"*, *"government securities"*, *"ETFs"*, *"long-term compounding"*, *"voting rights"*).
+  - *"Ask us about this →"* button preselects the corresponding chip in `#enquiry`.
+- **Account Journey Timeline (`#journey`)**:
+  - Scroll-driven graph-style timeline with an outer 400vh container and inner sticky 100vh stage.
+  - Large SVG rising stepped curve that draws itself with `stroke-dashoffset` as the user scrolls, traveling red Lotus marker along the path, and 5 interactive nodes (popping from scale 0.7 to 1.0) revealing floating detail cards with 360ms slide+fade.
+  - 5 authorized onboarding steps:
+    1. *Enquire*
+    2. *Discuss the service, costs and risks*
+    3. *Complete KYC and required documents*
+    4. *Account opened through our broking partner*
+    5. *Begin, with the risks understood*
+  - Footnote: *"Process and document requirements are set by our broking partner and applicable regulations."*
+  - Mobile fallback (< 768px and prefers-reduced-motion): clean vertical connected timeline without scroll hijacking or trapping.
+- **FAQs & Risk Disclosure (`#faqs`)**:
+  - Updated `content/data/faqs.json` with 8 educational items categorized under `All`, `Basics`, `Account`, `Costs & risk`, and `Support`.
+  - Explains capacity as Authorised Person of Religare Broking Limited, demat vs trading account differences, required documents, IPO application mechanics, market risks, no guaranteed returns, brokerage/regulatory charges, and complaints channels.
+  - Outlined Securities Market Risk Disclosure notice directly below accordion reading `disclaimersData.equity_market_risk`.
+- **Enquiry Panel (`#enquiry`)**:
+  - Shared single-viewport `<EnquiryPanel>` configured with `defaultService="equity"`.
+  - Title: *"Talk to us about opening an account"*.
+  - Left panel reassurance: *"Our Godhra team will follow up"*, *"Please do not share passwords, OTPs or demat credentials"*, direct office phone and email.
+  - Multi-select chips: `Demat account`, `Trading account`, `Equity trading`, `Commodity trading`, `IPO applications`, `Market education`.
+  - Removed *"Godhra branch"* label; strictly no sensitive fields (no PAN, Aadhaar, client IDs, passwords, or OTPs).
+- **Testing & Verification**:
+  - Created automated test suite [`frontend/tests/equityCompliance.test.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/equityCompliance.test.ts) (10 passing assertions):
+    1. Confirms `equity_cagr` (23%) never appears.
+    2. Confirms Lotus Capital is never described as *"SEBI-registered"*.
+    3. Confirms removal of forbidden promotional phrases.
+    4. Confirms *"AUTHORISED PERSON"* label and exact AP codes (`AP007909931`, `AP0130040172963`).
+    5. Confirms gating of Religare broker SEBI number behind `verified: true`.
+    6. Confirms midnight indigo theme in `services.json`.
+    7. Confirms exactly 8 educational FAQs with working category filters.
+    8. Confirms presence of single-viewport broking frame, services stage, and journey timeline.
+    9. Confirms `offered` flag filtering in services stage.
+    10. Confirms 5 authorized journey steps.
+  - All 66 frontend Vitest tests pass cleanly.
+  - All 9 backend pytest tests pass cleanly.
+  - Clean production build: `npm run build --prefix frontend` built in 2.77s with 0 errors.
+  - Captured 36 CDP screenshots across 1440px desktop and 375px mobile into [`docs/screenshots/equity-v2/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/equity-v2/):
+    - `01-hero-1440.png`, `01-hero-375.png`
+    - `02-broking-partner-1440.png`, `02-broking-partner-375.png`
+    - `03-services-tab0-demat-1440.png`, `03-services-tab0-demat-375.png`
+    - `03-services-tab1-trading-1440.png`, `03-services-tab1-trading-375.png`
+    - `03-services-tab2-ipo-1440.png`, `03-services-tab2-ipo-375.png`
+    - `03-services-tab3-education-1440.png`, `03-services-tab3-education-375.png`
+    - `04-journey-progress-00-1440.png`, `04-journey-progress-00-375.png`
+    - `04-journey-progress-25-1440.png`, `04-journey-progress-25-375.png`
+    - `04-journey-progress-50-1440.png`, `04-journey-progress-50-375.png`
+    - `04-journey-progress-75-1440.png`, `04-journey-progress-75-375.png`
+    - `04-journey-progress-100-1440.png`, `04-journey-progress-100-375.png`
+    - `05-faqs-all-1440.png`, `05-faqs-all-375.png`
+    - `05-faqs-basics-1440.png`, `05-faqs-basics-375.png`
+    - `05-faqs-account-1440.png`, `05-faqs-account-375.png`
+    - `05-faqs-costs-risk-1440.png`, `05-faqs-costs-risk-375.png`
+    - `05-faqs-support-1440.png`, `05-faqs-support-375.png`
+    - `06-risk-disclosure-1440.png`, `06-risk-disclosure-375.png`
+    - `07-enquiry-1440.png`, `07-enquiry-375.png`
+
+---
+
+## 14. Educational Insights Learning Hub & Article Page Implementation (`/insights`, `/insights/:slug`)
+
+- **Scope & Objectives**:
+  - Rebuilt the educational guides listing (`/insights`) and article reader (`/insights/:slug`) as a creative learning hub.
+  - Sourced all content strictly from client-approved text and authoritative regulatory frameworks without promotional spin, return forecasts, or stock tips.
+  - Omitted arbitrary publication dates (`lastUpdated: null` with client TODO note); no dates rendered on public pages.
+  - Set page canvas to silver-grey `#EEF1F4` with dot grid pattern—no plain white gaps.
+  - Suppressed global breadcrumbs on `/insights` and `/insights/*`, rendering breadcrumbs inside heroes under transparent headers (unclipped logo max 60px).
+- **Listing Page (`/insights`) Architecture**:
+  1. **Hero (`#hero`)**:
+     - Transparent header with unclipped logo; breadcrumb inside hero (`Home > Insights`).
+     - Eyebrow: `FINANCIAL ARCHITECTURE • GODHRA, GUJARAT`.
+     - Playfair Display headline: *"Learn before you decide."*
+     - Lead text from `10-insights.md`: *"Plain-language guides on insurance, mutual funds, equity and financial planning. For education only; not personalised advice."*
+     - Integrated 28px search input filtering across title, summary, category, and tags with clear button and live result counter.
+     - Category pills (`All`, `Mutual Fund Basics`, `Insurance Basics`, `Equity & Market Risk`, `Financial Planning`) with dynamic article counts.
+  2. **Featured Master Guide (`#featured`)**:
+     - Wide 32px rounded card featuring canonical article *Mutual Funds: Direct Plan vs Regular Plan*.
+     - Deep navy-to-steel gradient, large SVG illustration (`scales`), category badge, read time, key takeaway preview, and Lotus Red (`#D9232D`) CTA button *"Read the Complete Guide"*.
+  3. **Insights Library Bento Grid (`#library`)**:
+     - 3-column white bento cards with 24-28px radii and soft layered shadows.
+     - Animated SVG header illustrations matching content topics: `scales`, `gauge` (NAV), `calendar-coins` (SIPs), `shield-heart` (Health Insurance), `risk-waves` (Equity Risk), and `document-lens` (Policy Exclusions).
+     - 6px hover lift, sliding arrow link, zero invented dates, and empty state handler with filter reset button.
+  4. **Curated Learning Paths (`#paths`)**:
+     - 3 sequential pathways: *Insurance Protection Track* (10 min), *Mutual Fund Literacy Track* (15 min), and *Market Risk & Horizon Track* (11 min).
+     - Connected numbered steps linking directly to canonical article slugs.
+  5. **Financial Jargon Buster (`#jargon`)**:
+     - 8 3D interactive flip cards (`NAV`, `SIP`, `TER`, `Sum Assured`, `Waiting Period`, `Deductible & Co-Pay`, `Free-Look Period`, `Demat Account`).
+     - Front face with term, abbreviation, and category; back face with Plain Meaning and *"What to Watch"* advisory caveat.
+     - Flip triggered by click, hover, tap, or keyboard navigation (`Enter` / `Space`, `tabIndex={0}`, `role="button"`).
+  6. **Reassurance Enquiry Panel (`#enquiry`)**:
+     - Shared single-viewport `<EnquiryPanel>` configured with educational reassurance lines and local Godhra office contact.
+  7. **Page Controls**:
+     - Top red scroll progress bar (`ScrollProgressBar`) and right-side dot navigator (`Hero`, `Featured`, `Library`, `Paths`, `Jargon`, `Enquiry`).
+- **Article Reader (`/insights/:slug`) Architecture**:
+  1. **Top Red Reading Progress Bar (`ArticleReadingProgressBar`)**:
+     - Fixed 3.5px Lotus Red bar directly at viewport top tracking document reading progress from 0% to 100%.
+  2. **Article Hero**:
+     - Transparent header; breadcrumbs inside hero (`Home > Insights > Category`).
+     - Category pill, read time badge, Playfair Display title, summary lead paragraph.
+     - Dates strictly rendered only when `lastUpdated` is non-null.
+  3. **2-Column Desktop Layout & Sticky TOC**:
+     - Left column: sticky `<ArticleTableOfContents>` tracking active headings via `IntersectionObserver` with smooth scrolling. Collapsible on mobile viewports.
+     - Right column: main white article container (32px radius) rendering structured blocks via `<ArticleBlockRenderer>`.
+  4. **Structured Block Elements**:
+     - Key Takeaways checklist box at article top.
+     - Headings (H2/H3) with subtle red accent indicators.
+     - Callouts (`remember`, `caution`, `example`).
+     - Clean compare tables with sticky headers (Direct vs Regular parameters, Equity vs Debt risk characteristics).
+     - Interactive *"Questions to Ask Before You Decide"* checklist with functional checkboxes.
+     - Mini FAQ accordion for article-specific queries.
+     - Authoritative references list.
+     - Standard statutory disclaimer box at article end (*"The information provided in this article is intended solely for general educational and informational purposes..."* plus insurance solicitation note where applicable).
+  5. **Bottom Advisory & Navigation**:
+     - Related Service consultation card tied to `article.relatedService` linking to Godhra advisory or service hubs.
+     - Previous and Next guide cards for sequential reading.
+- **Data Integrity & Slugs**:
+  - Authoritative client-approved content compiled into [`content/data/insights.json`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/content/data/insights.json) with 6 canonical slugs:
+    1. `mutual-funds-direct-vs-regular-plan`
+    2. `what-is-nav`
+    3. `sips-how-they-work`
+    4. `questions-before-choosing-health-insurance`
+    5. `understanding-equity-risk`
+    6. `how-to-review-policy-exclusions-and-waiting-periods`
+  - Added legacy slug redirects in `frontend/src/routes/AppRoutes.tsx` for backwards compatibility.
+- **Verification & Test Coverage**:
+  - Automated test suite [`frontend/tests/insightsCompliance.test.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/insightsCompliance.test.ts) (9 passing assertions):
+    1. Exactly 6 structured articles.
+    2. All 6 canonical client-specified slugs present.
+    3. `lastUpdated` is `null` with client TODO comment (no invented dates).
+    4. Required structural fields present (takeaways, blocks, sources).
+    5. Zero return promises, stock tips, or invented CAGR figures.
+    6. Insights theme block present in `services.json`.
+    7. Suppression of global breadcrumbs on `/insights` and `/insights/*`.
+    8. Header transparent over hero on `/insights`.
+    9. Legacy slug redirects in `AppRoutes.tsx`.
+  - All 75 frontend Vitest tests pass cleanly.
+  - All 9 backend pytest tests pass cleanly.
+  - Clean production build: `npm run build --prefix frontend` built in 2.68s with 0 errors.
+  - Captured 24 CDP screenshots across 1440px desktop and 375px mobile into [`docs/screenshots/insights-v2/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/insights-v2/):
+    - `01-listing-hero-1440.png`, `01-listing-hero-375.png`
+    - `02-listing-featured-1440.png`, `02-listing-featured-375.png`
+    - `03-listing-library-bento-1440.png`, `03-listing-library-bento-375.png`
+    - `04-listing-learning-paths-1440.png`, `04-listing-learning-paths-375.png`
+    - `05-listing-jargon-front-1440.png`, `05-listing-jargon-front-375.png`
+    - `06-listing-jargon-flipped-1440.png`, `06-listing-jargon-flipped-375.png`
+    - `07-listing-enquiry-1440.png`, `07-listing-enquiry-375.png`
+    - `08-article-hero-1440.png`, `08-article-hero-375.png`
+    - `09-article-toc-takeaways-1440.png`, `09-article-toc-takeaways-375.png`
+    - `10-article-compare-table-1440.png`, `10-article-compare-table-375.png`
+    - `11-article-checklist-disclaimer-1440.png`, `11-article-checklist-disclaimer-375.png`
+    - `12-article-footer-nav-1440.png`, `12-article-footer-nav-375.png`
+
+## 15. Global Contact Drawer & Contact Us Refactoring (Retirement of `/contact-us`)
+- **Architecture & Accessibility**:
+  - Replaced standalone `/contact-us` page with a global, accessible `ContactDrawer` mounted once in [`frontend/src/layouts/PublicLayout.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/layouts/PublicLayout.tsx) and managed by [`ContactDrawerContext`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/context/ContactDrawerContext.tsx).
+  - Compliant dialog semantics: `role="dialog"`, `aria-modal="true"`, `aria-labelledby="contact-drawer-title"`, keyboard focus trap, Esc-to-close, backdrop click dismiss, body scroll lock, and programmatic focus restoration to the triggering button.
+  - Deep-link support: `/?contact=open` immediately opens the drawer; `/?contact=open&service=<slug>` opens with that specific service category preselected.
+  - Legacy redirects: [`frontend/src/routes/AppRoutes.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/routes/AppRoutes.tsx) automatically redirects `/contact-us` and `/contact` to `/?contact=open`, preserving `service` and `utm_*` marketing query parameters.
+- **Drawer Layout & Contact Section Removal**:
+  - Based on user direction, the compact contact rows card (phone, email, office address rows) has been completely removed from the drawer body.
+  - The drawer now focuses exclusively on the advisory lead flow, fitting cleanly within a single viewport on desktop without forcing vertical scrolling.
+  - Components inside drawer:
+    1. Top header row: `DIRECT ADVISORY • GODHRA` red-dot badge + accessible circular close button.
+    2. Headline: Playfair Display title (*"Tell us what you would like to explore."*).
+    3. Lead text: 1-line prompt from `12-contact-us.md`.
+    4. Compact `EnquiryPanel`: Floating label inputs, service selector pills (`service_detail[]`), 2-row message, contact method selector (`phone`, `whatsapp`, `email`), consent checkbox, and submit button with circular progress ring (`0/3` to `3/3`).
+    5. Security disclaimer: *"Please do not share passwords, OTPs or account details."*
+- **Trigger Hookups Across Application**:
+  - Header: *"Contact Us"* nav link converted to drawer trigger; *"Talk to an Advisor"* button opens drawer with active service context.
+  - Footer: *"Contact"* link opens drawer.
+  - Home & Service Pages: All secondary CTAs and *"Talk to an Advisor"* buttons invoke `openContactDrawer(service, triggerEl)`.
+  - Insights Reader: Related-service consultation cards open drawer with `article.relatedService`.
+  - 404 Not Found: *"Contact Us"* button opens drawer.
+  - Grep test confirms 0 active links to `/contact-us` remain in `frontend/src`.
+- **Quality & Visual Verification**:
+  - Automated test suite [`frontend/tests/contactDrawer.test.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/contactDrawer.test.tsx): 9 passing tests covering deep linking, service preselection, header/CTA triggers, Esc close, close button, redirect, security disclaimer, contact info absence in drawer, and 0 active link scan.
+  - Full suite status: 83 Vitest tests passing (9 suites), 9 backend pytest tests passing, production build passing with 0 TypeScript errors.
+  - 5 CDP screenshots captured in [`docs/screenshots/contact-drawer/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/contact-drawer/):
+    1. `01_desktop_contact_drawer_default.png` (1440x900)
+    2. `02_desktop_contact_drawer_mf_preselected.png` (1440x900)
+    3. `03_desktop_contact_us_redirect_equity.png` (1440x900)
+    4. `04_mobile_contact_drawer_default.png` (375x812)
+    5. `05_mobile_contact_drawer_gi_preselected.png` (375x812)
+
+
+
+## 16. Header/Footer Link Consistency, Unified LegalLayout & Supporting Pages Refactoring
+
+- **Header and Footer Navigation Consistency**:
+  - Created [`frontend/src/components/nav/NavLinkButton.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/NavLinkButton.tsx), providing unified `NavLinkButton` and `FooterLink` components. This resets native `<button>` styles so that semantic route `<Link>` elements and action `<button>` drawer triggers share identical typography, font-weight, color tokens (`#C9CED4` in footer, `#FFFFFF` in header), and interactive micro-animations (2px Lotus Red `#D9232D` underline expanding from the left on hover over 200ms).
+  - Header Navigation: Enforced strict 32px equal gap between navigation items (`.header__nav { gap: 32px; }`). The *"Contact Us"* drawer trigger button is rendered with identical sizing, line-height, and padding as route links, completely eliminating button inflation.
+  - Footer Architecture: Structured into 4 left-aligned columns:
+    1. **Brand**: Lotus Capital logo, tagline, and AMFI/IRDAI/Religare credentials summary.
+    2. **Services**: Links to General Insurance, Life Insurance, Health Insurance, Mutual Funds, Equity & Derivatives, and Other Solutions.
+    3. **Company & Legal**: Links to About Us, Insights, Disclosures, Terms & Conditions, Privacy Policy, and Complaints / Grievance.
+    4. **Contact**: Sourced exclusively from `content/data/contact.json` (Phone +91 93288 52555, Email lotuscapitalinfo@gmail.com, and Godhra office address).
+  - Footer Link Typography & Spacing: Column headings styled in Poppins 600 18px (`#FFFFFF`); links styled in Inter 15px (`#C9CED4`, transitioning to `#FFFFFF` on hover) with a strict 12px vertical rhythm.
+  - "Data Register" Link Migration: Removed the dev "Data Register" link from the public footer entirely. Replaced with an isolated floating bottom-left pill ([`frontend/src/components/common/DevDataRegisterPill.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/common/DevDataRegisterPill.tsx)) mounted in `PublicLayout.tsx` and visible strictly when `import.meta.env.DEV` is true.
+  - Statutory Disclaimers: Preserved the global mutual fund and regulatory risk disclaimer from `content/data/disclaimers.json` in the footer bottom bar with readable 13px typography (`#C9CED4`).
+
+- **Unified `LegalLayout` Architecture**:
+  - Implemented shared layout ([`frontend/src/layouts/LegalLayout.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/layouts/LegalLayout.tsx)) powering all 4 statutory legal pages: `/privacy-policy`, `/terms-and-conditions`, `/disclosures`, and `/complaints`.
+  - Slim Navy Hero Band (~180-220px): Embedded breadcrumb (`Home > [Page Title]`), uppercase tracking eyebrow (`LEGAL & REGULATORY • GODHRA, GUJARAT`), Playfair Display H1, and 1-line plain-English summary.
+  - Compliance Date Policy: "Last reviewed: October 2026" removed from all legal pages. "Last updated" date only displays when `lastUpdated` is non-null. All 4 JSON data files (`privacy-policy.json`, `terms-and-conditions.json`, `disclosures.json`, `complaints.json`) have `lastUpdated: null` with client TODO comment.
+  - Silver-Grey Dot-Grid Canvas: Styled with `#EEF1F4` background, subtle SVG dot-grid texture, and faint lotus watermark.
+  - Two-Column Layout:
+    - Left Column: Sticky 260px Table of Contents with dynamic scroll spy (`IntersectionObserver`) tracking the currently active section, styled with red active indicator and smooth-scroll anchors.
+    - Right Column: 32px-radius elevated white card with soft layered shadow, high-contrast typography, and styled data blocks.
+  - Specialized Content Renderers:
+    - Regulatory Registrations Table on `/disclosures`: AMFI ARN-168541, IRDAI Corporate Agency CA0896, Religare Broking AP AP01140023 / NSE 06552 / BSE 3004.
+    - Grievance Redressal & Escalation Matrix on `/complaints`: Primary internal contact (Abhilash Chudasama), SEBI SCORES portal, IRDAI Bima Bharosa / Insurance Ombudsman, and Smart ODR links.
+    - Consultation Reassurance Card at the bottom of all legal pages linking to the `ContactDrawer`.
+  - Mobile Responsiveness: Sticky TOC collapses into an interactive accordion dropdown below 992px; seamless single-column flow on mobile viewports.
+
+- **Supporting Pages Refactoring**:
+  - **Enquiry Thank-You Page (`/enquiry/thank-you`)**:
+    - Slim navy hero band with embedded breadcrumb (`Home > Enquiry Confirmation`).
+    - Emerald confirmation badge with checkmark and Playfair Display heading (*"Thank you for reaching out."*).
+    - Enquiry Reference Code badge (`data-testid="enquiry-ref"`) with one-click copy button and toast confirmation.
+    - 3-Step Next Steps Timeline: 1. Enquiry Received, 2. Advisor Review, 3. Direct Consultation.
+    - Action buttons: Primary *"Explore Our Services"* and secondary *"Browse Insights"*.
+  - **404 Not Found Page (`NotFound.tsx`)**:
+    - Slim navy hero band with embedded breadcrumb (`Home > Page Not Found`).
+    - 404 error badge and Playfair Display heading (*"We couldn't find that page."*).
+    - 3 Quick Recovery Cards: Explore Services, Educational Insights, and Talk to an Advisor (opens `ContactDrawer`).
+    - Primary CTA to Return to Homepage.
+
+- **Testing & Verification**:
+  - Created [`frontend/tests/legalPagesAndLinks.test.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/legalPagesAndLinks.test.tsx) with 10 comprehensive tests:
+    1. Header navigation links and "Contact Us" share identical font size, line-height, and padding.
+    2. Header navigation container maintains strict 32px gap.
+    3. Footer renders 4 columns and excludes "Data Register".
+    4. DevDataRegisterPill renders floating badge in DEV mode.
+    5. Privacy Policy page renders on `LegalLayout` with sticky TOC and content.
+    6. Terms and Conditions page renders on `LegalLayout` without unconfirmed review dates.
+    7. Disclosures page renders regulatory registrations table.
+    8. Complaints page renders grievance channels and escalation steps.
+    9. Enquiry Thank-You page displays reference code and 3-step timeline.
+    10. 404 page renders quick recovery options and contact drawer trigger.
+  - Full suite status: **94 Vitest tests passing across 10 test suites**; **9 backend pytest tests passing**; production build successful in 2.67s.
+  - Captured 13 CDP screenshots into [`docs/screenshots/legal-v2/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/legal-v2/):
+    - `01_privacy_policy_1440.png`, `01_privacy_policy_375.png`
+    - `02_terms_and_conditions_1440.png`, `02_terms_and_conditions_375.png`
+    - `03_disclosures_1440.png`, `03_disclosures_375.png`
+    - `04_complaints_1440.png`, `04_complaints_375.png`
+    - `05_thank_you_1440.png`, `05_thank_you_375.png`
+    - `06_not_found_1440.png`, `06_not_found_375.png`
+    - `07_footer_consistency_1440.png`

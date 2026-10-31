@@ -1,22 +1,89 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import pageContent from '@content/pages/equity.json';
+import { useSearchParams } from 'react-router-dom';
 import seoData from '@content/data/seo.json';
-import faqsData from '@content/data/faqs.json';
-import registrationsData from '@content/data/registrations.json';
+import disclaimersData from '@content/data/disclaimers.json';
 import { useStatistics } from '../../hooks/useStatistics';
-import { EnquiryForm } from '../../components/enquiry/EnquiryForm';
-import { LotusLogo } from '../../components/common/LotusLogo';
-import religareLogo from '../../assets/RELIGARE.NS_BIG.svg';
+import { ServiceHero } from '../../components/insurance/ServiceHero';
+import { EquityMarketBoard } from '../../components/investments/EquityMarketBoard';
+import { BrokingPartnerFrame } from '../../components/investments/BrokingPartnerFrame';
+import { EquityServicesStage } from '../../components/investments/EquityServicesStage';
+import { EquityAccountJourney } from '../../components/investments/EquityAccountJourney';
+import { FaqAccordion } from '../../components/insurance/FaqAccordion';
+import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
+import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
+import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
+
+const EQUITY_NAV_SECTIONS: NavSection[] = [
+  { id: 'hero', label: 'Hero' },
+  { id: 'broking', label: 'Broking partner' },
+  { id: 'services', label: 'Services' },
+  { id: 'journey', label: 'Journey' },
+  { id: 'faqs', label: 'FAQ' },
+  { id: 'enquiry', label: 'Enquiry' },
+];
+
+const EQUITY_ENQUIRY_OPTIONS: ServiceDetailOption[] = [
+  { id: 'demat-account', label: 'Demat account' },
+  { id: 'trading-account', label: 'Trading account' },
+  { id: 'equity-trading', label: 'Equity trading' },
+  { id: 'commodity-trading', label: 'Commodity trading' },
+  { id: 'ipo-applications', label: 'IPO applications' },
+  { id: 'market-education', label: 'Market education' },
+];
 
 export const Equity: React.FC = () => {
   const seo = seoData['/investments/equity'];
   const { stats } = useStatistics(['demat_accounts']);
-  const pageFaqs = faqsData.filter((f) => f.page === 'equity');
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [searchParams] = useSearchParams();
+  const sectionQuery = searchParams.get('section');
 
-  const nseReg = registrationsData.find((r) => r.id === 'religare_ap_nse');
-  const bseReg = registrationsData.find((r) => r.id === 'religare_ap_bse');
+  // Preselected categories for Enquiry
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['demat-account']);
+
+  // Handle URL section anchor
+  useEffect(() => {
+    if (sectionQuery) {
+      const scrollTarget = () => {
+        const el = document.getElementById(sectionQuery);
+        if (el) {
+          window.scrollTo({
+            top: Math.max(0, el.offsetTop - 70),
+            behavior: 'instant' as ScrollBehavior,
+          });
+        }
+      };
+      scrollTarget();
+      const t1 = setTimeout(scrollTarget, 80);
+      const t2 = setTimeout(scrollTarget, 250);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [sectionQuery]);
+
+  const handleActionScroll = (targetId: string, chipId?: string) => {
+    if (chipId) {
+      setSelectedCategories((prev) =>
+        prev.includes(chipId) ? prev : [chipId, ...prev]
+      );
+    }
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleServiceSelectFromStage = (chipId: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(chipId) ? prev : [chipId, ...prev]
+    );
+    const el = document.getElementById('enquiry');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -25,362 +92,181 @@ export const Equity: React.FC = () => {
         <meta name="description" content={seo.description} />
       </Helmet>
 
-      {/* Hero */}
-      <section
-        className="hero"
-        style={{
-          minHeight: '480px',
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          backgroundColor: 'var(--navy-950)',
-          overflow: 'hidden',
-          paddingTop: '120px',
-          paddingBottom: '80px',
-        }}
-      >
-        <div
-          className="hero-scrim"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(135deg, rgba(10,37,64,0.95) 0%, rgba(18,61,103,0.85) 100%)',
-            zIndex: 1,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            right: '-50px',
-            bottom: '-40px',
-            width: '420px',
-            height: '420px',
-            opacity: 0.05,
-            zIndex: 1,
-            pointerEvents: 'none',
-          }}
-        >
-          <LotusLogo variant="watermark" width="100%" height="100%" />
-        </div>
+      {/* Thin Brand Red Scroll Progress Bar */}
+      <ScrollProgressBar />
 
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ maxWidth: '820px' }}>
-            <span
-              className="eyebrow"
-              style={{
-                color: 'var(--silver-300)',
-                letterSpacing: '0.12em',
-                fontSize: '0.82rem',
-                textTransform: 'uppercase',
-                display: 'inline-block',
-                marginBottom: '0.75rem',
-              }}
-            >
-              EQUITY & TRADING • GODHRA, GUJARAT
-            </span>
-            <h1
-              style={{
-                color: 'var(--white)',
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 700,
-                fontSize: 'clamp(2rem, 3.8vw, 3rem)',
-                lineHeight: 1.15,
-                marginBottom: '1.25rem',
-              }}
-            >
-              Understand the Markets. Make Informed Decisions.
-            </h1>
-            <p
-              style={{
-                fontSize: '1.15rem',
-                color: 'var(--silver-300)',
-                lineHeight: 1.6,
-                marginBottom: '2rem',
-                maxWidth: '720px',
-              }}
-            >
-              {pageContent.sections.find((s) => s.id === 'hero')?.copy}
-            </p>
+      {/* Right Floating Dot Navigator */}
+      <DotNavigator sections={EQUITY_NAV_SECTIONS} />
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
-              <a href="#enquiry" className="btn btn-primary btn-lg">
-                Open a Demat Account
-              </a>
-              <a href="#broking-details" className="btn btn-secondary-dark btn-lg">
-                Broking Credentials
-              </a>
-              {stats[0] && (
-                <div
+      {/* Page Content Layout */}
+      <div className="equity-page-wrapper" style={{ overflowX: 'hidden' }}>
+        {/* 1. Page Hero with Market Board */}
+        <div id="hero">
+          <ServiceHero
+            breadcrumb={[
+              { label: 'Home', path: '/' },
+              { label: 'Equity & Investments' },
+            ]}
+            eyebrow="EQUITY & TRADING • GODHRA, GUJARAT"
+            headlinePlain="Understand the Markets."
+            headlineItalic="Make Informed Decisions."
+            leadCopy="Investments in securities market are subject to market risks. Read all related documents carefully before investing. Lotus Capital operates as an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963). Speak with the team to confirm the service, the process, the costs and the disclosures before you begin."
+            primaryButtonText="Open a Demat Account"
+            primaryButtonHref="#enquiry"
+            secondaryButtonText="See broking credentials"
+            secondaryButtonHref="#broking"
+            backgroundGradient="radial-gradient(ellipse at 85% 25%, rgba(79, 95, 176, 0.42) 0%, rgba(10, 37, 64, 0) 70%), linear-gradient(135deg, #051329 0%, #0a2540 50%, #4F5FB0 100%)"
+            customRightBoard={<EquityMarketBoard onActionClick={handleActionScroll} />}
+            statChip={
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  padding: '0.45rem 1rem',
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  borderRadius: '9999px',
+                  border: '1px solid rgba(215, 217, 220, 0.22)',
+                  fontSize: '0.85rem',
+                  color: 'rgba(235, 240, 245, 0.95)',
+                }}
+              >
+                <span
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    backgroundColor: 'rgba(255,255,255,0.08)',
-                    borderRadius: 'var(--radius-full)',
-                    border: '1px solid rgba(215,217,220,0.2)',
-                    color: 'var(--silver-300)',
-                    fontSize: '0.85rem',
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--red-500, #d9232d)',
                   }}
-                >
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--red-500)' }} />
-                  <span><strong>{stats[0].value}</strong> Demat Accounts Serviced</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Religare Broking AP Relationship Card (Design.md 9.3) */}
-      <section className="section-padding" id="broking-details" data-reveal>
-        <div className="container">
-          <div
-            className="card"
-            style={{
-              backgroundColor: 'var(--silver-100)',
-              borderColor: 'var(--silver-300)',
-              borderLeft: '4px solid var(--navy-700)',
-              padding: '2.5rem',
-            }}
-          >
-            <div className="grid grid-cols-12" style={{ gap: '2rem', alignItems: 'center' }}>
-              <div className="col-span-12 col-span-md-4" style={{ textAlign: 'center' }}>
-                <img
-                  src={religareLogo}
-                  alt="Religare Broking"
-                  style={{ height: '56px', maxWidth: '220px', objectFit: 'contain', margin: '0 auto 1rem' }}
                 />
-                <div style={{ fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 600 }}>
-                  Institutional Broking Partner
-                </div>
+                <span>
+                  <strong>{stats[0]?.displayText || '800+ demat accounts'}</strong> serviced
+                </span>
+                <span style={{ fontSize: '0.75rem', color: '#8FA3C8' }}>
+                  &bull; Figures as of October 2026
+                </span>
               </div>
-
-              <div className="col-span-12 col-span-md-8">
-                <span className="eyebrow" style={{ color: 'var(--navy-700)' }}>SEBI Registered Authorised Person</span>
-                <h3 style={{ fontSize: '1.35rem', color: 'var(--navy-900)', margin: '0.25rem 0 1rem' }}>
-                  Lotus Capital — Religare Broking Limited
-                </h3>
-                <p style={{ color: 'var(--ink)', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.25rem' }}>
-                  Lotus Capital operates as a duly appointed Authorised Person (AP) of Religare Broking Limited,
-                  enabling local investors in Godhra and surrounding districts to open Demat and trading accounts,
-                  execute transactions across Indian stock exchanges, and access modern trading platforms.
-                </p>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
-                  <div style={{ backgroundColor: 'var(--white)', padding: '0.85rem 1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--silver-300)' }}>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>NSE Authorised Person Code</div>
-                    <div style={{ fontWeight: 700, color: 'var(--navy-900)', fontSize: '1rem', marginTop: '0.2rem' }}>
-                      {nseReg?.number || 'AP007909931'}
-                    </div>
-                  </div>
-                  <div style={{ backgroundColor: 'var(--white)', padding: '0.85rem 1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--silver-300)' }}>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>BSE Authorised Person Code</div>
-                    <div style={{ fontWeight: 700, color: 'var(--navy-900)', fontSize: '1rem', marginTop: '0.2rem' }}>
-                      {bseReg?.number || 'AP0130040172963'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Equity Services Available */}
-      <section className="section-padding bg-light" data-reveal>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3rem' }}>
-            <span className="eyebrow">Service Scope</span>
-            <h2>Equity & Trading Services</h2>
-            <p style={{ color: 'var(--muted)' }}>
-              Comprehensive infrastructure for secondary market investment and portfolio execution.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 grid-cols-md-3" style={{ gap: '1.5rem' }}>
-            <div className="card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'var(--silver-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-700)', fontWeight: 700, marginBottom: '1rem' }}>
-                01
-              </div>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Demat & Trading Account</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                Seamless onboarding with paperless KYC to hold equities, government securities, and ETFs securely in electronic form.
-              </p>
-            </div>
-
-            <div className="card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'var(--silver-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-700)', fontWeight: 700, marginBottom: '1rem' }}>
-                02
-              </div>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Cash & Delivery Equities</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                Direct ownership of shares across NSE and BSE for long-term compounding, corporate dividends, and voting rights.
-              </p>
-            </div>
-
-            <div className="card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'var(--silver-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-700)', fontWeight: 700, marginBottom: '1rem' }}>
-                03
-              </div>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Initial Public Offerings (IPOs)</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                Assistance with ASBA UPI-linked applications for mainline and SME IPOs with timely issue alerts and allocation tracking.
-              </p>
-            </div>
-
-            <div className="card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'var(--silver-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-700)', fontWeight: 700, marginBottom: '1rem' }}>
-                04
-              </div>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Physical Share Dematerialisation</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                Conversion of old physical share certificates into modern electronic demat credits, signature mismatch assistance, and probate filings.
-              </p>
-            </div>
-
-            <div className="card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'var(--silver-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-700)', fontWeight: 700, marginBottom: '1rem' }}>
-                05
-              </div>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Digital Trading Platforms</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                Access to Religare&apos;s mobile and desktop trading apps with biometric authentication, live streaming quotes, and technical charts.
-              </p>
-            </div>
-
-            <div className="card" style={{ padding: '1.75rem' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: 'var(--silver-100)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-700)', fontWeight: 700, marginBottom: '1rem' }}>
-                06
-              </div>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem' }}>Investor Education</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '0.88rem', lineHeight: '1.6' }}>
-                Regular orientation on T+1 settlement cycles, circuit filters, stop-loss mechanisms, and risk management principles.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Onboarding Steps */}
-      <section className="section-padding" data-reveal>
-        <div className="container" style={{ maxWidth: '960px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <span className="eyebrow">Getting Started</span>
-            <h2>How Demat Account Opening Works</h2>
-            <p style={{ color: 'var(--muted)' }}>Fast digital onboarding to commence your investment journey.</p>
-          </div>
-
-          <div className="grid grid-cols-1 grid-cols-md-4" style={{ gap: '1.5rem' }}>
-            {[
-              { step: '01', title: 'KYC Collation', desc: 'Aadhaar-linked mobile verification, PAN card, and bank account proof.' },
-              { step: '02', title: 'Video In-Person Verification', desc: 'Secure digital IPV completion required by SEBI regulations.' },
-              { step: '03', title: 'Account Activation', desc: 'Receive trading account ID, Demat Client ID, and temporary credentials.' },
-              { step: '04', title: 'Fund Link & Trade', desc: 'Link UPI / NetBanking mandate and begin structured equity investing.' },
-            ].map((s) => (
-              <div key={s.step} className="card" style={{ padding: '1.75rem' }}>
-                <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--red-500)', fontFamily: 'Poppins, sans-serif', marginBottom: '0.5rem' }}>
-                  {s.step}
-                </div>
-                <h4 style={{ fontSize: '1.05rem', marginBottom: '0.5rem' }}>{s.title}</h4>
-                <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="section-padding bg-light" id="faqs" data-reveal>
-        <div className="container" style={{ maxWidth: '850px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <span className="eyebrow">Clarity First</span>
-            <h2>Equity & Demat FAQs</h2>
-            <p style={{ color: 'var(--muted)' }}>Direct guidance on trading accounts, broker charges, and risks.</p>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {pageFaqs.map((faq) => {
-              const isOpen = openFaq === faq.id;
-              return (
-                <div
-                  key={faq.id}
-                  className="card"
-                  style={{
-                    padding: '1.25rem 1.5rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    borderColor: isOpen ? 'var(--navy-600)' : 'var(--silver-300)',
-                  }}
-                  onClick={() => setOpenFaq(isOpen ? null : faq.id)}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h4 style={{ margin: 0, fontSize: '1.05rem', color: 'var(--navy-900)' }}>{faq.question}</h4>
-                    <span
-                      style={{
-                        transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-                        transition: 'transform 0.24s cubic-bezier(0.22, 1, 0.36, 1)',
-                        fontSize: '1.5rem',
-                        lineHeight: 1,
-                        color: 'var(--navy-700)',
-                        fontWeight: 300,
-                        marginLeft: '1rem',
-                      }}
-                    >
-                      +
-                    </span>
-                  </div>
-                  {isOpen && (
-                    <p style={{ margin: '1rem 0 0', color: 'var(--muted)', fontSize: '0.95rem', lineHeight: '1.6', borderTop: '1px solid var(--silver-300)', paddingTop: '0.75rem' }}>
-                      {faq.answer}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Mandatory Securities Risk Note (Design.md 9.3 & 10.9) */}
-      <section className="container" style={{ margin: '2rem auto' }} data-reveal>
-        <div
-          className="risk-note"
-          style={{
-            backgroundColor: 'var(--navy-100)',
-            borderLeft: '4px solid var(--navy-700)',
-            padding: '1.5rem 2rem',
-            borderRadius: 'var(--radius-md)',
-          }}
-        >
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-            <div style={{ color: 'var(--navy-700)', fontSize: '1.25rem', lineHeight: 1, marginTop: '2px' }}>
-              ⓘ
-            </div>
-            <div>
-              <strong style={{ color: 'var(--navy-900)', fontSize: '0.95rem' }}>
-                Securities Market Risk Disclosure:
-              </strong>
-              <p style={{ fontSize: '0.85rem', color: 'var(--navy-900)', margin: '0.5rem 0 0', lineHeight: '1.6' }}>
-                Investments in securities market are subject to market risks. Read all related documents carefully before investing.
-                Share prices can rise and fall, and investors may lose part or all of their invested capital.
-                Lotus Capital operates strictly as an Authorised Person of Religare Broking Limited and does not guarantee returns, price targets, or trading profits.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Enquiry */}
-      <section className="section-padding bg-light" id="enquiry" data-reveal>
-        <div className="container" style={{ maxWidth: '780px' }}>
-          <EnquiryForm
-            defaultService="equity"
-            title="Open Your Demat & Trading Account"
-            subtitle="Connect with our Godhra branch to initiate KYC documentation through Religare Broking Limited."
+            }
+            onEnquiryClick={() => handleActionScroll('enquiry', 'demat-account')}
           />
         </div>
-      </section>
+
+        {/* 2. Broking Partner Frame (Single Viewport, min-height 100vh) */}
+        <BrokingPartnerFrame />
+
+        {/* 3. Services Stage (Market Floor Layout in ONE Frame) */}
+        <EquityServicesStage onServiceSelect={handleServiceSelectFromStage} />
+
+        {/* 4. Account Journey (Scroll Graph Timeline) */}
+        <EquityAccountJourney />
+
+        {/* 5. FAQs with Filter Categories */}
+        <section
+          id="faqs"
+          style={{
+            backgroundColor: '#F8F9FA',
+            padding: '5.5rem 1.5rem',
+            borderTopLeftRadius: '32px',
+            borderTopRightRadius: '32px',
+            marginTop: '-32px',
+            position: 'relative',
+            zIndex: 10,
+            boxShadow: '0 -20px 48px rgba(0, 0, 0, 0.06)',
+          }}
+        >
+          <div className="container" style={{ maxWidth: '1180px' }}>
+            <FaqAccordion
+              page="equity"
+              title="Questions, answered."
+              subtitle="Direct guidance on demat accounts, trading access, and broking terms."
+              onEnquiryClick={() => handleActionScroll('enquiry')}
+            />
+
+            {/* 6. Mandatory Securities Market Risk Disclosure Notice */}
+            <div
+              className="risk-disclosure-note"
+              style={{
+                marginTop: '3.5rem',
+                backgroundColor: '#FFFFFF',
+                border: '1.5px solid rgba(79, 95, 176, 0.25)',
+                borderLeft: '5px solid #4F5FB0',
+                borderRadius: '20px',
+                padding: '1.75rem 2rem',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.04)',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(79, 95, 176, 0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#4F5FB0',
+                    fontSize: '1.1rem',
+                    flexShrink: 0,
+                    fontWeight: 700,
+                  }}
+                >
+                  ⓘ
+                </div>
+                <div>
+                  <h4
+                    style={{
+                      fontFamily: 'Playfair Display, Georgia, serif',
+                      fontSize: '1.1rem',
+                      fontWeight: 700,
+                      color: 'var(--navy-900, #0a2540)',
+                      margin: '0 0 0.4rem',
+                    }}
+                  >
+                    Securities Market Risk Disclosure
+                  </h4>
+                  <p
+                    style={{
+                      fontSize: '0.92rem',
+                      color: '#475569',
+                      lineHeight: 1.65,
+                      margin: 0,
+                    }}
+                  >
+                    {disclaimersData.equity_market_risk} Share prices can rise and fall, and investors may lose part or all of their invested capital. Lotus Capital operates as an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963) and does not promise or guarantee returns, price targets, or trading profits.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 7. Enquiry Section */}
+        <section
+          id="enquiry"
+          style={{
+            backgroundColor: '#051329',
+            padding: '5.5rem 1.5rem',
+            position: 'relative',
+            zIndex: 11,
+          }}
+        >
+          <div className="container" style={{ maxWidth: '1240px' }}>
+            <EnquiryPanel
+              defaultService="equity"
+              serviceDetailOptions={EQUITY_ENQUIRY_OPTIONS}
+              selectedServiceDetails={selectedCategories}
+              onServiceDetailChange={setSelectedCategories}
+              title="Talk to us about opening an account"
+              subtitle="Share your requirements to explore demat and secondary market facilities through Religare Broking Limited."
+              reassuranceLines={[
+                'Our Godhra team will follow up',
+                'Please do not share passwords, OTPs or demat credentials',
+              ]}
+            />
+          </div>
+        </section>
+      </div>
     </>
   );
 };

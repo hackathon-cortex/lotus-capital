@@ -21,6 +21,18 @@ describe('Global Footer Disclaimer', () => {
     expect(disclaimerEl.textContent).toContain(disclaimersData.footer_disclaimer);
   });
 
+  it('fails if "Data Register" text appears anywhere in the Footer component', () => {
+    render(
+      <MemoryRouter>
+        <Footer />
+      </MemoryRouter>
+    );
+
+    const footer = screen.getByTestId('global-footer');
+    // "Data Register" has been removed completely from footer and replaced with a dev-only floating pill
+    expect(footer.textContent).not.toContain('Data Register');
+  });
+
   const publicRoutes = [
     '/',
     '/about-us',
@@ -32,7 +44,6 @@ describe('Global Footer Disclaimer', () => {
     '/investments/equity',
     '/investments/other-solutions',
     '/insights',
-    '/contact-us',
     '/privacy-policy',
     '/terms-and-conditions',
     '/disclosures',
