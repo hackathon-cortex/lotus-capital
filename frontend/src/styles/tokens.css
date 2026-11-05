@@ -1,4 +1,12 @@
 :root {
+  /* Breakpoint Tokens (Single Source of Truth) */
+  --bp-xs: 0px;
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+  --bp-2xl: 1536px;
+
   /* Colour */
   --navy-950: #071b30;
   --navy-900: #0a2540;
@@ -25,20 +33,35 @@
   --font-body: "Inter", system-ui, "Noto Sans Gujarati", sans-serif;
   --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
 
-  /* Layout */
+  /* Fluid Typography with clamp() */
+  --font-display-fluid: clamp(2.25rem, 6vw + 1rem, 4.5rem);
+  --font-h1-fluid: clamp(2rem, 4vw + 0.75rem, 3.25rem);
+  --font-h2-fluid: clamp(1.625rem, 2.5vw + 0.75rem, 2.5rem);
+  --font-body-fluid: clamp(1rem, 0.4vw + 0.9rem, 1.0625rem); /* 16px mobile / 17px desktop */
+  --font-legal: 13px;
+
+  /* Layout & Container */
   --container: 1240px;
+  --container-pad-xs: 20px;
+  --container-pad-sm: 24px;
+  --container-pad-md: 32px;
+  --container-pad-lg: 48px;
+
+  /* Header Heights */
   --header-h: 96px;
   --header-h-scrolled: 76px;
   --sidebar-w: 248px;
   --sidebar-w-collapsed: 72px;
   --topbar-h: 64px;
 
-  /* Shape and elevation (Global Style Upgrade) */
+  /* Shape and elevation */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-card: 24px;
   --radius-panel: 32px;
+  --radius-card-fluid: clamp(20px, 1.5vw + 14px, 28px);
+  --radius-panel-fluid: clamp(24px, 2vw + 18px, 32px);
   --radius-btn: 14px;
   --radius-pill: 999px;
   --shadow-1: 0 6px 20px rgba(10, 37, 64, 0.08);
@@ -46,6 +69,15 @@
   --shadow-soft: 0 10px 30px rgba(10, 37, 64, 0.08), 0 2px 6px rgba(10, 37, 64, 0.05);
   --shadow-hover: 0 24px 48px rgba(10, 37, 64, 0.16);
   --border-dark-inner: inset 0 0 0 1px rgba(215, 217, 220, 0.12);
+
+  /* Fluid Section Spacing */
+  --section-pad-fluid: clamp(56px, 8vw, 96px);
+
+  /* Safe Area Insets */
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
 
   /* Focus */
   --focus-ring: 0 0 0 3px #fff, 0 0 0 6px var(--navy-600);
@@ -67,17 +99,27 @@
   --stagger: 80ms;
 }
 
-@media (max-width: 1023px) {
+/* Tablet Header Height (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   :root {
     --header-h: 72px;
     --header-h-scrolled: 64px;
   }
 }
 
+/* Mobile Header Height (< 768px) */
 @media (max-width: 767px) {
   :root {
     --header-h: 64px;
     --header-h-scrolled: 56px;
+    --radius-card: 20px;
+    --radius-panel: 24px;
   }
 }
 
+/* 2XL Desktop Tweaks (>= 1536px) */
+@media (min-width: 1536px) {
+  :root {
+    --font-display-fluid: clamp(2.5rem, 6vw + 1rem, 5rem);
+  }
+}

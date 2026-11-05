@@ -118,6 +118,7 @@ export const SipIllustrationBoard: React.FC<SipIllustrationBoardProps> = ({
       >
         {/* Subtle Lotus Watermark in Background */}
         <div
+          className="sip-watermark-bg"
           style={{
             position: 'absolute',
             right: '-60px',
@@ -342,6 +343,7 @@ export const SipIllustrationBoard: React.FC<SipIllustrationBoardProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  flexWrap: 'wrap',
                   gap: '0.5rem',
                   marginTop: '0.75rem',
                 }}

@@ -520,3 +520,105 @@ The `/investments/equity` route was comprehensively refined in strict adherence 
     - `05_thank_you_1440.png`, `05_thank_you_375.png`
     - `06_not_found_1440.png`, `06_not_found_375.png`
     - `07_footer_consistency_1440.png`
+
+## 17. Site Footer 4-Column Layout Restoration, Side Dot Navigator & Dev Pill Fixes
+
+- **Footer Root Cause Remediation**:
+  - Identified the root cause of the single tall column defect: the footer grid element had `className="grid grid-cols-1 grid-cols-md-4 footer-columns-grid"`, where `.grid-cols-1` and `.grid-cols-md-4` did not exist in the stylesheet, and `.footer-columns-grid` was only defined inside a mobile media query. CSS Grid defaulted to a single column, stacking all four columns vertically.
+  - Eliminated conflicting spacing: `.footer li { margin-bottom: 0.5rem; }` was adding unintended vertical margins on top of list flex gaps. Reset `margin: 0; padding: 0;` on all footer list items.
+- **Specification Compliance (1440px Desktop)**:
+  - Background: `#071B30` (navy-950) with 4px lotus-red top border (`#D9232D`).
+  - Lotus watermark: anchored bottom-right at 5% opacity.
+  - Padding: 72px top / 40px bottom, contained within the 1240px container.
+  - Grid: `grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 48px;` with all 4 columns top-aligned (`align-items: start`):
+    1. **Brand**: Light logo (max-height 56px, unclipped), tagline *"Partnering Wealth Creation. Guiding individuals and families with insurance, mutual funds, and equity solutions in Godhra, Gujarat."*, and registration text *"AMFI-registered Mutual Fund Distributor (ARN-160174) & Authorised Person of Religare Broking Limited."*.
+    2. **Services**: 6 services (General Insurance, Life Insurance, Health Insurance, Mutual Funds, Equity & Investments, More Solutions).
+    3. **Company & Legal**: 7 items (About Us, Insights, Contact Us drawer trigger, Privacy Policy, Terms & Conditions, Disclosures, Complaints).
+    4. **Contact Godhra Office**: Office address, Phone, Email, and office hours from `contact.json`.
+  - Column headings: Poppins 600 18px white with 20px bottom margin.
+  - Links: Inter 15px, line-height 1.4, `#C9CED4`, hover white with 2px red underline growing from the left (200ms). Strict 12px vertical rhythm.
+  - Bottom Bar: 1px divider (`rgba(215,217,220,0.18)`), copyright on the left, registrations on the right (`AMFI ARN-160174 | NSE AP007909931 | BSE AP0130040172963`), followed by the global mutual fund disclaimer from `disclaimers.json` (13px, `#C9CED4`, max 100ch).
+  - Measured desktop height: 4-column grid is 262px tall, with total footer height at ~584px (including disclaimer and padding), completely eliminating the ~1500px defect.
+- **Breakpoints**:
+  - `>= 1024px`: 4 columns (`1.4fr 1fr 1fr 1.2fr`, `gap: 48px`).
+  - `768px - 1023px`: 2 columns (`1fr 1fr`, `gap: 36px`), Brand spans both columns on the first row (`grid-column: span 2`).
+  - `< 768px`: Single column (`gap: 24px`) in strict order: Brand (`order: 1`), Contact (`order: 2`), Services (`order: 3`), Company & Legal (`order: 4`), with 24px between groups and 12px between links.
+- **Side Dot Navigator Overlap Prevention & Tooltips**:
+  - Added `IntersectionObserver` in [`DotNavigator.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/common/DotNavigator.tsx) detecting when the site footer enters the viewport; smoothly fades out (`opacity: 0, 200ms ease`, `pointer-events: none`). Stays vertically centered (`top: 50%, transform: translateY(-50%)`) otherwise.
+  - Tooltips with section names now reveal smoothly on button hover and focus.
+  - Cleaned up duplicate `id="mutual-funds"` in [`Home.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/Home.tsx) so that Home has exactly 13 unique section IDs matching `DEFAULT_SECTIONS` 1-to-1.
+- **Dev Floating Pill (`DevDataRegisterPill.tsx`)**:
+  - Safe 24px offset (`bottom: 24px; left: 24px`).
+  - Integrated `IntersectionObserver` to fade out when the footer enters the viewport, avoiding any overlap with footer links.
+  - Tree-shaken from production builds.
+- **Testing & Visual Verification**:
+  - Added [`frontend/tests/footerLayout.test.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/footerLayout.test.tsx) with 8 tests:
+    1. Four dedicated column containers with appropriate classes.
+    2. Desktop 1440px: all 4 columns share the exact same top coordinate (`top === desktopTop`).
+    3. Mobile 375px: sequential stacking in specified order (Brand -> Contact -> Services -> Company & Legal).
+    4. Link presence, no Data Register in footer, mutual fund disclaimer.
+    5. DotNavigator renders 13 dots.
+    6. DotNavigator tooltips reveal on hover/focus.
+    7. DotNavigator fades out when footer enters viewport.
+    8. DevDataRegisterPill has 24px offset and fades out when footer is visible.
+  - Full suite status: **102 Vitest tests passing across 11 test suites**; **9 backend pytest tests passing**; production build successful in 2.34s.
+  - CDP screenshots captured in [`docs/screenshots/footer-v2/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/footer-v2/):
+    - `footer_desktop_1440.png`
+    - `footer_mobile_375.png`
+
+
+---
+
+## 18. Full Frontend Responsive Architecture Pass & Multi-Device Verification
+
+- **Breakpoint System & Single Source of Truth**:
+  - Implemented `frontend/src/config/responsive.ts` and synced `tokens.css` and `content/data/layout.json`:
+    - `xs: 0px` (Small phones, 320px–479px)
+    - `sm: 480px` (Large phones, 480px–767px)
+    - `md: 768px` (Tablets portrait, 768px–1023px)
+    - `lg: 1024px` (Tablets landscape / small desktop, 1024px–1279px)
+    - `xl: 1280px` (Laptops / standard desktop, 1280px–1535px)
+    - `2xl: 1536px` (Ultra-wide displays, 1536px+)
+  - Created reactive hooks [`useBreakpoint.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/hooks/useBreakpoint.ts) and [`useMediaQuery.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/hooks/useMediaQuery.ts) providing `isMobile`, `isTablet`, `isDesktop`, `isWide`, `isAtLeast()`, `isBelow()`.
+- **Fluid Layout & Typography**:
+  - Fluid container `max-width: 1240px` with fluid responsive padding `20px` (xs), `24px` (sm), `32px` (md), `48px` (lg+).
+  - Fluid typography via `clamp()` across all headline levels (`--font-size-display`, `--font-size-h1`, `--font-size-h2`). Text balance on headings (`text-wrap: balance`) and pretty wrap on body (`text-wrap: pretty`).
+  - Fluid section padding `clamp(56px, 8vw, 96px)`. Radii step-down on mobile (32px → 24px, 24px → 20px).
+- **Navigation & Mobile Experience**:
+  - **Header**:
+    - Desktop (≥ 1100px): Logo + single-line navigation with 32px gap + "Talk to an Advisor" primary CTA.
+    - Tablet (768px–1099px): Logo + tablet CTA button + mobile menu toggle button.
+    - Mobile (< 768px): Logo + menu toggle button. Opens full-screen slide-in sheet (`.mobile-nav-sheet`) with 56px touch items, inline expandable services accordion, focus trap, Esc key listener, and body scroll lock.
+  - **Sticky Mobile CTA Bar (`StickyMobileCtaBar.tsx`)**:
+    - 56px tall red "Talk to an Advisor" bar pinned to the bottom on mobile (< 768px).
+    - Reveals after the hero section scrolls out of view (~360px).
+    - Hides when the footer is in view, while the ContactDrawer is open, or while the mobile menu is open.
+    - Respects safe-area insets (`env(safe-area-inset-bottom)`).
+  - **Floating WhatsApp**:
+    - Mobile placement adjusted above the sticky CTA bar (`bottom: calc(76px + env(safe-area-inset-bottom))`).
+- **Hero & Content Stacking**:
+  - `Home.tsx` Hero: Buttons stack full-width (`min-height: 52px; width: 100%`). Stat card switches to in-flow 2x2 grid (`marginTop: 1.5rem`).
+  - `ServiceHero.tsx`: Buttons stack full-width (`.service-hero-actions`). Board wraps cleanly below text on tablet/mobile.
+  - `SipIllustrationBoard.tsx`: Sliders have 44px touch targets; horizon preset pills wrap cleanly; SVG chart scales responsively.
+  - Pinned Timelines (`AboutUs.tsx` milestones, `LifeProcessTimeline.tsx`, `HealthProcessTimeline.tsx`, `EquityAccountJourney.tsx`): Active only on desktop (`lg+`, ≥ 1024px). Below 1024px, container heights are `auto` (0 scroll hijacking) and timeline lines render cleanly on the left with vertical flow.
+- **Admin Dashboard Responsiveness**:
+  - Desktop: 248px permanent sidebar navigation.
+  - Tablet: 72px collapsed icon rail.
+  - Mobile: Off-canvas drawer with topbar hamburger button.
+  - Enquiries Table: Automatically transforms into touch cards (`.admin-cards-mobile`) below 768px with status dropdown and detail action.
+- **Testing & Multi-Device Verification Matrix**:
+  - Added unit test suite [`frontend/tests/responsiveTokens.test.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/responsiveTokens.test.tsx) testing tokens, `layout.json` parity, `useBreakpoint()`, and `useMediaQuery()`.
+  - Built headless Chrome CDP verification script [`scripts/verify_responsive_matrix.py`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/scripts/verify_responsive_matrix.py) testing 10 viewports across all 17 site routes (170 tests):
+    1. iPhone SE (320x568) — **0 overflow (320 <= 320)**
+    2. iPhone SE (375x667) — **0 overflow (375 <= 375)**
+    3. Pixel 5 (393x851) — **0 overflow (393 <= 393)**
+    4. iPhone 14 Pro Max (430x932) — **0 overflow (430 <= 430)**
+    5. Landscape Phone (844x390) — **0 overflow (844 <= 844)**
+    6. iPad Mini (768x1024) — **0 overflow (768 <= 768)**
+    7. iPad Pro 11 (834x1194) — **0 overflow (834 <= 834)**
+    8. Laptop (1280x800) — **0 overflow (1280 <= 1280)**
+    9. Desktop (1440x900) — **0 overflow (1440 <= 1440)**
+    10. Wide Display (1920x1080) — **0 overflow (1920 <= 1920)**
+  - Captured full-fidelity responsive screenshots across all devices in [`docs/screenshots/responsive/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/responsive/).
+  - Documented full guidelines in [`docs/RESPONSIVE_GUIDE.md`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/RESPONSIVE_GUIDE.md).
+  - Test suite status: **110 Vitest tests passing across 12 test suites**; **9 backend pytest tests passing**; TypeScript build 100% clean.

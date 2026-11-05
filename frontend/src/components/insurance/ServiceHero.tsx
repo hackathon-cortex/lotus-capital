@@ -351,6 +351,7 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
             {/* Action Buttons */}
             <div
+              className="service-hero-actions"
               style={{
                 display: 'flex',
                 gap: '1rem',

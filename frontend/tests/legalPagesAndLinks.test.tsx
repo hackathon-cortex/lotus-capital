@@ -51,7 +51,7 @@ describe('Shared LegalLayout & Link Consistency', () => {
       // Check column headings
       expect(within(footer).getByRole('heading', { level: 4, name: /^Services$/i })).toBeInTheDocument();
       expect(within(footer).getByRole('heading', { level: 4, name: /^Company & Legal$/i })).toBeInTheDocument();
-      expect(within(footer).getByRole('heading', { level: 4, name: /^Contact$/i })).toBeInTheDocument();
+      expect(within(footer).getByRole('heading', { level: 4, name: /^Contact( Godhra Office)?$/i })).toBeInTheDocument();
 
       // Check footer links use FooterLink class
       const privacyLink = within(footer).getByRole('link', { name: /privacy policy/i });

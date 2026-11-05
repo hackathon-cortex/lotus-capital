@@ -171,18 +171,22 @@ Load with `font-display: swap`, subset Latin, preload the two primary weights. P
 
 `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128`
 
-### 5.2 Breakpoints
+### 5.2 Breakpoints (Single Source of Truth)
 
-| Name         | Min width | Columns | Gutter | Page margin    |
-| ------------ | --------- | ------- | ------ | -------------- |
-| Mobile       | 0         | 4       | 16     | 20             |
-| Large mobile | 480       | 4       | 16     | 24             |
-| Tablet       | 768       | 8       | 24     | 32             |
-| Desktop      | 1024      | 12      | 24     | 48             |
-| Wide         | 1280      | 12      | 32     | auto (centred) |
-| Ultra-wide   | 1536      | 12      | 32     | auto           |
+All responsive values are codified in a single source of truth in [`src/config/responsive.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/config/responsive.ts), mirrored in [`content/data/layout.json`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/content/data/layout.json), and exported as CSS variables in [`src/styles/tokens.css`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/styles/tokens.css). TypeScript components consume reactive responsive state via `useBreakpoint()` and `useMediaQuery()`.
 
-**Container:** `max-width: 1240px`, centred. Full-bleed sections (hero, dark bands, footer) extend to the viewport edge, with their content inside the container.
+| Token | Min width | Target devices / viewports | Columns | Gutter | Container padding (`--container-pad`) |
+| ----- | --------- | -------------------------- | ------- | ------ | ------------------------------------- |
+| `xs`  | 0px       | iPhone SE (320px, 375px)   | 4       | 16px   | 20px                                  |
+| `sm`  | 480px     | Large phones, landscape    | 4       | 16px   | 24px                                  |
+| `md`  | 768px     | iPad Mini, tablet portrait | 8       | 24px   | 32px                                  |
+| `lg`  | 1024px    | iPad Pro, small laptops    | 12      | 24px   | 48px                                  |
+| `xl`  | 1280px    | Standard laptops / desktop | 12      | 32px   | 48px (centred max 1240px)             |
+| `2xl` | 1536px    | Large desktop / ultrawide  | 12      | 32px   | 48px (centred max 1240px)             |
+
+**Container:** `max-width: 1240px`, centred with fluid inline padding (`20px` at xs, `24px` at sm, `32px` at md, `48px` at lg+). Full-bleed sections (hero, dark bands, footer) extend to the viewport edge, with their content inside the container.
+**Fluid Typography:** Display `clamp(2.25rem, 6vw + 1rem, 4.5rem)`, H1 `clamp(2rem, 4vw + 0.75rem, 3.25rem)`, H2 `clamp(1.625rem, 2.5vw + 0.75rem, 2.5rem)`, Section Spacing `clamp(56px, 8vw, 96px)`.
+**Touch & Input Targets:** Minimum interactive touch target `44x44px`; form inputs `52px` height with font size `>= 16px` to prevent iOS auto-zoom.
 
 ### 5.3 Section rhythm
 
@@ -840,20 +844,33 @@ function useCountUp(ref, value, duration = 1600) {
 
 ## 14. Responsive rules
 
-| Area          | Mobile (< 768)                                                                                                                         | Tablet (768–1023)                                  | Desktop (≥ 1024)                      |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------- |
-| Header        | 64px, logo mark and short wordmark, menu button                                                                                        | 72px, logo and menu button                         | 88px, full navigation                 |
-| Hero          | Content bottom-aligned, scrim vertical, buttons stacked full width, image `object-position: 60% center`, stat card 2×2 inside the hero | Content left, 8 columns, stat card centred overlap | Content left, 7 columns, overlap card |
-| Service cards | 1 column                                                                                                                               | 2 columns                                          | 3 columns                             |
-| Statistics    | 2×2                                                                                                                                    | 4 across, smaller                                  | 4 across                              |
-| Testimonials  | Scroll-snap carousel                                                                                                                   | 2 floating, 2 in row                               | 6 floating                            |
-| Founder split | Stacked, portrait first                                                                                                                | 5/7 split                                          | 5/7 split                             |
-| Footer        | Stacked                                                                                                                                | 2 columns                                          | 4 zones                               |
-| Forms         | Full width, 52px fields                                                                                                                | Card 520px wide                                    | Card inside 2-column layout           |
-| Admin         | Off-canvas sidebar, card tables                                                                                                        | Collapsed sidebar                                  | Full sidebar                          |
-| Hover effects | None (tap states only)                                                                                                                 | Pointer-dependent                                  | Enabled                               |
+| Area          | Mobile (< 768)                                                                                                                                                           | Tablet (768–1099)                                                                    | Desktop (≥ 1100 / ≥ 1024)                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| Header        | 64px, logo (max-h 60px unclipped) + menu button; opens full-screen slide-in sheet (`.mobile-nav-sheet`) with 56px items, inline services accordion, focus trap, Esc close | 72px, logo + "Talk to an Advisor" primary CTA button + menu button                 | 88px, full single-line nav (32px gap) + "Talk to an Advisor" button |
+| Hero          | Content bottom-aligned, scrim vertical, buttons stacked full width, image `object-position: 60% center`, stat card 2×2 inside the hero                                  | Content left, 8 columns, stat card centred overlap                                   | Content left, 7 columns, overlap card                                |
+| Service cards | 1 column                                                                                                                                                                 | 2 columns                                                                            | 3 columns                                                            |
+| Statistics    | 2×2                                                                                                                                                                      | 4 across, smaller                                                                    | 4 across                                                             |
+| Timelines     | Auto container height, 0 scroll hijacking, left-aligned vertical line                                                                                                    | Auto container height, 0 scroll hijacking, left-aligned vertical line                | Scroll-pinned animation stages active only on `lg+` (≥ 1024px)       |
+| Testimonials  | Scroll-snap carousel                                                                                                                                                     | 2 floating, 2 in row                                                                 | 6 floating                                                           |
+| Founder split | Stacked, portrait first                                                                                                                                                  | 5/7 split                                                                            | 5/7 split                                                            |
+| Footer        | 1 column stacked (Brand → Contact → Services → Legal)                                                                                                                    | 2 columns                                                                            | 4 columns (`1.4fr 1fr 1fr 1.2fr`, 48px gap)                         |
+| Forms         | Full width, 52px fields (`font-size >= 16px`)                                                                                                                             | Card 520px wide                                                                      | Card inside 2-column layout                                          |
+| Admin         | Off-canvas drawer with hamburger button, leads table-to-card mobile transformation                                                                                       | 72px collapsed icon rail                                                             | 248px full sidebar                                                   |
+| Sticky CTA    | 56px sticky red bar on mobile (< 768px), reveals after hero scrolls, hides near footer and when drawer/menu open                                                        | None (header CTA persistent)                                                         | None (header CTA persistent)                                         |
+| Hover effects | None (tap states only)                                                                                                                                                   | Pointer-dependent                                                                    | Enabled                                                              |
 
-Other rules: design mobile first; no horizontal scroll at any width from 320px; touch targets at least 44×44px with 8px spacing; sticky mobile CTA bar ("Talk to an Advisor", 56px, `--red-600`) appears after the hero scrolls out of view on service pages and hides near the footer; fixed elements respect `env(safe-area-inset-*)`; test at 320, 375, 414, 768, 1024, 1280 and 1536px.
+### Zero Horizontal Overflow Guarantee
+The layout enforces `document.documentElement.scrollWidth <= window.innerWidth` across all viewports from 320px to 2560px. Verified via automated Headless Chrome DevTools Protocol (CDP) test runner across 10 device viewports on all 17 public and admin routes (170 test cases total):
+- **iPhone SE (320x568)**: Smallest supported mobile screen
+- **iPhone SE (375x667)**: Standard compact mobile screen
+- **Pixel 5 (393x851)**: Standard Android viewport
+- **iPhone 14 Pro Max (430x932)**: Large flagship smartphone
+- **Phone Landscape (844x390)**: Horizontal smartphone layout
+- **iPad Mini (768x1024)**: Portrait tablet
+- **iPad Pro (834x1194)**: Large portrait tablet
+- **Laptop (1280x800)**: Compact desktop/laptop
+- **Desktop (1440x900)**: Standard desktop display
+- **Ultra-wide (1920x1080)**: Full HD widescreen display
 
 ---
 

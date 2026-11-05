@@ -232,6 +232,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
         style={{
           backgroundColor: '#EEF1F4',
           minHeight: '70vh',
+          overflow: 'hidden',
           backgroundImage: `
             radial-gradient(#CBD5E1 1px, transparent 1px),
             linear-gradient(to bottom, #EEF1F4 0%, #E6EAF0 100%)
@@ -381,7 +382,7 @@ export const LegalLayout: React.FC<LegalLayoutProps> = ({
             </aside>
 
             {/* Right Main Legal Reading Content Card */}
-            <main>
+            <main style={{ minWidth: 0, maxWidth: '100%' }}>
               <div
                 className="legal-content-card"
                 style={{

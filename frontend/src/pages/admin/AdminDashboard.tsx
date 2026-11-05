@@ -111,7 +111,7 @@ export const AdminDashboard: React.FC = () => {
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <button className="btn btn-secondary btn-sm" onClick={() => window.print()}>
             Export Monthly Summary
           </button>
@@ -429,7 +429,8 @@ export const AdminDashboard: React.FC = () => {
           <span className="badge badge-info">Auto-sync Active</span>
         </div>
 
-        <div style={{ overflowX: 'auto' }}>
+        {/* Desktop Table View (>= 768px) */}
+        <div className="admin-table-desktop" style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
             <thead>
               <tr style={{ backgroundColor: 'var(--silver-100)', borderBottom: '2px solid var(--silver-300)' }}>
@@ -509,6 +510,110 @@ export const AdminDashboard: React.FC = () => {
               })}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Stacked Cards View (< 768px, phone-usable for status changes & follow-ups) */}
+        <div className="admin-cards-mobile" style={{ display: 'none', flexDirection: 'column', gap: '1rem' }}>
+          {enquiries.map((enq) => {
+            const badge = getStatusBadgeStyle(enq.status);
+            return (
+              <div
+                key={enq.id}
+                style={{
+                  border: '1px solid var(--silver-300)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '1rem',
+                  backgroundColor: enq.updated ? 'rgba(230, 237, 245, 0.7)' : 'var(--white)',
+                  boxShadow: 'var(--shadow-1)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.65rem',
+                }}
+              >
+                {/* Card Title Row: Client Name & ID */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.72rem', fontFamily: 'monospace', color: 'var(--navy-700)', fontWeight: 600 }}>
+                      {enq.id}
+                    </span>
+                    <h4 style={{ margin: '0.1rem 0 0', fontSize: '1.05rem', color: 'var(--navy-900)' }}>
+                      {enq.name}
+                    </h4>
+                  </div>
+                  <span
+                    style={{
+                      ...badge,
+                      padding: '0.2rem 0.55rem',
+                      borderRadius: 'var(--radius-pill)',
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                    }}
+                  >
+                    {enq.status}
+                  </span>
+                </div>
+
+                {/* Details Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.82rem' }}>
+                  <div>
+                    <span style={{ color: 'var(--muted)', display: 'block', fontSize: '0.72rem' }}>Phone</span>
+                    <a href={`tel:${enq.phone}`} style={{ color: 'var(--navy-700)', fontWeight: 500 }}>
+                      {enq.phone}
+                    </a>
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--muted)', display: 'block', fontSize: '0.72rem' }}>Service</span>
+                    <span style={{ color: 'var(--ink)', fontWeight: 500 }}>{enq.service}</span>
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--muted)', display: 'block', fontSize: '0.72rem' }}>Assignee</span>
+                    <span style={{ color: 'var(--muted)' }}>{enq.assignee}</span>
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--muted)', display: 'block', fontSize: '0.72rem' }}>Follow-up</span>
+                    <span style={{ color: enq.followUpDate.includes('Today') ? 'var(--red-600)' : 'var(--muted)', fontWeight: enq.followUpDate.includes('Today') ? 700 : 500 }}>
+                      {enq.followUpDate}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Card Action Row: Status dropdown + View Details */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', marginTop: '0.5rem', paddingTop: '0.65rem', borderTop: '1px solid var(--silver-300)' }}>
+                  <select
+                    value={enq.status}
+                    onChange={(e) => handleStatusChange(enq.id, e.target.value as EnquiryRow['status'])}
+                    aria-label={`Change status for ${enq.name}`}
+                    style={{
+                      flex: 1,
+                      minHeight: '44px',
+                      padding: '0.4rem 0.65rem',
+                      borderRadius: 'var(--radius-sm)',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                      border: '1px solid var(--silver-300)',
+                      backgroundColor: 'var(--white)',
+                      color: 'var(--navy-900)',
+                    }}
+                  >
+                    <option value="New">Status: New</option>
+                    <option value="Contacted">Status: Contacted</option>
+                    <option value="Qualified">Status: Qualified</option>
+                    <option value="In Progress">Status: In Progress</option>
+                    <option value="Converted">Status: Converted</option>
+                    <option value="Closed">Status: Closed</option>
+                  </select>
+
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    style={{ minHeight: '44px', padding: '0.4rem 0.85rem', fontSize: '0.82rem', whiteSpace: 'nowrap' }}
+                    onClick={() => alert(`Opening record for ${enq.name} (${enq.id})`)}
+                  >
+                    Details &rarr;
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -891,7 +891,7 @@ export const Home: React.FC = () => {
           </div>
 
           {/* Unified SIP Illustration Board */}
-          <SipIllustrationBoard id="mutual-funds" compact={true} />
+          <SipIllustrationBoard id="home-sip-illustration" compact={true} />
         </div>
       </section>
 
@@ -1127,6 +1127,7 @@ export const Home: React.FC = () => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
+                flexWrap: 'wrap',
                 gap: '0.5rem',
                 backgroundColor: 'var(--silver-100)',
                 padding: '0.35rem',
@@ -1278,6 +1279,7 @@ export const Home: React.FC = () => {
       >
         {/* Lotus Watermark */}
         <div
+          className="trust-watermark-bg"
           style={{
             position: 'absolute',
             top: '50%',

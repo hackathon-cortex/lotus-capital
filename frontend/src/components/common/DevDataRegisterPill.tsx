@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -6,23 +6,58 @@ import { Link } from 'react-router-dom';
  * Fixed bottom-left floating pill linking to /dev/data-register.
  * Strictly renders only in local development mode (import.meta.env.DEV).
  * Excluded/tree-shaken in production builds.
+ * 24px safe offset from bottom-left; fades out when the site footer is in view.
  */
 export const DevDataRegisterPill: React.FC = () => {
   if (!import.meta.env.DEV) {
     return null;
   }
 
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          setIsFooterVisible(entry.isIntersecting);
+        },
+        { threshold: 0.02 }
+      );
+      observer.observe(footer);
+      return () => observer.disconnect();
+    } else {
+      const checkFooter = () => {
+        const rect = footer.getBoundingClientRect();
+        setIsFooterVisible(rect.top < window.innerHeight);
+      };
+      window.addEventListener('scroll', checkFooter, { passive: true });
+      checkFooter();
+      return () => window.removeEventListener('scroll', checkFooter);
+    }
+  }, []);
+
   return (
-    <aside aria-label="Development Navigation">
+    <aside
+      aria-label="Development Navigation"
+      style={{
+        position: 'fixed',
+        bottom: '24px',
+        left: '24px',
+        zIndex: 9999,
+        opacity: isFooterVisible ? 0 : 1,
+        pointerEvents: isFooterVisible ? 'none' : 'auto',
+        transition: 'opacity 200ms ease',
+      }}
+    >
       <Link
         to="/dev/data-register"
         className="dev-floating-pill"
         data-testid="dev-data-register-pill"
         style={{
-          position: 'fixed',
-          bottom: '18px',
-          left: '18px',
-          zIndex: 9999,
           backgroundColor: '#0A2540',
           color: '#F8FAFC',
           border: '1px solid rgba(255, 255, 255, 0.22)',
@@ -55,4 +90,3 @@ export const DevDataRegisterPill: React.FC = () => {
     </aside>
   );
 };
-

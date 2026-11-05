@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useSearchParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../components/nav/Header';
@@ -8,18 +8,20 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import { ContactDrawerProvider } from '../context/ContactDrawerContext';
 import { ContactDrawer } from '../components/common/ContactDrawer';
 import { DevDataRegisterPill } from '../components/common/DevDataRegisterPill';
+import { StickyMobileCtaBar } from '../components/common/StickyMobileCtaBar';
 import contactData from '@content/data/contact.json';
 
 export const PublicLayout: React.FC = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const previewToken = searchParams.get('preview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Activate scroll-reveal animations across all public routes
   useScrollReveal();
 
   // Scroll to hash anchor on route or hash change
-  React.useEffect(() => {
+  useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace('#', '');
       const el = document.getElementById(id);
@@ -43,7 +45,7 @@ export const PublicLayout: React.FC = () => {
 
   return (
     <ContactDrawerProvider>
-      <div className="public-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className="public-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
         {previewToken && (
           <>
             <Helmet>
@@ -67,7 +69,7 @@ export const PublicLayout: React.FC = () => {
           </>
         )}
 
-        <Header />
+        <Header onMenuToggle={setIsMobileMenuOpen} />
         <Breadcrumbs />
 
         <main style={{ flex: 1, paddingTop: isHeroPage ? 0 : 'var(--header-h)' }} id="main-content" tabIndex={-1}>
@@ -92,6 +94,9 @@ export const PublicLayout: React.FC = () => {
 
         <Footer />
 
+        {/* Sticky Mobile CTA Bar (< 768px, appears after hero scrolls out) */}
+        <StickyMobileCtaBar isMenuOpen={isMobileMenuOpen} />
+
         {/* Global Contact Drawer mounted once */}
         <ContactDrawer />
         <DevDataRegisterPill />
@@ -99,4 +104,3 @@ export const PublicLayout: React.FC = () => {
     </ContactDrawerProvider>
   );
 };
-

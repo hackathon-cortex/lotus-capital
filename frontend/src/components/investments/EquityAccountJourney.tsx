@@ -71,10 +71,10 @@ export const EquityAccountJourney: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
 
-  // Check screen size & reduced motion
+  // Check screen size (< 1024px active only on lg+) & reduced motion
   useEffect(() => {
     const checkViewport = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024);
       setPrefersReducedMotion(
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
       );

@@ -1,0 +1,44 @@
+{
+  "_comment": "Lotus Capital — Global Layout & Responsive Configuration",
+  "breakpoints": {
+    "xs": 0,
+    "sm": 480,
+    "md": 768,
+    "lg": 1024,
+    "xl": 1280,
+    "2xl": 1536
+  },
+  "container": {
+    "maxWidth": 1240,
+    "paddingInline": {
+      "xs": 20,
+      "sm": 24,
+      "md": 32,
+      "lg": 48
+    }
+  },
+  "typography": {
+    "display": "clamp(2.25rem, 6vw + 1rem, 4.5rem)",
+    "display2xl": "clamp(2.5rem, 6vw + 1rem, 5rem)",
+    "h1": "clamp(2rem, 4vw + 0.75rem, 3.25rem)",
+    "h2": "clamp(1.625rem, 2.5vw + 0.75rem, 2.5rem)",
+    "bodyMobile": "16px",
+    "bodyDesktop": "17px",
+    "legal": "13px"
+  },
+  "headerHeights": {
+    "desktop": { "initial": 96, "scrolled": 76 },
+    "tablet": { "initial": 72, "scrolled": 64 },
+    "mobile": { "initial": 64, "scrolled": 56 }
+  },
+  "behavior": {
+    "pinnedTimelinesMinWidth": 1024,
+    "dotNavigatorMinWidth": 1024,
+    "stickyMobileCtaMaxWidth": 767,
+    "marqueeRowsMobile": 1,
+    "marqueeRowsDesktop": 2,
+    "minTouchTargetSize": 44,
+    "minFormFieldHeight": 52
+  }
+}
+

@@ -117,6 +117,7 @@ export const EnquiryThankYou: React.FC = () => {
           paddingTop: '3rem',
           paddingBottom: '5rem',
           position: 'relative',
+          overflow: 'hidden',
         }}
       >
         {/* Subtle Watermark */}
