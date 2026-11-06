@@ -622,3 +622,172 @@ The `/investments/equity` route was comprehensively refined in strict adherence 
   - Captured full-fidelity responsive screenshots across all devices in [`docs/screenshots/responsive/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/responsive/).
   - Documented full guidelines in [`docs/RESPONSIVE_GUIDE.md`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/RESPONSIVE_GUIDE.md).
   - Test suite status: **110 Vitest tests passing across 12 test suites**; **9 backend pytest tests passing**; TypeScript build 100% clean.
+
+
+---
+
+## 19. Global Header & Navigation Redesign (v3 Floating Glass Bar) — November 2026
+
+- **Modular Config-Driven Component Architecture**:
+  - Rebuilt the global header and navigation system as a modular component set:
+    - [`SiteHeader.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/SiteHeader.tsx): Master orchestrator, floating glass bar container, scroll condense/hide hysteresis, `--header-h` CSS variable updating, and top progress bar.
+    - [`NavTrack.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/NavTrack.tsx): Desktop navigation track (rounded 999px inner capsule) with mathematically measured sliding pill, exact route matching, zero-width-shift typography, and 4px red active dot.
+    - [`NavMegaMenu.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/NavMegaMenu.tsx): 2-part glass Services panel (30% intro column + 3x2 grid of 6 services with line icons and descriptors), 120ms/220ms hover intent, invisible hover bridge, pointer notch, and 2D arrow-key grid navigation.
+    - [`MobileDrawer.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/MobileDrawer.tsx): Tablet & mobile (< 1024px) off-canvas right sheet with staggered entrance (60ms), expandable Services accordion with line icons, pinned red CTA ("Talk to an Advisor"), "Godhra, Gujarat" silver tag, focus trapping, and zero-jump scroll lock.
+    - [`ServiceNavIcon.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/ServiceNavIcon.tsx): 1.5px stroke navy/silver line icons for all 6 services (zero emoji, zero colored illustration fills).
+    - [`navigation.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/config/navigation.ts): Single source of truth for nav items, route matching prefix rules, services metadata, and route tone mapping.
+    - [`header.css`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/styles/header.css): Complete styling adhering strictly to brand hex tokens.
+- **Desktop Floating Glass Bar (≥ 1024px)**:
+  - Container: Max-width 1280px, centred, floating 16px from the top with `border-radius: 32px`.
+  - Glass Treatment: `background: rgba(18, 61, 103, 0.72); backdrop-filter: blur(14px);` with solid navy fallback `#0A2540`.
+  - Brand Logo: White SVG logo, max-height 54px unclipped inside bar, legible wordmark, with gentle one-time lotus glow animation on load (`@keyframes lotus-logo-glow`).
+  - Three Zones: Logo on left, NavTrack in centre, "Talk to an Advisor" CTA on right.
+  - Spacing & Sticky Stacks: Dynamic `--header-h` CSS variable updated on mount, resize, and scroll condense/expand so sticky stacks on Life, Health, Services, and More Solutions offset cleanly.
+- **Glitch-Free Sliding Pill (`NavTrack`)**:
+  - Absolutely positioned pill (`background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px;`).
+  - Animates strictly via `transform: translateX(...)` and `width` over 260ms cubic-bezier(0.22, 1, 0.36, 1). Zero left/margin animation.
+  - Resting position is locked to the active route's link. On pointer enter of any link, glides smoothly. On pointer leave of the track, glides back to active tab (or fades out if no tab is active).
+  - First paint: Initial placement has `transition: none` to eliminate any sweep-in from the left.
+  - Re-measurement triggers: Mount, route changes, window resize (`ResizeObserver`), and `document.fonts.ready`.
+  - Zero Layout Shift: Links use Poppins 500 across all default, hover, and active states (no bold-on-hover font shifts).
+  - Active tab indicated by full-opacity white text with a 4px red dot centered 6px below label.
+- **Services Mega-Menu (`NavMegaMenu`)**:
+  - Hover intent: 120ms open delay, 220ms close delay.
+  - Invisible hover bridge connects trigger to panel so diagonal cursor movement never accidentally closes the menu.
+  - Anchored pointer notch centered on the Services trigger button.
+  - Left column (~30%): "OUR SERVICES" eyebrow, neutral descriptor, and "View all services ->" link to `/services`.
+  - Right column: 3x2 grid of 6 services (General Insurance, Life Insurance, Health Insurance, Mutual Funds, Equity & Investments, More Solutions) with line icons and short descriptors from `services.json`. Active service displays a red dot.
+  - Full keyboard accessibility: Arrow keys navigate 2D grid, Home/End jump to first/last, Escape closes and restores focus to the trigger button.
+- **Scroll Behavior & Tone Management**:
+  - Hysteresis: Condenses at scrollY > 24px (height -12%, deeper shadow, more opaque navy); expands below 8px.
+  - Hide-on-scroll: Fast scroll down hides bar; scroll up reveals bar. Hiding is suppressed whenever the mega-menu is open, mobile drawer is open, or an element inside the header has focus.
+  - Red Progress Bar: Embedded at viewport top (`top: 0`, `z-index: 1050`), tracks scroll progress across all pages.
+  - Route Tone (`headerTone`):
+    - `dark-hero`: (`/`, `/services`, `/services/*`, `/investments/*`) starts in transparent navy glass over hero.
+    - `solid`: (`/about-us`, `/insights`, `/insights/*`, legal pages, `/404`) starts in solid navy glass (`#0A2540` / `rgba(10, 37, 64, 0.96)`) guaranteeing high AAA contrast on light pages.
+- **Tablet & Mobile Navigation (< 1024px)**:
+  - Compact floating bar (60px height) with logo, compact red "Talk" pill, and morphing hamburger button (44x44px).
+  - Off-canvas drawer sheet with faint lotus watermark at bottom right.
+  - Staggered link reveal (`index * 60ms`).
+  - Services accordion expands smoothly to display all 6 services with line icons and descriptors.
+  - Pinned bottom red CTA button and silver "Godhra, Gujarat" tag.
+  - Body scroll lock with zero scroll jump on open/close.
+- **Colour & Quality Assurance**:
+  - Strict Brand Palette: Verified across CSS and components via automated lint tests (`#051329`, `#071B30`, `#0A2540`, `#0E3154`, `#123D67`, `#1B4F82`, `#E6EDF5`, `#FFFFFF`, `#D7D9DC`, `#F3F5F7`, `#8A949D`, `#5B6770`, `#1F2933`, `#D9232D`, `#C81B29`, `#E92332`, `#B91C1C`). Zero forbidden accents (no teal, green, gold, purple).
+  - Automated Vitest Suite: **130 tests passing across 13 test suites** (including new [`headerBrandAndNav.test.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/headerBrandAndNav.test.tsx)).
+  - Headless Chrome CDP Verification: **12 automated checks passed** across desktop (1440px), tablet (1024px), and mobile (375px/320px).
+  - Screenshots captured and cataloged in [`docs/screenshots/nav-v3/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/docs/screenshots/nav-v3/):
+    1. `01_1440_life_dark_hero_top.png`: Header over dark hero (/services/life-insurance at 1440px)
+    2. `02_1440_life_condensed_scrolled.png`: Header condensed after scroll (1440px)
+    3. `03_1440_about_solid_light.png`: Header on light page (/about-us at 1440px)
+    4. `04_1440_services_megamenu_open.png`: Services mega-menu open with 2-part layout and line icons
+    5. `05_1440_pill_hover_mutual_funds.png`: Sliding pill hovering Mutual Funds link
+    6. `06_1440_pill_hover_equity.png`: Sliding pill hovering Equity link
+    7. `07_1440_pill_resting_after_leave.png`: Sliding pill resting on active link after cursor leaves track
+    8. `08_1024_tablet_header.png`: Header on tablet (1024px)
+    9. `09_375_mobile_drawer_expanded.png`: Mobile drawer open with Services accordion expanded (375px)
+    10. `10_375_mobile_header_top.png`: Mobile compact header at top (375px)
+
+---
+
+## 20. Dot Navigator Site-Wide Removal — November 2026
+Dot navigator removed site-wide on client request.
+
+- **Component & Configuration Retirement**:
+  - Removed `DotNavigator.tsx` from [`frontend/src/components/common/`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/common/).
+  - Removed hover/focus tooltip styles from [`frontend/src/styles/main.css`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/styles/main.css).
+  - Cleaned layout configuration and responsive types: removed `dotNavigatorMinWidth` from [`content/data/layout.json`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/content/data/layout.json) and [`frontend/src/config/responsive.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/config/responsive.ts).
+- **Page Cleanup Across All Routes**:
+  - Cleaned all 10 public pages: [`Home.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/Home.tsx), [`AboutUs.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/AboutUs.tsx), [`Services.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/Services.tsx), [`GeneralInsurance.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/GeneralInsurance.tsx), [`LifeInsurance.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/LifeInsurance.tsx), [`HealthInsurance.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/HealthInsurance.tsx), [`MutualFunds.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/MutualFunds.tsx), [`Equity.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/Equity.tsx), [`OtherSolutions.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/OtherSolutions.tsx), and [`Insights.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/pages/public/Insights.tsx).
+  - Removed all `*_NAV_SECTIONS` arrays and `<DotNavigator />` component mounts.
+  - Preserved 100% of internal HTML anchor targets (`#hero`, `#sip-calculator`, `#compare`, `#journey`, `#broking`, `#enquiry`, `#faqs`, `#jargon`, `#paths`, etc.) ensuring deep links, smooth scrolling, and navigation remain fully intact.
+- **Regression Protection**:
+  - Added dedicated test suite [`frontend/tests/dotNavigatorRegression.test.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/tests/dotNavigatorRegression.test.tsx) verifying that no element with `.dot-navigator`, `[data-testid="dot-navigator"]`, `.dot-nav-item`, or `aria-label*="Section navigation"` renders on any public route, and asserting all required section anchors remain intact.
+- **Right-Edge Layout & Spacing Integrity**:
+  - Verified no phantom spacing, reserved margin, or layout shift remains along the right viewport edge across standard (1440px) and wide (1920px) screens.
+
+---
+
+## 21. Refinement Round 3: Shared Root Causes, PinnedStage & Section Geometry — November 2026
+
+This round remediated the 8 visible layout and interaction defects identified across Home, About, General Insurance, Health Insurance, and Equity by addressing their shared architectural root causes in the core component layer.
+
+### Shared Architectural Root Causes Remediation
+
+1. **R1: PinnedStage Overhaul & Timing Configuration (`src/config/pinned.ts`)**:
+   - Replaced bloated 300–400svh outer height and 100svh inner stage with single source of truth:
+     * Inner stage height: `clamp(480px, calc(100svh - var(--header-h, 88px) - 32px), 620px)` vertically centered.
+     * Stacking context: `position: sticky; top: calc(var(--header-h, 88px) + 16px)` with `z-index: 15` (strictly below floating header `z-index: 50`).
+     * Scroll length: `scrollPerStepVh: 45` clamped between `120svh` and `260svh` (4 steps = 180svh outer scroll).
+     * Accelerated mapping: Progress reaches 1.0 at 85% of scroll range and dwells for the last 15%; steps activate earlier at `(i + 0.35) / steps`.
+     * Zero bottom spacer; clean release when stage completes.
+     * Mobile fallback (< 1024px or reduced motion): No pinning; renders accessible vertical timeline with line-draw on scroll.
+
+2. **R2: Universal Numeral Wrapping Elimination (`[data-numeral]`)**:
+   - Root cause: Global CSS `overflow-wrap: anywhere` allowed browsers to break numbers across lines (e.g. `0` / `3`, `2` / `0` / `0` / `8`).
+   - Solution: Added global CSS rule for `[data-numeral]` enforcing `white-space: nowrap !important; writing-mode: horizontal-tb !important; font-variant-numeric: tabular-nums !important; flex-shrink: 0 !important; min-width: max-content !important; overflow-wrap: normal !important; word-break: keep-all !important;`.
+   - Applied to: All step numbers ("01"–"06"), milestone years (2006, 2008, 2012, 2016), and statistic badges across Home, About, General Insurance, Health Insurance, Life Insurance, and Equity.
+   - Verified by automated test in `refinementRound3.test.tsx`.
+
+3. **R3: SVG Marker & Fill Geometry Synchronization**:
+   - Root cause: Traveling lotus marker and gradient area fills previously relied on disconnected percentage math, creating visual drift and detached background rectangles.
+   - Solution: Traveling lotus marker and gradient area fills are now mathematically locked inside unified SVG viewBoxes using synchronized coordinates and SVG `<clipPath>` (`#howWeWorkClip`, `#journeyAreaClip`). Area fills under the baseline line draw strictly up to the marker's current coordinate.
+
+### Specific Section Implementations
+
+- **Point 1: Home How We Work (`HomeHowWeWork.tsx`)**:
+  - Stage height ~520px via `PINNED_CONFIG`.
+  - 4 nodes evenly spaced horizontally at `12.5%`, `37.5%`, `62.5%`, and `87.5%`.
+  - 4 cards (280px wide) alternating above and below baseline (01 above, 02 below, 03 above, 04 below).
+  - Copy strictly from `01-home.md`:
+    1. *"We listen to your goals and circumstances."*
+    2. *"We explain the options available and their risks."*
+    3. *"We help with the application or transaction process through the relevant provider."*
+    4. *"We stay available for follow-up and servicing."*
+  - Synchronized SVG baseline, area fill, and traveling lotus marker with illuminated node circles that pop and stay lit.
+
+- **Point 2: About Our Journey (`OurJourneyTimeline.tsx`)**:
+  - 4 confirmed milestones strictly from `milestones.json` (2006, 2008, 2012, 2016).
+  - Removed "Confirmed Milestone" badge.
+  - Symmetrical card width (360px), smooth horizontal scroll track, and mobile vertical fallback.
+
+- **Point 3: General Insurance Hero & StepScroller (`StepScroller.tsx`)**:
+  - Hero background strictly `var(--navy-950)` to `var(--navy-900)`.
+  - Coverage board card restyled to `var(--navy-800)` with teal/steel/red accents.
+  - 4 steps strictly from `04-general-insurance.md` with step numbers protected against wrapping.
+
+- **Point 4: Health Insurance Process Timeline (`HealthProcessTimeline.tsx`)**:
+  - Resolved 1-letter-per-line squish bug by establishing a stable `gridTemplateColumns: 1fr 56px 1fr` structure.
+  - Alternating cards explicitly assigned to column 1 or column 3 with center node in column 2.
+  - Removed invasive paperwork claims; copy strictly aligned with `06-health-insurance.md`.
+
+- **Point 5: Equity Broking Partner Frame (`Equity.tsx` & `BrokingPartnerFrame.tsx`)**:
+  - Purged `#4F5FB0` from hero background.
+  - `navy-900` stage with `navy-800` cards.
+  - SVG rotating seal ring with unclipped text: `AUTHORISED PERSON • RELIGARE BROKING LIMITED •`.
+
+- **Point 6: Home Learn Before You Invest (`Home.tsx`)**:
+  - 3 equal cards in 1 row (`repeat(auto-fit, minmax(280px, 1fr))`).
+  - Numerals ("01", "02", "03"), category pills, and 96px SVGs (Risk Gauge, Hourglass, Asset Allocation Pie).
+  - Arrow links styled with `var(--lotus-red-fill, #C81B29)` ensuring >= 4.5:1 AAA contrast.
+
+- **Point 7: Header Backdrop Strip (`SiteHeader.tsx`)**:
+  - Semi-opaque dark navy backdrop strip (`.site-header-backdrop`) rendered behind floating glass bar to prevent page text from showing through header on scroll.
+
+### Verification & Test Status
+- **Vitest Test Suite**: 15 test files / **159 tests passing** (`npm test --prefix frontend`).
+- **Production Build**: Clean compilation with 0 errors via `npm run build --prefix frontend`.
+- **Headless Chrome CDP Screenshots**: 11 verification screenshots captured in `docs/screenshots/refinement-round-3/`:
+  1. `01-home-header-scrolled-backdrop-1440.png`
+  2. `02-home-equity-navy800-card-1440.png`
+  3. `03-home-how-we-work-stage-1440.png`
+  4. `04-home-learn-cards-1row-1440.png`
+  5. `05-about-our-journey-timeline-1440.png`
+  6. `06-general-insurance-stepscroller-1440.png`
+  7. `07-health-insurance-process-timeline-1440.png`
+  8. `08-equity-broking-seal-frame-1440.png`
+  9. `09-home-mobile-375.png`
+  10. `10-gi-mobile-vertical-steps-375.png`
+  11. `11-health-mobile-timeline-375.png`
+
+

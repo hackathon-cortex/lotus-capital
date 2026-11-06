@@ -144,6 +144,7 @@ export const CategoryBento: React.FC<CategoryBentoProps> = ({
   return (
     <section
       id={id}
+      data-tone="light"
       className="section-padding bg-light stacked-section gi-stacked-section"
       style={{
         position: 'relative',

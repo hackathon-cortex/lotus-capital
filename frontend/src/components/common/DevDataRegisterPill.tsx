@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useContactDrawer } from '../../context/ContactDrawerContext';
 
 /**
  * DevDataRegisterPill
  * Fixed bottom-left floating pill linking to /dev/data-register.
  * Strictly renders only in local development mode (import.meta.env.DEV).
  * Excluded/tree-shaken in production builds.
- * 24px safe offset from bottom-left; fades out when the site footer is in view.
+ * 16px safe offset from bottom-left; height 28px; opacity 70%;
+ * hides when drawer/modal is open or when site footer is in view.
  */
 export const DevDataRegisterPill: React.FC = () => {
   if (!import.meta.env.DEV) {
     return null;
   }
 
+  const { isOpen: isDrawerOpen } = useContactDrawer();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const footer = document.querySelector('footer');
@@ -40,18 +44,22 @@ export const DevDataRegisterPill: React.FC = () => {
     }
   }, []);
 
+  const isHidden = isFooterVisible || isDrawerOpen;
+
   return (
     <aside
       aria-label="Development Navigation"
       style={{
         position: 'fixed',
-        bottom: '24px',
-        left: '24px',
+        bottom: '16px',
+        left: '16px',
         zIndex: 9999,
-        opacity: isFooterVisible ? 0 : 1,
-        pointerEvents: isFooterVisible ? 'none' : 'auto',
-        transition: 'opacity 200ms ease',
+        opacity: isHidden ? 0 : isHovered ? 1 : 0.7,
+        pointerEvents: isHidden ? 'none' : 'auto',
+        transition: 'opacity 200ms ease, transform 200ms ease',
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Link
         to="/dev/data-register"
@@ -62,7 +70,8 @@ export const DevDataRegisterPill: React.FC = () => {
           color: '#F8FAFC',
           border: '1px solid rgba(255, 255, 255, 0.22)',
           borderRadius: '9999px',
-          padding: '5px 11px',
+          height: '28px',
+          padding: '0 10px',
           fontSize: '11px',
           fontFamily: 'var(--font-mono, monospace)',
           fontWeight: 700,

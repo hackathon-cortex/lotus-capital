@@ -8,17 +8,7 @@ import { InsightsLibraryBento } from '../../components/insights/InsightsLibraryB
 import { LearningPathsSection } from '../../components/insights/LearningPathsSection';
 import { JargonBusterSection } from '../../components/insights/JargonBusterSection';
 import { EnquiryPanel } from '../../components/enquiry/EnquiryPanel';
-import { DotNavigator } from '../../components/common/DotNavigator';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-
-const INSIGHTS_SECTIONS = [
-  { id: 'hero', label: 'Hero' },
-  { id: 'featured', label: 'Featured' },
-  { id: 'library', label: 'Library' },
-  { id: 'paths', label: 'Paths' },
-  { id: 'jargon', label: 'Jargon' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 const CATEGORIES = [
   'All',
@@ -91,9 +81,6 @@ export const Insights: React.FC = () => {
 
       {/* Red Reading Scroll Progress Bar */}
       <ScrollProgressBar />
-
-      {/* Right Side Dot Navigator */}
-      <DotNavigator sections={INSIGHTS_SECTIONS} />
 
       <div
         className="insights-canvas-bg"

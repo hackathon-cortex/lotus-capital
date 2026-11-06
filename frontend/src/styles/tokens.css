@@ -7,26 +7,34 @@
   --bp-xl: 1280px;
   --bp-2xl: 1536px;
 
-  /* Colour */
-  --navy-950: #071b30;
-  --navy-900: #0a2540;
-  --navy-800: #0e3154;
-  --navy-700: #123d67;
-  --navy-600: #1b4f82;
-  --navy-100: #e6edf5;
-  --silver-300: #d7d9dc;
-  --silver-100: #f3f5f7;
-  --silver-500: #8a949d;
-  --white: #ffffff;
-  --red-300: #ff6b76;
-  --red-500: #e92332;
-  --red-600: #c81b29;
-  --red-700: #a91621;
-  --ink: #1f2933;
-  --muted: #5b6770;
-  --success: #1e7f4f;
-  --warning: #9a6700;
-  --danger: #b42318;
+  /* Navy Ramp & Brand Palette Tokens (Single Source of Truth) */
+  --navy-950: #071B30;
+  --navy-900: #0A2540;
+  --navy-850: #0C2D4D;
+  --navy-800: #0E3154;
+  --navy-700: #123D67;
+  --navy-600: #1B4F82;
+  --navy-100: #E6EDF5;
+  --silver-300: #D7D9DC;
+  --silver-100: #F3F5F7;
+  --silver-500: #8A949D;
+  --white: #FFFFFF;
+  --canvas-grey: #EEF1F4;
+  --steel-accent: #5B8DB8;
+  --royal-accent: #2F6FB0;
+  --teal-accent: #1F6F8B;
+  --indigo-accent: #4F5FB0;
+  --lotus-red: #E92332;
+  --lotus-red-fill: #C81B29;
+  --red-300: #FF6B76;
+  --red-500: #E92332;
+  --red-600: #C81B29;
+  --red-700: #A91621;
+  --ink: #1F2933;
+  --muted: #5B6770;
+  --success: #1E7F4F;
+  --warning: #9A6700;
+  --danger: #B42318;
 
   /* Type */
   --font-heading: "Poppins", system-ui, "Noto Sans Gujarati", sans-serif;

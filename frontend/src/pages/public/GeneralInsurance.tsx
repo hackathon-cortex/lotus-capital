@@ -10,17 +10,6 @@ import { StepScroller } from '../../components/insurance/StepScroller';
 import { FaqAccordion } from '../../components/insurance/FaqAccordion';
 import { EnquiryPanel } from '../../components/enquiry/EnquiryPanel';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const GI_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Overview' },
-  { id: 'categories', label: 'Categories' },
-  { id: 'compare', label: 'Compare' },
-  { id: 'process', label: 'Process' },
-  { id: 'partners', label: 'Partners' },
-  { id: 'faqs', label: 'FAQs' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 export const GeneralInsurance: React.FC = () => {
   const seo = seoData['/services/general-insurance'];
@@ -81,11 +70,8 @@ export const GeneralInsurance: React.FC = () => {
       {/* Thin Red Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* Dot Navigator */}
-      <DotNavigator sections={GI_NAV_SECTIONS} />
-
       {/* Main Content Layout with Stacked Overlaps */}
-      <div className="gi-page-wrapper" style={{ overflowX: 'hidden' }}>
+      <div className="gi-page-wrapper" style={{ overflow: 'clip' }}>
         
         {/* 1. Page Hero + Coverage Board */}
         <div id="hero">
@@ -104,6 +90,7 @@ export const GeneralInsurance: React.FC = () => {
         {/* 5. Underwriting Partners */}
         <section
           id="partners"
+          data-tone="light"
           className="gi-stacked-section section-padding"
           style={{
             position: 'relative',
@@ -231,6 +218,7 @@ export const GeneralInsurance: React.FC = () => {
 
         {/* 7. Risk / Solicitation Notice */}
         <section
+          data-tone="light"
           style={{
             position: 'relative',
             zIndex: 15,
@@ -288,6 +276,8 @@ export const GeneralInsurance: React.FC = () => {
 
         {/* 8. Enquiry Panel (<= 560px Desktop Height, Compact Split Card) */}
         <section
+          id="enquiry"
+          data-tone="light"
           style={{
             position: 'relative',
             zIndex: 16,

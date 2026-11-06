@@ -12,17 +12,6 @@ import { PartnerMarquee, PartnerItem } from '../../components/insurance/PartnerM
 import { FaqAccordion } from '../../components/insurance/FaqAccordion';
 import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const LIFE_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Overview' },
-  { id: 'types', label: 'Types' },
-  { id: 'compare', label: 'Compare' },
-  { id: 'process', label: 'Process' },
-  { id: 'partners', label: 'Partners' },
-  { id: 'faqs', label: 'FAQs' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 const LIFE_SERVICE_OPTIONS: ServiceDetailOption[] = [
   { id: 'term', label: 'Term Life' },
@@ -98,9 +87,6 @@ export const LifeInsurance: React.FC = () => {
 
       {/* Thin Red Scroll Progress Bar */}
       <ScrollProgressBar />
-
-      {/* Dot Navigator */}
-      <DotNavigator sections={LIFE_NAV_SECTIONS} />
 
       {/* Page Content Layout with Stacked Overlaps */}
       <div className="life-page-wrapper" style={{ overflowX: 'hidden' }}>

@@ -1,4 +1,5 @@
 @import './tokens.css';
+@import './header.css';
 
 *,
 *::before,
@@ -34,6 +35,17 @@ body {
 /* Break long unbroken strings without overflow */
 p, span, h1, h2, h3, h4, h5, h6, a, code {
   overflow-wrap: anywhere;
+}
+
+/* Numeral Wrapping Protection (R2) */
+[data-numeral] {
+  white-space: nowrap !important;
+  writing-mode: horizontal-tb !important;
+  font-variant-numeric: tabular-nums !important;
+  flex-shrink: 0 !important;
+  min-width: max-content !important;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
 }
 
 /* Images and media never cause horizontal overflow */
@@ -1640,13 +1652,93 @@ input[type="range"]::-moz-range-thumb {
   margin-bottom: 0.6rem;
 }
 
-/* Stacked Section Overlap Feel */
+/* ==========================================================================
+   Section Transition & Tone System (A4 / B1)
+   - Dark-to-dark pairs NEVER stack; 1px divider + 48-64px vertical gap
+   - Light-to-light pairs NEVER stack
+   - Rounded-corner stacking (32px radius) used ONLY when tone alternates (light -> dark or dark -> light)
+   - Subtle 80px gradient fade at light-to-dark boundary
+   ========================================================================== */
+
+/* Anchored sections scroll margin to clear fixed header (C2) */
+section[id],
+div[id],
+[id].stacked-section,
+.service-hero-section {
+  scroll-margin-top: calc(var(--header-h, 88px) + 24px);
+}
+
+/* Hero section top padding to clear floating header (C4) */
+.home-hero {
+  padding-top: calc(var(--header-h, 88px) + 28px) !important;
+}
+
+.about-hero-section {
+  padding-top: calc(var(--header-h, 88px) + 28px) !important;
+}
+
+.service-hero {
+  padding-top: calc(var(--header-h, 88px) + 28px) !important;
+}
+
+/* Base section stack */
 .stacked-section {
-  border-top-left-radius: 32px;
-  border-top-right-radius: 32px;
-  margin-top: -32px;
   position: relative;
-  box-shadow: 0 -8px 24px rgba(10, 37, 64, 0.04);
+  z-index: 1;
+}
+
+/* 1. Dark-to-Dark Transition: NO rounded corners, NO overlap, 1px divider + 48-64px gap */
+[data-tone="dark"] + [data-tone="dark"].stacked-section,
+[data-tone="dark"] + [data-tone="dark"] {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  margin-top: 0 !important;
+  border-top: 1px solid rgba(215, 217, 220, 0.12) !important;
+  padding-top: clamp(48px, 6vw, 64px) !important;
+  box-shadow: none !important;
+}
+
+/* 2. Light-to-Light Transition: Flat clean continuation */
+[data-tone="light"] + [data-tone="light"].stacked-section,
+[data-tone="light"] + [data-tone="light"] {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  margin-top: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 3. Light-to-Dark Transition: 32px rounded top corners, -32px overlap, soft 80px gradient boundary fade */
+[data-tone="light"] + [data-tone="dark"].stacked-section,
+[data-tone="light"] + [data-tone="dark"] {
+  border-top-left-radius: 32px !important;
+  border-top-right-radius: 32px !important;
+  margin-top: -32px !important;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 -12px 32px rgba(7, 27, 48, 0.16);
+}
+
+[data-tone="light"] + [data-tone="dark"]::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(7, 27, 48, 0) 0%, rgba(7, 27, 48, 0.08) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 4. Dark-to-Light Transition: 32px rounded top corners, -32px overlap */
+[data-tone="dark"] + [data-tone="light"].stacked-section,
+[data-tone="dark"] + [data-tone="light"] {
+  border-top-left-radius: 32px !important;
+  border-top-right-radius: 32px !important;
+  margin-top: -32px !important;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 -12px 32px rgba(7, 27, 48, 0.10);
 }
 
 /* Hero Typography & Underline */
@@ -1967,38 +2059,36 @@ input[type="range"]::-moz-range-thumb {
   box-shadow: 0 4px 12px rgba(10, 37, 64, 0.15);
 }
 
-/* Learn Before You Invest Cards & Hover Tilt */
+/* Learn Before You Invest Cards (B3: Professional 1-row layout, 6px lift, no 3D tilt) */
 .learn-card {
   background: var(--white);
   border: 1px solid var(--silver-300);
   border-radius: 24px;
-  padding: 2rem 1.75rem;
+  padding: 1.75rem 1.5rem;
+  max-height: 340px;
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  transition: all var(--dur-base) var(--ease-standard);
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 280ms ease;
   text-decoration: none;
   color: inherit;
 }
 
-.learn-card:hover {
-  box-shadow: var(--shadow-hover);
-  border-color: var(--navy-600);
-}
+@media (hover: hover) and (pointer: fine) {
+  .learn-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(7, 27, 48, 0.12);
+    border-color: var(--steel-accent, #5B8DB8);
+  }
 
-.learn-card:nth-child(1):hover {
-  transform: translateY(-6px) rotate(-1.5deg);
-}
-
-.learn-card:nth-child(2):hover {
-  transform: translateY(-6px) rotate(1.5deg);
-}
-
-.learn-card:nth-child(3):hover {
-  transform: translateY(-6px) rotate(-1.5deg);
+  .learn-card:hover .learn-svg-illustration {
+    transform: scale(1.04);
+  }
 }
 
 .learn-card-watermark {
@@ -2007,11 +2097,20 @@ input[type="range"]::-moz-range-thumb {
   right: 1.25rem;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 3.5rem;
+  font-size: 3.25rem;
   line-height: 1;
   color: rgba(18, 61, 103, 0.06);
   pointer-events: none;
   user-select: none;
+}
+
+.learn-svg-illustration {
+  transition: transform 280ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  margin-bottom: 0.85rem;
 }
 
 @media (max-width: 768px) {
@@ -3248,15 +3347,6 @@ button.footer-link-button:hover {
 .nav-link-item.is-active::after,
 .nav-link-item[aria-current="page"]::after {
   transform: scaleX(1);
-}
-
-/* Dot Navigator Tooltip on Hover/Focus */
-.dot-nav-item:hover .dot-nav-label,
-.dot-nav-item:focus .dot-nav-label,
-.dot-nav-item:focus-visible .dot-nav-label {
-  opacity: 1 !important;
-  transform: translateX(0) !important;
-  pointer-events: auto !important;
 }
 
 /* Fallback for native nav-link class if applied */

@@ -9,14 +9,6 @@ import { SolutionsCategoriesStack } from '../../components/solutions/SolutionsCa
 import { FaqAccordion } from '../../components/insurance/FaqAccordion';
 import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const OTHER_SOLUTIONS_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Overview' },
-  { id: 'types', label: 'Options' },
-  { id: 'faqs', label: 'FAQs' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 const OTHER_SOLUTIONS_OPTIONS: ServiceDetailOption[] = [
   { id: 'corporate-fd', label: 'Corporate fixed deposits' },
@@ -89,9 +81,6 @@ export const OtherSolutions: React.FC = () => {
 
       {/* Thin Red Scroll Progress Bar */}
       <ScrollProgressBar />
-
-      {/* Dot Navigator (Renders only the 4 rendered sections) */}
-      <DotNavigator sections={OTHER_SOLUTIONS_NAV_SECTIONS} />
 
       {/* Page Content Layout with Stacked Overlaps */}
       <div className="other-solutions-page-wrapper" style={{ overflowX: 'hidden' }}>

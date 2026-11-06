@@ -20,7 +20,7 @@ All breakpoint tokens, fluid typography clamp definitions, container paddings, t
 | `sm` | `480px` | Large phones & phablets (480px–767px) | 1-col grids, 24px padding, 2x2 stat chips, full-screen menu |
 | `md` | `768px` | Tablets portrait (iPad Mini, iPad 10th) | 2-col grids, 32px padding, Header tablet CTA + menu toggle, 72px admin rail |
 | `lg` | `1024px` | Tablets landscape, iPad Pro, Small Laptops | 3-col / 12-col grids, 48px padding, pinned timelines active, 248px admin sidebar |
-| `xl` | `1280px` | Standard Laptops & Desktops | Single-line nav (>=1100px), dot navigator active, full 4-col footer |
+| `xl` | `1280px` | Standard Laptops & Desktops | Single-line nav (>=1100px), full 4-col footer |
 | `2xl` | `1536px` | Ultra-wide Displays (1920px+) | 1240px container centred, fluid typography upper bounds |
 
 ---
@@ -66,7 +66,7 @@ Headings enforce `text-wrap: balance` to eliminate awkward typographic orphans, 
 | **Hero Sections** | Single column. Stacked full-width buttons (52px). Stat card in-flow 2x2 grid. | 2-column or stacked. Board below text. 4-across stat card. | 2-column split (7 cols text / 5 cols board). Overlapping 4-chip stat card. |
 | **SIP Board** | Single column. Controls on top, results metrics above SVG chart (220px). 44px touch sliders. | Single column. Sliders and results stacked. Full width. | 2-column grid (~45% sliders, ~55% results & chart). 320px chart height. |
 | **Timelines** | Vertical timeline with connecting line on left. Container height `auto` (zero scroll hijack). | Vertical timeline with connecting line on left. Container height `auto`. | Pinned horizontal / scroll-linked stages (100vh sticky window, 250vh–400vh wrapper). |
-| **Dot Navigator** | Hidden (`display: none !important`). | Hidden (`display: none !important`). | Visible fixed right-side rail (≥ 1024px). Interactive tooltips. |
+| **Dot Navigator** | Removed site-wide. | Removed site-wide. | Removed site-wide on client request. |
 | **Site Footer** | 1 column in logical order: Brand → Contact → Services → Company & Legal. | 2 columns side by side. 12px link vertical rhythm. | 4 columns: Brand (1.4fr), Services (1fr), Company & Legal (1fr), Contact & Hours (1.2fr). |
 | **Admin Panel** | Off-canvas drawer with hamburger topbar. Tables transform into responsive cards. | 72px collapsed icon rail sidebar. | 248px permanent sidebar with full navigation and metrics table. |
 | **WhatsApp Button** | 52x52px pill/circle, elevated above sticky CTA (`bottom: calc(76px + env(safe-area-inset-bottom))`). | Fixed bottom-right `24px`. | Fixed bottom-right `24px`. Hover elevation active. |

@@ -3,7 +3,6 @@ import { render, screen, within, fireEvent, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Footer } from '../src/components/nav/Footer';
-import { DotNavigator } from '../src/components/common/DotNavigator';
 import { DevDataRegisterPill } from '../src/components/common/DevDataRegisterPill';
 import { ContactDrawerProvider } from '../src/context/ContactDrawerContext';
 import disclaimersData from '@content/data/disclaimers.json';
@@ -245,103 +244,6 @@ describe('Site Footer Layout & Consistency', () => {
   });
 });
 
-describe('DotNavigator Interactions', () => {
-  let intersectionCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
-
-  beforeEach(() => {
-    window.IntersectionObserver = vi.fn().mockImplementation((callback) => {
-      intersectionCallback = callback;
-      return {
-        observe: vi.fn(),
-        unobserve: vi.fn(),
-        disconnect: vi.fn(),
-      };
-    }) as any;
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it('renders exactly 13 default navigation dots matching Home sections', () => {
-    render(<DotNavigator />);
-
-    const nav = screen.getByTestId('dot-navigator');
-    expect(nav).toBeInTheDocument();
-
-    // Verify 13 dots
-    const buttons = within(nav).getAllByRole('button');
-    expect(buttons).toHaveLength(13);
-  });
-
-  it('displays section tooltip on hover and focus', () => {
-    render(<DotNavigator />);
-
-    const heroBtn = screen.getByTestId('dot-nav-hero');
-    const heroTooltip = screen.getByTestId('dot-nav-label-hero');
-
-    // Initially tooltip is hidden
-    expect(heroTooltip).toHaveStyle({ opacity: '0' });
-
-    // Hover over hero dot
-    fireEvent.mouseEnter(heroBtn);
-    expect(heroTooltip).toHaveStyle({ opacity: '1' });
-
-    // Mouse leave hides it
-    fireEvent.mouseLeave(heroBtn);
-    expect(heroTooltip).toHaveStyle({ opacity: '0' });
-
-    // Focus shows tooltip
-    fireEvent.focus(heroBtn);
-    expect(heroTooltip).toHaveStyle({ opacity: '1' });
-
-    // Blur hides tooltip
-    fireEvent.blur(heroBtn);
-    expect(heroTooltip).toHaveStyle({ opacity: '0' });
-  });
-
-  it('fades out DotNavigator when footer enters viewport', () => {
-    // Provide a mock footer element in document
-    const mockFooter = document.createElement('footer');
-    document.body.appendChild(mockFooter);
-
-    render(<DotNavigator />);
-    const nav = screen.getByTestId('dot-navigator');
-
-    expect(nav).toHaveStyle({ opacity: '1', pointerEvents: 'auto' });
-
-    // Trigger footer intersecting viewport
-    if (intersectionCallback) {
-      act(() => {
-        intersectionCallback!([
-          {
-            isIntersecting: true,
-            target: mockFooter,
-          } as any,
-        ]);
-      });
-    }
-
-    expect(nav).toHaveStyle({ opacity: '0', pointerEvents: 'none' });
-
-    // Trigger footer leaving viewport
-    if (intersectionCallback) {
-      act(() => {
-        intersectionCallback!([
-          {
-            isIntersecting: false,
-            target: mockFooter,
-          } as any,
-        ]);
-      });
-    }
-
-    expect(nav).toHaveStyle({ opacity: '1', pointerEvents: 'auto' });
-
-    document.body.removeChild(mockFooter);
-  });
-});
-
 describe('DevDataRegisterPill Interactions', () => {
   let intersectionCallback: ((entries: IntersectionObserverEntry[]) => void) | null = null;
 
@@ -360,7 +262,7 @@ describe('DevDataRegisterPill Interactions', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders with 24px safe offset and fades out when footer is in view', () => {
+  it('renders with 16px safe offset, 70% opacity, and fades out when footer is in view', () => {
     if (!import.meta.env.DEV) return;
 
     const mockFooter = document.createElement('footer');
@@ -370,9 +272,9 @@ describe('DevDataRegisterPill Interactions', () => {
 
     const pillAside = screen.getByRole('complementary', { name: /development navigation/i });
     expect(pillAside).toHaveStyle({
-      bottom: '24px',
-      left: '24px',
-      opacity: '1',
+      bottom: '16px',
+      left: '16px',
+      opacity: '0.7',
     });
 
     // Trigger footer intersection

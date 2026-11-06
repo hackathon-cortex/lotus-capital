@@ -11,9 +11,9 @@ import { useStatistics } from '../../hooks/useStatistics';
 import { EnquiryForm } from '../../components/enquiry/EnquiryForm';
 import { useCountUp, useScrollProgress, useParallax } from '../../motion';
 import { LotusLogo } from '../../components/common/LotusLogo';
-import { DotNavigator } from '../../components/common/DotNavigator';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
 import { SipIllustrationBoard } from '../../components/investments/SipIllustrationBoard';
+import { HomeHowWeWork } from '../../components/home/HomeHowWeWork';
 import ownerPhoto from '../../assets/Owner.png';
 
 export const Home: React.FC = () => {
@@ -102,13 +102,10 @@ export const Home: React.FC = () => {
       {/* Reading Progress Bar under header */}
       <ScrollProgressBar />
 
-      {/* Desktop Dot Navigator (12 Sections) */}
-      <DotNavigator />
-
       {/* =========================================================
           1. HERO SECTION (Screenshot 1: fiatwm.com style)
          ========================================================= */}
-      <section className="home-hero" id="hero" aria-labelledby="home-hero-title">
+      <section className="home-hero" id="hero" data-tone="dark" aria-labelledby="home-hero-title">
         <div className="home-hero__bg">
           <img
             src="/images/hero.jpg"
@@ -204,12 +201,18 @@ export const Home: React.FC = () => {
             {mainStats.map((stat) => (
               <div key={stat.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div
+                  data-numeral="true"
                   style={{
                     fontFamily: 'var(--font-heading)',
                     fontWeight: 700,
                     fontSize: 'clamp(1.85rem, 2.8vw, 2.4rem)',
                     color: 'var(--navy-900)',
                     lineHeight: 1.15,
+                    whiteSpace: 'nowrap',
+                    writingMode: 'horizontal-tb',
+                    fontVariantNumeric: 'tabular-nums',
+                    flexShrink: 0,
+                    minWidth: 'max-content',
                   }}
                 >
                   {stat.value}
@@ -269,7 +272,18 @@ export const Home: React.FC = () => {
               >
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--red-500)' }} />
                 <span>
-                  <strong>570+</strong> Insurance Policies Serviced across Health, Life & Motor
+                  <strong
+                    data-numeral="true"
+                    style={{
+                      whiteSpace: 'nowrap',
+                      writingMode: 'horizontal-tb',
+                      fontVariantNumeric: 'tabular-nums',
+                      flexShrink: 0,
+                      minWidth: 'max-content',
+                    }}
+                  >
+                    570+
+                  </strong> Insurance Policies Serviced across Health, Life & Motor
                 </span>
               </div>
             </div>
@@ -312,7 +326,7 @@ export const Home: React.FC = () => {
       {/* =========================================================
           2. ABOUT / FOUNDER SPLIT (Screenshot 2: FINRE Template)
          ========================================================= */}
-      <section className="section-padding stacked-section" id="about" data-reveal style={{ backgroundColor: 'var(--white)' }}>
+      <section className="section-padding stacked-section" id="about" data-tone="light" data-reveal style={{ backgroundColor: 'var(--white)' }}>
         <div className="container">
           <div className="grid grid-cols-12" style={{ gap: '3.5rem', alignItems: 'center' }}>
             {/* Left 5 Cols: Founder portrait in 4:5 rounded (28px) frame with silver offset outline */}
@@ -507,6 +521,7 @@ export const Home: React.FC = () => {
       <section
         className="section-padding bg-light stacked-section"
         id="services"
+        data-tone="light"
         data-reveal
         aria-labelledby="services-heading"
       >
@@ -860,6 +875,7 @@ export const Home: React.FC = () => {
       <section
         className="section-padding stacked-section"
         id="mutual-funds"
+        data-tone="dark"
         ref={mfBoardRef}
         data-reveal
         style={{
@@ -901,6 +917,7 @@ export const Home: React.FC = () => {
       <section
         className="section-padding stacked-section"
         id="equity"
+        data-tone="dark"
         ref={equityBoardRef}
         data-reveal
         style={{
@@ -928,8 +945,8 @@ export const Home: React.FC = () => {
             <div
               className="col-span-12 col-span-md-4 card"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(215, 217, 220, 0.15)',
+                backgroundColor: 'var(--navy-800, #0E3154)',
+                border: '1px solid rgba(215, 217, 220, 0.12)',
                 borderRadius: '24px',
                 padding: '2rem 1.5rem',
                 textAlign: 'center',
@@ -974,8 +991,8 @@ export const Home: React.FC = () => {
             <div
               className="col-span-12 col-span-md-4 card"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(215, 217, 220, 0.15)',
+                backgroundColor: 'var(--navy-800, #0E3154)',
+                border: '1px solid rgba(215, 217, 220, 0.12)',
                 borderRadius: '24px',
                 padding: '2rem 1.5rem',
                 display: 'flex',
@@ -1015,8 +1032,8 @@ export const Home: React.FC = () => {
             <div
               className="col-span-12 col-span-md-4 card"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(215, 217, 220, 0.15)',
+                backgroundColor: 'var(--navy-800, #0E3154)',
+                border: '1px solid rgba(215, 217, 220, 0.12)',
                 borderRadius: '24px',
                 padding: '1.75rem',
                 display: 'flex',
@@ -1101,7 +1118,7 @@ export const Home: React.FC = () => {
       {/* =========================================================
           6. INSURANCE HIGHLIGHTS (Screenshot 6: ONE Compact Tabbed Panel < 380px)
          ========================================================= */}
-      <section className="section-padding bg-light stacked-section" id="insurance" data-reveal>
+      <section className="section-padding bg-light stacked-section" id="insurance" data-tone="light" data-reveal>
         <div className="container" style={{ maxWidth: '880px' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
             <span className="eyebrow-rule" style={{ margin: '0 auto 0.6rem' }} />
@@ -1267,6 +1284,7 @@ export const Home: React.FC = () => {
       <section
         className="section-padding stacked-section"
         id="trust"
+        data-tone="dark"
         data-reveal
         style={{
           backgroundColor: 'var(--navy-950)',
@@ -1471,7 +1489,7 @@ export const Home: React.FC = () => {
       {/* =========================================================
           8. PARTNERS & MARQUEE (Screenshot 8: Confirmed Partners Only)
          ========================================================= */}
-      <section className="section-padding bg-light stacked-section" id="partners" data-reveal>
+      <section className="section-padding bg-light stacked-section" id="partners" data-tone="light" data-reveal>
         <div className="container" style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="eyebrow-rule" style={{ margin: '0 auto 0.6rem' }} />
           <span className="eyebrow">Institutional Relationships</span>
@@ -1534,116 +1552,191 @@ export const Home: React.FC = () => {
       </section>
 
       {/* =========================================================
-          9. HOW WE WORK (Screenshot 8: Fixed Stepper Line Behind Circles)
+          9. HOW WE WORK (B2: PinnedStage Horizontal Timeline Scroll Graph)
          ========================================================= */}
-      <section className="section-padding stacked-section" id="process" data-reveal style={{ backgroundColor: 'var(--white)' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 3rem' }}>
-            <span className="eyebrow-rule" style={{ margin: '0 auto 0.6rem' }} />
-            <span className="eyebrow">Structured Process</span>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3vw, 2.5rem)' }}>
-              How We Work with Clients
-            </h2>
-            <p style={{ color: 'var(--muted)', fontSize: '0.95rem' }}>
-              A disciplined, four-stage consultative approach
-            </p>
-          </div>
-
-          {/* Stepper container with connecting line strictly behind circles */}
-          <div className="how-we-work-steps">
-            {/* The line is placed here, completely decoupled from the heading */}
-            <div className="how-we-work-line-fixed" />
-
-            <div className="grid grid-cols-1 grid-cols-md-4" style={{ position: 'relative', zIndex: 2, gap: '1.5rem' }}>
-              {[
-                { step: '01', title: 'We Listen', desc: 'Understanding your family commitments, horizon and financial goals.' },
-                { step: '02', title: 'We Explain', desc: 'Presenting available options with costs, exclusions and risks in plain language.' },
-                { step: '03', title: 'We Facilitate', desc: 'Assisting through paperwork and onboarding with verified product providers.' },
-                { step: '04', title: 'We Stay Available', desc: 'Ongoing servicing, portfolio reviews, renewals and claims assistance.' },
-              ].map((p) => (
-                <div key={p.step} className="step-card">
-                  <div className="step-number-circle">{p.step}</div>
-                  <h4 style={{ marginBottom: '0.5rem', color: 'var(--navy-900)', fontSize: '1.1rem' }}>{p.title}</h4>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--muted)', margin: 0, lineHeight: '1.6' }}>{p.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeHowWeWork />
 
       {/* =========================================================
-          10. LEARN BEFORE YOU INVEST (Screenshot 11: Creative 3 Cards)
+          10. LEARN BEFORE YOU INVEST (B3 & C5: 3 Equal Cards in 1 Row)
          ========================================================= */}
-      <section className="section-padding bg-light stacked-section" id="learn" data-reveal>
+      <section
+        className="section-padding stacked-section"
+        id="learn"
+        data-tone="light"
+        data-reveal
+        style={{ backgroundColor: 'var(--canvas-grey, #EEF1F4)' }}
+      >
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3.5rem' }}>
             <span className="eyebrow-rule" style={{ margin: '0 auto 0.6rem' }} />
             <span className="eyebrow">Investor Education</span>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3vw, 2.5rem)' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3vw, 2.5rem)', color: 'var(--navy-900)' }}>
               Learn Before You Invest
             </h2>
-            <p style={{ color: 'var(--muted)', fontSize: '0.95rem' }}>
+            <p style={{ color: 'var(--muted, #5B6770)', fontSize: '0.95rem' }}>
               Straightforward guides to help you make informed decisions about your family's future.
             </p>
           </div>
 
-          <div className="learn-cards-row grid grid-cols-1 grid-cols-md-3" style={{ gap: '1.75rem' }}>
+          <div
+            className="learn-cards-row"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1.75rem',
+            }}
+          >
             {/* Card 1: Risk Gauge */}
             <Link to="/insights" className="learn-card">
-              <span className="learn-card-watermark">01</span>
+              {/* Top Bar: Tinted category badge top-left + numeral top-right */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--navy-700, #123D67)',
+                    backgroundColor: 'var(--silver-100, #F3F5F7)',
+                    border: '1px solid var(--silver-300, #D7D9DC)',
+                    borderRadius: 'var(--radius-pill)',
+                    padding: '0.25rem 0.65rem',
+                  }}
+                >
+                  RISK AWARENESS
+                </span>
+                <span
+                  data-numeral="true"
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    color: 'var(--silver-300, #D7D9DC)',
+                    whiteSpace: 'nowrap',
+                    writingMode: 'horizontal-tb',
+                    fontVariantNumeric: 'tabular-nums',
+                    flexShrink: 0,
+                    minWidth: 'max-content',
+                  }}
+                >
+                  01
+                </span>
+              </div>
+
+              {/* 96px tall clean SVG illustration */}
+              <div className="learn-svg-illustration" style={{ height: '96px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="120" height="72" viewBox="0 0 120 72" aria-hidden="true">
+                  <path d="M 12 66 A 48 48 0 0 1 108 66" fill="none" stroke="var(--silver-300, #D7D9DC)" strokeWidth="7" strokeLinecap="round" />
+                  <path d="M 12 66 A 48 48 0 0 1 60 18" fill="none" stroke="var(--navy-700, #123D67)" strokeWidth="7" strokeLinecap="round" />
+                  <path d="M 60 18 A 48 48 0 0 1 92 32" fill="none" stroke="var(--steel-accent, #5B8DB8)" strokeWidth="7" strokeLinecap="round" />
+                  <line x1="60" y1="66" x2="78" y2="36" stroke="var(--navy-900, #0A2540)" strokeWidth="3" strokeLinecap="round" />
+                  <circle cx="60" cy="66" r="4.5" fill="var(--lotus-red, #E92332)" />
+                </svg>
+              </div>
+
+              {/* Playfair Display H3 + 2-line clamped description */}
               <div>
-                <div style={{ height: '110px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                  {/* SVG Risk Speedometer */}
-                  <svg width="120" height="70" viewBox="0 0 120 70">
-                    <path d="M 10 65 A 50 50 0 0 1 110 65" fill="none" stroke="var(--silver-300)" strokeWidth="8" strokeLinecap="round" />
-                    <path d="M 10 65 A 50 50 0 0 1 60 15" fill="none" stroke="var(--navy-700)" strokeWidth="8" strokeLinecap="round" />
-                    <path d="M 60 15 A 50 50 0 0 1 95 30" fill="none" stroke="var(--red-500)" strokeWidth="8" strokeLinecap="round" />
-                    <line x1="60" y1="65" x2="80" y2="35" stroke="var(--navy-900)" strokeWidth="3" strokeLinecap="round" />
-                    <circle cx="60" cy="65" r="5" fill="var(--navy-900)" />
-                  </svg>
-                </div>
-                <h3 style={{ fontSize: '1.25rem', color: 'var(--navy-900)', margin: '0 0 0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--navy-900)', margin: '0 0 0.5rem', lineHeight: 1.3 }}>
                   Risk vs Return Profile
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>
-                  Assess your risk capacity before selecting mutual fund or equity allocations. Capital protection and growth
-                  require different disciplines.
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: 'var(--muted, #5B6770)',
+                    lineHeight: 1.5,
+                    margin: 0,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  Assess risk capacity before selecting mutual fund or equity allocations. Capital protection requires disciplined asset matching.
                 </p>
               </div>
-              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
-                <span className="arrow-link" style={{ color: 'var(--red-600)' }}>
+
+              {/* Footer: Shared arrow link with contrast >= 4.5:1 */}
+              <div style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <span className="arrow-link" style={{ color: 'var(--lotus-red-fill, #C81B29)', fontWeight: 600, fontSize: '0.9rem' }}>
                   <span>Read guide</span>
                   <span className="arrow-icon">&rarr;</span>
                 </span>
               </div>
             </Link>
 
-            {/* Card 2: Hourglass Compounding */}
+            {/* Card 2: Compounding Hourglass */}
             <Link to="/insights" className="learn-card">
-              <span className="learn-card-watermark">02</span>
+              {/* Top Bar */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--navy-700, #123D67)',
+                    backgroundColor: 'var(--silver-100, #F3F5F7)',
+                    border: '1px solid var(--silver-300, #D7D9DC)',
+                    borderRadius: 'var(--radius-pill)',
+                    padding: '0.25rem 0.65rem',
+                  }}
+                >
+                  INVESTMENT PRINCIPLES
+                </span>
+                <span
+                  data-numeral="true"
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    color: 'var(--silver-300, #D7D9DC)',
+                    whiteSpace: 'nowrap',
+                    writingMode: 'horizontal-tb',
+                    fontVariantNumeric: 'tabular-nums',
+                    flexShrink: 0,
+                    minWidth: 'max-content',
+                  }}
+                >
+                  02
+                </span>
+              </div>
+
+              {/* 96px tall clean SVG illustration */}
+              <div className="learn-svg-illustration" style={{ height: '96px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="68" height="90" viewBox="0 0 68 90" aria-hidden="true">
+                  <path d="M 14 12 L 54 12 L 38 45 L 54 78 L 14 78 L 30 45 Z" fill="none" stroke="var(--navy-700, #123D67)" strokeWidth="2.5" strokeLinejoin="round" />
+                  <line x1="8" y1="12" x2="60" y2="12" stroke="var(--navy-900, #0A2540)" strokeWidth="3.5" strokeLinecap="round" />
+                  <line x1="8" y1="78" x2="60" y2="78" stroke="var(--navy-900, #0A2540)" strokeWidth="3.5" strokeLinecap="round" />
+                  <circle cx="34" cy="52" r="2" fill="var(--lotus-red, #E92332)" />
+                  <circle cx="34" cy="62" r="2.5" fill="var(--lotus-red, #E92332)" />
+                  <path d="M 24 74 Q 34 68 44 74 Z" fill="var(--lotus-red, #E92332)" />
+                </svg>
+              </div>
+
+              {/* Playfair Display H3 + 2-line clamped description */}
               <div>
-                <div style={{ height: '110px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                  {/* SVG Hourglass */}
-                  <svg width="60" height="90" viewBox="0 0 60 90">
-                    <path d="M 10 10 L 50 10 L 35 45 L 50 80 L 10 80 L 25 45 Z" fill="none" stroke="var(--navy-700)" strokeWidth="3" strokeLinejoin="round" />
-                    <line x1="5" y1="10" x2="55" y2="10" stroke="var(--navy-900)" strokeWidth="4" strokeLinecap="round" />
-                    <line x1="5" y1="80" x2="55" y2="80" stroke="var(--navy-900)" strokeWidth="4" strokeLinecap="round" />
-                    <circle cx="30" cy="55" r="2" fill="var(--red-500)" />
-                    <circle cx="30" cy="65" r="2.5" fill="var(--red-500)" />
-                    <path d="M 22 75 Q 30 70 38 75 Z" fill="var(--red-500)" />
-                  </svg>
-                </div>
-                <h3 style={{ fontSize: '1.25rem', color: 'var(--navy-900)', margin: '0 0 0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--navy-900)', margin: '0 0 0.5rem', lineHeight: 1.3 }}>
                   Compounding Over Time
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>
-                  Why time in the market matters more than timing the market. Understand how consistent monthly SIPs smooth out
-                  unpredictable market cycles.
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: 'var(--muted, #5B6770)',
+                    lineHeight: 1.5,
+                    margin: 0,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  Why time in the market matters more than timing. Understand how consistent monthly SIPs smooth unpredictable cycles.
                 </p>
               </div>
-              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
-                <span className="arrow-link" style={{ color: 'var(--red-600)' }}>
+
+              {/* Footer: Shared arrow link */}
+              <div style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <span className="arrow-link" style={{ color: 'var(--lotus-red-fill, #C81B29)', fontWeight: 600, fontSize: '0.9rem' }}>
                   <span>Read guide</span>
                   <span className="arrow-icon">&rarr;</span>
                 </span>
@@ -1652,26 +1745,74 @@ export const Home: React.FC = () => {
 
             {/* Card 3: Asset Allocation Pie */}
             <Link to="/insights" className="learn-card">
-              <span className="learn-card-watermark">03</span>
+              {/* Top Bar */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--navy-700, #123D67)',
+                    backgroundColor: 'var(--silver-100, #F3F5F7)',
+                    border: '1px solid var(--silver-300, #D7D9DC)',
+                    borderRadius: 'var(--radius-pill)',
+                    padding: '0.25rem 0.65rem',
+                  }}
+                >
+                  PORTFOLIO DISCIPLINE
+                </span>
+                <span
+                  data-numeral="true"
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    color: 'var(--silver-300, #D7D9DC)',
+                    whiteSpace: 'nowrap',
+                    writingMode: 'horizontal-tb',
+                    fontVariantNumeric: 'tabular-nums',
+                    flexShrink: 0,
+                    minWidth: 'max-content',
+                  }}
+                >
+                  03
+                </span>
+              </div>
+
+              {/* 96px tall clean SVG illustration */}
+              <div className="learn-svg-illustration" style={{ height: '96px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="86" height="86" viewBox="0 0 86 86" aria-hidden="true">
+                  <circle cx="43" cy="43" r="32" fill="none" stroke="var(--navy-800, #0E3154)" strokeWidth="13" strokeDasharray="110 95" strokeDashoffset="0" />
+                  <circle cx="43" cy="43" r="32" fill="none" stroke="var(--steel-accent, #5B8DB8)" strokeWidth="13" strokeDasharray="50 155" strokeDashoffset="-110" />
+                  <circle cx="43" cy="43" r="32" fill="none" stroke="var(--lotus-red, #E92332)" strokeWidth="13" strokeDasharray="45 160" strokeDashoffset="-160" />
+                </svg>
+              </div>
+
+              {/* Playfair Display H3 + 2-line clamped description */}
               <div>
-                <div style={{ height: '110px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
-                  {/* SVG Asset Allocation Pie */}
-                  <svg width="80" height="80" viewBox="0 0 80 80">
-                    <circle cx="40" cy="40" r="32" fill="none" stroke="var(--navy-800)" strokeWidth="14" strokeDasharray="100 100" strokeDashoffset="0" />
-                    <circle cx="40" cy="40" r="32" fill="none" stroke="var(--red-500)" strokeWidth="14" strokeDasharray="50 150" strokeDashoffset="-100" />
-                    <circle cx="40" cy="40" r="32" fill="none" stroke="var(--silver-500)" strokeWidth="14" strokeDasharray="50 150" strokeDashoffset="-150" />
-                  </svg>
-                </div>
-                <h3 style={{ fontSize: '1.25rem', color: 'var(--navy-900)', margin: '0 0 0.5rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', color: 'var(--navy-900)', margin: '0 0 0.5rem', lineHeight: 1.3 }}>
                   Disciplined Diversification
                 </h3>
-                <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: '1.6', margin: 0 }}>
-                  Spreading exposure across equity, fixed income and insurance cushions against economic volatility and aligns with
-                  long-term milestones.
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: 'var(--muted, #5B6770)',
+                    lineHeight: 1.5,
+                    margin: 0,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  Spreading exposure across equity, debt, and insurance buffers volatility and aligns with long-term family milestones.
                 </p>
               </div>
-              <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
-                <span className="arrow-link" style={{ color: 'var(--red-600)' }}>
+
+              {/* Footer: Shared arrow link */}
+              <div style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                <span className="arrow-link" style={{ color: 'var(--lotus-red-fill, #C81B29)', fontWeight: 600, fontSize: '0.9rem' }}>
                   <span>Read guide</span>
                   <span className="arrow-icon">&rarr;</span>
                 </span>
@@ -1684,7 +1825,7 @@ export const Home: React.FC = () => {
       {/* =========================================================
           11. FAQ ACCORDION (Screenshot 9: Two-Column Layout)
          ========================================================= */}
-      <section className="section-padding stacked-section" id="faq" data-reveal style={{ backgroundColor: 'var(--white)' }}>
+      <section className="section-padding stacked-section" id="faq" data-tone="light" data-reveal style={{ backgroundColor: 'var(--white)' }}>
         <div className="container">
           <div className="grid grid-cols-1 grid-cols-md-12" style={{ gap: '3.5rem' }}>
             {/* Left Column (5 Cols): Intro + Help Card */}
@@ -1851,7 +1992,7 @@ export const Home: React.FC = () => {
       {/* =========================================================
           12. ENQUIRY FORM (Screenshot 10: One Viewport Split Layout)
          ========================================================= */}
-      <section className="section-padding bg-light stacked-section" id="enquiry" data-reveal>
+      <section className="section-padding bg-light stacked-section" id="enquiry" data-tone="light" data-reveal>
         <div className="container" style={{ maxWidth: '1060px' }}>
           <div className="grid grid-cols-1 grid-cols-md-12" style={{ gap: '2rem', alignItems: 'stretch' }}>
             {/* Left (5 Cols): Dark Navy Contact Panel */}

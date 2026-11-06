@@ -158,9 +158,10 @@ export const EquityServicesStage: React.FC<EquityServicesStageProps> = ({ onServ
     <section
       id="services"
       ref={stageRef}
-      className="equity-services-stage-section"
+      data-tone="dark"
+      className="equity-services-stage-section stacked-section"
       style={{
-        backgroundColor: '#051329',
+        backgroundColor: 'var(--navy-900, #0A2540)',
         padding: '5rem 1.5rem',
         position: 'relative',
         color: '#FFFFFF',

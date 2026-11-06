@@ -12,16 +12,6 @@ import { EquityAccountJourney } from '../../components/investments/EquityAccount
 import { FaqAccordion } from '../../components/insurance/FaqAccordion';
 import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const EQUITY_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Hero' },
-  { id: 'broking', label: 'Broking partner' },
-  { id: 'services', label: 'Services' },
-  { id: 'journey', label: 'Journey' },
-  { id: 'faqs', label: 'FAQ' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 const EQUITY_ENQUIRY_OPTIONS: ServiceDetailOption[] = [
   { id: 'demat-account', label: 'Demat account' },
@@ -95,11 +85,8 @@ export const Equity: React.FC = () => {
       {/* Thin Brand Red Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* Right Floating Dot Navigator */}
-      <DotNavigator sections={EQUITY_NAV_SECTIONS} />
-
       {/* Page Content Layout */}
-      <div className="equity-page-wrapper" style={{ overflowX: 'hidden' }}>
+      <div className="equity-page-wrapper" style={{ overflow: 'clip' }}>
         {/* 1. Page Hero with Market Board */}
         <div id="hero">
           <ServiceHero
@@ -115,7 +102,7 @@ export const Equity: React.FC = () => {
             primaryButtonHref="#enquiry"
             secondaryButtonText="See broking credentials"
             secondaryButtonHref="#broking"
-            backgroundGradient="radial-gradient(ellipse at 85% 25%, rgba(79, 95, 176, 0.42) 0%, rgba(10, 37, 64, 0) 70%), linear-gradient(135deg, #051329 0%, #0a2540 50%, #4F5FB0 100%)"
+            backgroundGradient="radial-gradient(ellipse at 85% 25%, rgba(79, 95, 176, 0.18) 0%, rgba(10, 37, 64, 0) 70%), linear-gradient(135deg, var(--navy-950, #071B30) 0%, var(--navy-900, #0A2540) 100%)"
             customRightBoard={<EquityMarketBoard onActionClick={handleActionScroll} />}
             statChip={
               <div
@@ -163,6 +150,8 @@ export const Equity: React.FC = () => {
         {/* 5. FAQs with Filter Categories */}
         <section
           id="faqs"
+          data-tone="light"
+          className="stacked-section"
           style={{
             backgroundColor: '#F8F9FA',
             padding: '5.5rem 1.5rem',
@@ -244,8 +233,10 @@ export const Equity: React.FC = () => {
         {/* 7. Enquiry Section */}
         <section
           id="enquiry"
+          data-tone="dark"
+          className="stacked-section"
           style={{
-            backgroundColor: '#051329',
+            backgroundColor: 'var(--navy-950, #051329)',
             padding: '5.5rem 1.5rem',
             position: 'relative',
             zIndex: 11,

@@ -8,13 +8,6 @@ import { ServicesLineupBoard } from '../../components/services/ServicesLineupBoa
 import { ServicesStackedDeck } from '../../components/services/ServicesStackedDeck';
 import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const SERVICES_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Overview' },
-  { id: 'services', label: 'Services' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 const SERVICES_HUB_ENQUIRY_OPTIONS: ServiceDetailOption[] = [
   { id: 'general-insurance', label: 'General Insurance' },
@@ -141,9 +134,6 @@ export const Services: React.FC = () => {
 
       {/* Thin Brand Red Scroll Progress Bar */}
       <ScrollProgressBar />
-
-      {/* Right Dot Navigator (Hero, Services, Enquiry) */}
-      <DotNavigator sections={SERVICES_NAV_SECTIONS} />
 
       {/* Page Content Layout */}
       <div className="services-hub-page-wrapper" style={{ overflowX: 'hidden' }}>

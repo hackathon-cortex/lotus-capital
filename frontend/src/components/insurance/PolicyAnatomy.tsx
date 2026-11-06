@@ -135,6 +135,7 @@ export const PolicyAnatomy: React.FC<PolicyAnatomyProps> = ({
   return (
     <section
       id={id}
+      data-tone="light"
       className="section-padding stacked-section gi-stacked-section"
       ref={containerRef}
       style={{

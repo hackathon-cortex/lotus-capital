@@ -60,7 +60,7 @@ export const DEFAULT_GI_HERO_CONFIG = {
   headlinePlain: 'Protection for the',
   headlineItalic: 'things that matter.',
   leadCopy:
-    'Comprehensive insurance solutions for private vehicles, commercial properties, transit cargo, and enterprise liabilities underwritten by India’s leading general insurers.',
+    'Understand the cover before you choose the policy. General insurance protects against specified risks, subject to terms, exclusions, and limits. We explain the options available through verified insurer partners.',
   primaryButtonText: 'Request a General Quote',
   primaryButtonHref: '#enquiry',
   secondaryButtonText: 'See what to compare',
@@ -69,14 +69,14 @@ export const DEFAULT_GI_HERO_CONFIG = {
     headlineValue: 570,
     headlineSuffix: '+',
     headlineLabel: 'Insurance Policies Serviced',
-    headlineCaption: 'Personal, commercial, and enterprise policies advised across Gujarat.',
+    headlineCaption: 'Servicing policyholders across Godhra and Gujarat.',
     ringSegments: [
       {
         id: 'health',
         label: 'Health Insurance',
         value: 250,
         displayText: '250+',
-        color: '#1F6F8B',
+        color: 'var(--teal-accent, #1F6F8B)',
         link: '/services/health-insurance',
       },
       {
@@ -84,7 +84,7 @@ export const DEFAULT_GI_HERO_CONFIG = {
         label: 'Life Insurance',
         value: 180,
         displayText: '180+',
-        color: 'var(--navy-700, #0d2b4a)',
+        color: 'var(--steel-accent, #5B8DB8)',
         link: '/services/life-insurance',
       },
       {
@@ -92,7 +92,7 @@ export const DEFAULT_GI_HERO_CONFIG = {
         label: 'Motor Insurance',
         value: 140,
         displayText: '140+',
-        color: 'var(--red-500, #d9232d)',
+        color: 'var(--lotus-red, #E92332)',
         link: '/services/general-insurance',
       },
     ],
@@ -159,14 +159,15 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
 
   return (
     <section
-      className="service-hero-section"
+      className="service-hero-section stacked-section"
+      data-tone="dark"
       style={{
         position: 'relative',
         minHeight: '660px',
-        backgroundColor: 'var(--navy-950)',
+        backgroundColor: 'var(--navy-950, #071B30)',
         backgroundImage: backgroundGradient || `
           radial-gradient(ellipse at 80% 20%, rgba(18, 61, 103, 0.45) 0%, rgba(10, 37, 64, 0) 70%),
-          linear-gradient(135deg, var(--navy-950) 0%, var(--navy-900) 60%, #0d2847 100%)
+          linear-gradient(135deg, var(--navy-950, #071B30) 0%, var(--navy-900, #0A2540) 100%)
         `,
         color: 'var(--white)',
         overflow: 'hidden',
@@ -428,9 +429,7 @@ export const ServiceHero: React.FC<ServiceHeroProps> = ({
               <div
                 className="coverage-board-card"
               style={{
-                background: 'rgba(10, 37, 64, 0.75)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
+                background: 'var(--navy-800, #0E3154)',
                 borderRadius: 'var(--radius-panel)',
                 border: '1px solid rgba(215, 217, 220, 0.16)',
                 boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.06)',

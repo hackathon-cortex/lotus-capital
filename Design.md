@@ -69,26 +69,39 @@ Rules for using references:
 
 ### 3.2 Extended tokens
 
-| Token          | Hex       | Use                                                            |
-| -------------- | --------- | -------------------------------------------------------------- |
-| `--navy-950`   | `#071B30` | Footer base, deepest overlays                                  |
-| `--navy-900`   | `#0A2540` | Dark sections, scrolled header, hero scrim                     |
-| `--navy-800`   | `#0E3154` | Dark card surfaces                                             |
-| `--navy-700`   | `#123D67` | **Brand navy**: headings, primary surfaces                     |
-| `--navy-600`   | `#1B4F82` | Hover on navy, links, focus ring                               |
-| `--navy-100`   | `#E6EDF5` | Tinted backgrounds, selected rows                              |
-| `--silver-300` | `#D7D9DC` | Borders, dividers, watermark                                   |
-| `--silver-100` | `#F3F5F7` | Alternate section background, card surface                     |
-| `--silver-500` | `#8A949D` | Form field borders (3.09:1 on white)                           |
-| `--red-500`    | `#E92332` | Brand red: icons, underline accents, large text, focus on dark |
-| `--red-600`    | `#C81B29` | **Button fill** (white text 5.76:1)                            |
-| `--red-700`    | `#A91621` | Button hover and pressed                                       |
-| `--red-300`    | `#FF6B76` | Red text on dark backgrounds (5.64:1 on `--navy-900`)          |
-| `--ink`        | `#1F2933` | Body text                                                      |
-| `--muted`      | `#5B6770` | Secondary text (5.8:1 on white)                                |
-| `--success`    | `#1E7F4F` | Success states                                                 |
-| `--warning`    | `#9A6700` | Warning states                                                 |
-| `--danger`     | `#B42318` | Error states (always with an icon and text)                    |
+| Token              | Hex       | Use                                                                 |
+| ------------------ | --------- | ------------------------------------------------------------------- |
+| `--navy-950`       | `#071B30` | Deepest dark / footer base, deepest overlays                        |
+| `--navy-900`       | `#0A2540` | Dark section base / pinned stage, scrolled header backdrop          |
+| `--navy-850`       | `#0C2D4D` | Intermediate deep navy                                              |
+| `--navy-800`       | `#0E3154` | Dark card surfaces on navy-900 / navy-950                            |
+| `--navy-700`       | `#123D67` | **Brand navy**: headings, primary surfaces                          |
+| `--navy-600`       | `#1B4F82` | Hover on navy, links, focus ring                                    |
+| `--navy-100`       | `#E6EDF5` | Light tinted pill backgrounds, selected rows                        |
+| `--silver-300`     | `#D7D9DC` | Borders, dividers, subtle watermark                                 |
+| `--silver-100`     | `#F3F5F7` | Alternate section background, card surface                          |
+| `--silver-500`     | `#8A949D` | Form field borders (3.09:1 on white)                                |
+| `--canvas-grey`    | `#EEF1F4` | Primary silver-grey page canvas                                     |
+| `--steel-accent`   | `#5B8DB8` | Service accent (lines, chips, charts)                               |
+| `--royal-accent`   | `#2F6FB0` | Service accent (subtle indicators)                                  |
+| `--teal-accent`    | `#1F6F8B` | Service accent (health/life indicators)                             |
+| `--indigo-accent`  | `#4F5FB0` | Service accent (equity chips/lines only; never large backgrounds)    |
+| `--lotus-red`      | `#E92332` | Brand red: icons, underline accents, large text, focus on dark      |
+| `--lotus-red-fill` | `#C81B29` | **Button fill & text links** (contrast >= 4.5:1 on white)           |
+| `--red-600`        | `#C81B29` | Button fill (white text 5.76:1)                                     |
+| `--red-700`        | `#A91621` | Button hover and pressed                                            |
+| `--red-300`        | `#FF6B76` | Red text on dark backgrounds (5.64:1 on `--navy-900`)               |
+| `--ink`            | `#1F2933` | Body text                                                           |
+| `--muted`          | `#5B6770` | Secondary text (5.8:1 on white)                                     |
+| `--success`        | `#1E7F4F` | Success states                                                      |
+| `--warning`        | `#9A6700` | Warning states                                                      |
+| `--danger`         | `#B42318` | Error states (always with an icon and text)                         |
+
+#### Section Transition & Tone Rules
+- Sections declare `data-tone="dark"` or `data-tone="light"`.
+- Dark-to-dark section boundaries NEVER stack with rounded corners. They connect seamlessly with a 1px divider `rgba(215, 217, 220, 0.12)`.
+- Alternating tone boundaries (light-to-dark or dark-to-light) use 32px rounded-corner overlaps with soft layered shadows and 80px gradient fades.
+- No slate `#3A4F69` or purple `#5560B0` backgrounds anywhere. Accent colors are reserved strictly for small elements (chips, node rings, chart strokes).
 
 ### 3.3 Usage rules
 

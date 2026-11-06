@@ -14,17 +14,6 @@ import { MfCompareSection } from '../../components/investments/MfCompareSection'
 import { FaqAccordion } from '../../components/insurance/FaqAccordion';
 import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const MF_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Overview' },
-  { id: 'sip-calculator', label: 'Calculator' },
-  { id: 'ways-to-invest', label: 'Ways to invest' },
-  { id: 'categories', label: 'Categories' },
-  { id: 'compare', label: 'Compare' },
-  { id: 'faqs', label: 'FAQ' },
-  { id: 'enquiry', label: 'Enquiry' },
-];
 
 const MF_ENQUIRY_OPTIONS: ServiceDetailOption[] = [
   { id: 'sip', label: 'SIP' },
@@ -106,9 +95,6 @@ export const MutualFunds: React.FC = () => {
 
       {/* Thin Brand Red Scroll Progress Bar */}
       <ScrollProgressBar />
-
-      {/* Right Floating Dot Navigator */}
-      <DotNavigator sections={MF_NAV_SECTIONS} />
 
       {/* Page Content Layout */}
       <div className="mutual-funds-page-wrapper" style={{ overflowX: 'hidden' }}>

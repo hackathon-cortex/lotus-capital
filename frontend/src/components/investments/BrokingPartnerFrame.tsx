@@ -34,19 +34,20 @@ export const BrokingPartnerFrame: React.FC = () => {
   return (
     <section
       id="broking"
-      className="broking-partner-frame"
+      data-tone="dark"
+      className="broking-partner-frame stacked-section"
       style={{
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#07182C',
-        backgroundImage: 'radial-gradient(ellipse at 25% 50%, rgba(79, 95, 176, 0.18) 0%, rgba(7, 24, 44, 0) 70%), linear-gradient(180deg, #051329 0%, #07182C 100%)',
+        backgroundColor: 'var(--navy-900, #0A2540)',
+        backgroundImage: 'linear-gradient(180deg, var(--navy-950, #071B30) 0%, var(--navy-900, #0A2540) 100%)',
         position: 'relative',
         padding: '5rem 1.5rem',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(143, 163, 200, 0.15)',
-        borderBottom: '1px solid rgba(143, 163, 200, 0.15)',
+        borderTop: '1px solid rgba(215, 217, 220, 0.12)',
+        borderBottom: '1px solid rgba(215, 217, 220, 0.12)',
       }}
     >
       {/* Background Watermark */}
@@ -136,10 +137,10 @@ export const BrokingPartnerFrame: React.FC = () => {
                   />
                 </defs>
                 <text
-                  fill="#8FA3C8"
-                  fontSize="10.2"
+                  fill="var(--silver-300, #D7D9DC)"
+                  fontSize="9.5"
                   fontWeight="600"
-                  style={{ letterSpacing: '0.22em', textTransform: 'uppercase' }}
+                  style={{ letterSpacing: '0.14em', textTransform: 'uppercase' }}
                 >
                   <textPath
                     href="#sealCirclePath"
@@ -329,8 +330,8 @@ export const BrokingPartnerFrame: React.FC = () => {
               <div
                 className="broking-code-card"
                 style={{
-                  backgroundColor: 'rgba(10, 37, 64, 0.65)',
-                  border: '1px solid rgba(143, 163, 200, 0.28)',
+                  backgroundColor: 'var(--navy-800, #0E3154)',
+                  border: '1px solid rgba(215, 217, 220, 0.12)',
                   borderRadius: '20px',
                   padding: '1.25rem 1.5rem',
                   display: 'flex',
@@ -415,8 +416,8 @@ export const BrokingPartnerFrame: React.FC = () => {
               <div
                 className="broking-code-card"
                 style={{
-                  backgroundColor: 'rgba(10, 37, 64, 0.65)',
-                  border: '1px solid rgba(143, 163, 200, 0.28)',
+                  backgroundColor: 'var(--navy-800, #0E3154)',
+                  border: '1px solid rgba(215, 217, 220, 0.12)',
                   borderRadius: '20px',
                   padding: '1.25rem 1.5rem',
                   display: 'flex',

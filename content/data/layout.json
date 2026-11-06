@@ -33,7 +33,6 @@
   },
   "behavior": {
     "pinnedTimelinesMinWidth": 1024,
-    "dotNavigatorMinWidth": 1024,
     "stickyMobileCtaMaxWidth": 767,
     "marqueeRowsMobile": 1,
     "marqueeRowsDesktop": 2,

@@ -17,7 +17,6 @@ export type BreakpointKey = keyof typeof BREAKPOINTS;
 
 export interface LayoutConfig {
   pinnedTimelinesMinWidth: number;
-  dotNavigatorMinWidth: number;
   marqueeRowsMobile: number;
   marqueeRowsDesktop: number;
   bentoColumns: {
@@ -54,7 +53,6 @@ export interface LayoutConfig {
 
 export const responsiveConfig: LayoutConfig = {
   pinnedTimelinesMinWidth: BREAKPOINTS.lg, // 1024px: below this, timelines stack vertically without sticky 300-400vh
-  dotNavigatorMinWidth: BREAKPOINTS.lg, // 1024px: dot navigator only on desktop
   marqueeRowsMobile: 1,
   marqueeRowsDesktop: 2,
   bentoColumns: {

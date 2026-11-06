@@ -1,10 +1,9 @@
 import { useContactDrawer } from '../../context/ContactDrawerContext';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
 import seoData from '@content/data/seo.json';
 import awardsData from '@content/data/awards.json';
-import milestonesData from '@content/data/milestones.json';
 import partnersData from '@content/data/partners.json';
 import contactData from '@content/data/contact.json';
 import siteData from '@content/data/site.json';
@@ -13,18 +12,7 @@ import { useStatistics } from '../../hooks/useStatistics';
 import { useCountUp } from '../../hooks/useCountUp';
 import { LotusLogo } from '../../components/common/LotusLogo';
 import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
-import { DotNavigator, NavSection } from '../../components/common/DotNavigator';
-
-const ABOUT_NAV_SECTIONS: NavSection[] = [
-  { id: 'hero', label: 'Hero' },
-  { id: 'philosophy', label: 'Philosophy' },
-  { id: 'numbers', label: 'Numbers' },
-  { id: 'founders', label: 'Founders' },
-  { id: 'journey', label: 'Journey' },
-  { id: 'awards', label: 'Awards' },
-  { id: 'partners', label: 'Partners' },
-  { id: 'location', label: 'Location' },
-];
+import { OurJourneyTimeline } from '../../components/about/OurJourneyTimeline';
 
 const AnimatedNum: React.FC<{ value: string; isDark?: boolean }> = ({ value, isDark }) => {
   if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') {
@@ -52,7 +40,6 @@ export const AboutUs: React.FC = () => {
   const { openContactDrawer } = useContactDrawer();
   const seo = seoData['/about-us'];
   const [searchParams] = useSearchParams();
-  const progressQuery = searchParams.get('milestoneProgress');
   const sectionQuery = searchParams.get('section');
   const { stats, statsAsOf } = useStatistics([
     'clients_serviced',
@@ -82,29 +69,6 @@ export const AboutUs: React.FC = () => {
       };
     }
   }, [sectionQuery]);
-  const milestonesContainerRef = useRef<HTMLDivElement>(null);
-  const [milestoneProgress, setMilestoneProgress] = useState(0);
-
-  useEffect(() => {
-    if (progressQuery !== null) {
-      setMilestoneProgress(Math.min(Math.max(parseFloat(progressQuery), 0), 1));
-      return;
-    }
-
-    const handleScroll = () => {
-      if (!milestonesContainerRef.current) return;
-      const rect = milestonesContainerRef.current.getBoundingClientRect();
-      const totalScrollable = milestonesContainerRef.current.offsetHeight - window.innerHeight;
-      if (totalScrollable <= 0) return;
-      const currentScroll = -rect.top;
-      const progress = Math.min(Math.max(currentScroll / totalScrollable, 0), 1);
-      setMilestoneProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Filter out any image loading error for Kajal photo
   const [kajalImgError, setKajalImgError] = useState(false);
@@ -119,11 +83,8 @@ export const AboutUs: React.FC = () => {
       {/* Red Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* Dot Navigator (Desktop) */}
-      <DotNavigator sections={ABOUT_NAV_SECTIONS} />
-
       {/* 1. HERO SECTION (FINRE reference: portrait right, headline + copy + 3 chips left) */}
-      <section id="hero" className="about-hero-section" aria-label="About Lotus Capital Hero">
+      <section id="hero" data-tone="dark" className="about-hero-section" aria-label="About Lotus Capital Hero">
         <div
           style={{
             position: 'absolute',
@@ -331,7 +292,7 @@ export const AboutUs: React.FC = () => {
       </section>
 
       {/* 2. PHILOSOPHY SECTION (Enlarged, moved UP directly below hero) */}
-      <section id="philosophy" className="section-padding bg-light" data-reveal>
+      <section id="philosophy" data-tone="light" className="section-padding bg-light stacked-section" data-reveal>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
             <div className="eyebrow-rule" style={{ margin: '0 auto 1rem' }} />
@@ -454,7 +415,7 @@ export const AboutUs: React.FC = () => {
       </section>
 
       {/* 3. NUMBERS SECTION (Rounded panel, 4 count-up tiles, quiet caption) */}
-      <section id="numbers" className="section-padding" data-reveal>
+      <section id="numbers" data-tone="dark" className="section-padding stacked-section" data-reveal>
         <div className="container">
           <div className="numbers-banner">
             <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 2.5rem' }}>
@@ -526,7 +487,7 @@ export const AboutUs: React.FC = () => {
       </section>
 
       {/* 4. FOUNDERS SECTION (Abhilash left, Kajal right mirrored) */}
-      <section id="founders" className="section-padding bg-light" data-reveal>
+      <section id="founders" data-tone="light" className="section-padding bg-light stacked-section" data-reveal>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
             <div className="eyebrow-rule" style={{ margin: '0 auto 1rem' }} />
@@ -746,75 +707,11 @@ export const AboutUs: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. MILESTONES SECTION (Pinned horizontal scroll timeline) */}
-      <section id="journey" className="milestones-pin-wrapper" ref={milestonesContainerRef}>
-        <div className="milestones-sticky-window">
-          {/* Top Progress Fill */}
-          <div className="milestones-progress-bar-bg">
-            <div
-              className="milestones-progress-bar-fill"
-              style={{ width: `${milestoneProgress * 100}%` }}
-            />
-          </div>
-
-          <div className="container" style={{ marginBottom: '2.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <div className="eyebrow-rule" />
-                <span className="eyebrow" style={{ color: 'var(--red-400)' }}>
-                  Our Journey
-                </span>
-                <h2
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
-                    color: 'var(--white)',
-                    margin: 0,
-                  }}
-                >
-                  Two Decades of Steadfast Growth
-                </h2>
-              </div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--silver-400)' }}>
-                Scroll down to explore timeline &rarr;
-              </div>
-            </div>
-          </div>
-
-          {/* Horizontal Track (translates left based on milestoneProgress) */}
-          <div
-            className="milestones-horizontal-track"
-            style={{
-              transform: `translateX(-${milestoneProgress * 55}%)`,
-            }}
-          >
-            {milestonesData.map((m) => (
-              <div key={m.id} className="milestones-card">
-                <div className="milestones-card__year">
-                  <span className="milestones-card__dot" />
-                  <span>{m.year}</span>
-                </div>
-                <h3 style={{ color: 'var(--white)', fontSize: '1.25rem', marginBottom: '0.75rem', lineHeight: 1.35 }}>
-                  {m.milestone}
-                </h3>
-                <p style={{ color: 'var(--silver-300)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
-                  {m.year === 2006 && 'Lotus Capital was founded in Godhra, pioneering organized mutual fund advisory and long-term wealth planning for local families.'}
-                  {m.year === 2008 && 'Initiated business association with Religare Broking Limited as an Authorised Person, expanding equity execution and demat services.'}
-                  {m.year === 2012 && 'Partnered with Care Health Insurance to deliver dedicated health cover and hospitalization claim assistance to our clients.'}
-                  {m.year === 2016 && 'Extended property advisory solutions across Vadodara and Ahmedabad, helping clients manage physical assets and rentals.'}
-                </p>
-                <div style={{ marginTop: '1.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', color: 'var(--silver-400)' }}>
-                  <span style={{ color: 'var(--red-400)' }}>●</span>
-                  <span>Confirmed Milestone</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 5. MILESTONES SECTION (B4: Pinned horizontal scroll timeline graph) */}
+      <OurJourneyTimeline />
 
       {/* 6. AWARDS SECTION (3-column responsive grid, laurel icon, large year) */}
-      <section id="awards" className="section-padding bg-light" data-reveal>
+      <section id="awards" data-tone="light" className="section-padding bg-light stacked-section" data-reveal>
         <div className="container">
           <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 3.5rem' }}>
             <div className="eyebrow-rule" style={{ margin: '0 auto 1rem' }} />
@@ -887,7 +784,7 @@ export const AboutUs: React.FC = () => {
       </section>
 
       {/* 7. PARTNERS SECTION (Large 280x160 tiles, 2-row marquee in opposite directions) */}
-      <section id="partners" className="section-padding" data-reveal>
+      <section id="partners" data-tone="light" className="section-padding stacked-section" data-reveal>
         <div className="container" style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <div className="eyebrow-rule" style={{ margin: '0 auto 1rem' }} />
           <span className="eyebrow">Institutional Relationships</span>
@@ -962,7 +859,7 @@ export const AboutUs: React.FC = () => {
       </section>
 
       {/* 8. LOCATION SECTION (Split: Address card left, Google Map iframe right) */}
-      <section id="location" className="section-padding bg-light" data-reveal>
+      <section id="location" data-tone="light" className="section-padding bg-light stacked-section" data-reveal>
         <div className="container">
           <div className="location-split-grid">
             {/* Left Address Card */}
@@ -1135,6 +1032,9 @@ export const AboutUs: React.FC = () => {
 
       {/* 9. BOTTOM CTA STRIP */}
       <section
+        id="about-cta"
+        data-tone="dark"
+        className="stacked-section"
         style={{
           background: 'linear-gradient(135deg, var(--navy-950) 0%, var(--navy-900) 100%)',
           color: 'var(--white)',
