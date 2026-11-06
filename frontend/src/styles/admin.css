@@ -1,0 +1,1059 @@
+/* ==========================================================================
+   Lotus Capital — Admin Panel Shell & Dashboard (v2 Glass & Bento Grid)
+   Strict Brand Tokens: Navy (#051329, #071B30, #0A2540, #123D67, #1B4F82),
+   Pure White (#FFFFFF), Silver/Neutral (#D7D9DC, #E2E8F0, #F3F5F7, #8A949D),
+   Brand Red (#E92332, #C81B29, #D9232D). Zero green, teal, gold, purple, coral.
+   ========================================================================== */
+
+/* 1. Shell Root & Full-Viewport Backdrop */
+.admin-shell-root {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #051329;
+  color: #FFFFFF;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.admin-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(135deg, #051329 0%, #071B30 40%, #0A2540 75%, #123D67 100%);
+}
+
+.admin-backdrop__glow-1 {
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(27, 79, 130, 0.28) 0%, rgba(18, 61, 103, 0.08) 50%, transparent 70%);
+  filter: blur(60px);
+}
+
+.admin-backdrop__glow-2 {
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(18, 61, 103, 0.35) 0%, rgba(10, 37, 64, 0.12) 55%, transparent 75%);
+  filter: blur(80px);
+}
+
+/* Centered Watermark Logo (Unclipped, 60-70vh tall) */
+.admin-backdrop__watermark-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 65vh;
+  max-height: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.admin-backdrop__watermark-svg {
+  height: 100%;
+  width: auto;
+  max-width: 90vw;
+  animation: admin-lotus-drift 40s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes admin-lotus-drift {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(2.5deg) scale(1.02);
+  }
+  100% {
+    transform: rotate(-2.5deg) scale(0.99);
+  }
+}
+
+/* 2. Floating Glass Panel Container */
+.admin-glass-panel {
+  position: relative;
+  z-index: 10;
+  margin: 16px 20px;
+  height: calc(100vh - 32px);
+  max-height: calc(100vh - 32px);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 64px rgba(5, 19, 41, 0.55), 0 4px 16px rgba(5, 19, 41, 0.35);
+  display: flex;
+  overflow: hidden;
+  animation: admin-panel-rise 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle top highlight rim */
+.admin-glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  pointer-events: none;
+  z-index: 20;
+}
+
+@keyframes admin-panel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(20px)) {
+  .admin-glass-panel {
+    background: #0A2540;
+  }
+}
+
+/* 3. Admin Sidebar (Rail) */
+.admin-sidebar {
+  display: flex;
+  flex-direction: column;
+  background: rgba(7, 27, 48, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 30;
+}
+
+.admin-sidebar--expanded {
+  width: 248px;
+}
+
+.admin-sidebar--collapsed {
+  width: 72px;
+}
+
+/* Sidebar Header Brand */
+.admin-sidebar__header {
+  height: 64px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.admin-sidebar__brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.admin-sidebar__brand-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.admin-sidebar__toggle-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #D7D9DC;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.admin-sidebar__toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+}
+
+/* Sidebar Navigation Items */
+.admin-sidebar__nav {
+  flex: 1;
+  padding: 12px 10px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-sidebar__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-sidebar__section-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 12px 10px 4px;
+  white-space: nowrap;
+}
+
+.admin-sidebar__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  margin-bottom: 3px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background 140ms ease, color 140ms ease;
+  white-space: nowrap;
+}
+
+.admin-sidebar--collapsed .admin-sidebar__item {
+  justify-content: center;
+  padding: 0;
+}
+
+.admin-sidebar__item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+}
+
+.admin-sidebar__item.is-active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 3px Red Left Active Bar */
+.admin-sidebar__item-indicator {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: #E92332;
+}
+
+.admin-sidebar__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.admin-sidebar__label {
+  margin-left: 10px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Badge on follow-ups */
+.admin-sidebar__badge {
+  background: #E92332;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-left: auto;
+  line-height: 1.2;
+}
+
+/* Sidebar Footer User Chip */
+.admin-sidebar__footer {
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-shrink: 0;
+  background: rgba(5, 19, 41, 0.3);
+}
+
+.admin-sidebar__user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.admin-sidebar__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #123D67;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.admin-sidebar__user-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-sidebar__user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-sidebar__user-role {
+  font-size: 11px;
+  color: #8A949D;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-sidebar__signout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #D7D9DC;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 160ms ease;
+  flex-shrink: 0;
+}
+
+.admin-sidebar__signout-btn:hover {
+  background: rgba(233, 35, 50, 0.15);
+  border-color: rgba(233, 35, 50, 0.4);
+  color: #FFFFFF;
+}
+
+/* 4. Panel Inner Main Content Area */
+.admin-main-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Sticky 64px Top Bar */
+.admin-topbar {
+  height: 64px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 37, 64, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  flex-shrink: 0;
+  z-index: 25;
+}
+
+.admin-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  max-width: 480px;
+}
+
+.admin-topbar__hamburger {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  color: #FFFFFF;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  display: none;
+}
+
+.admin-topbar__search-box {
+  position: relative;
+  width: 100%;
+}
+
+.admin-topbar__search-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 54px 0 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
+  font-size: 13.5px;
+  outline: none;
+  transition: all 160ms ease;
+  box-sizing: border-box;
+}
+
+.admin-topbar__search-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.admin-topbar__search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  display: flex;
+}
+
+.admin-topbar__search-hint {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 2px 5px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.admin-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* System Status Dot */
+.admin-topbar__status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #D7D9DC;
+  cursor: default;
+}
+
+.admin-topbar__status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1B4F82;
+  box-shadow: 0 0 8px rgba(27, 79, 130, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.admin-topbar__public-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+  color: #FFFFFF;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 160ms ease;
+  white-space: nowrap;
+}
+
+.admin-topbar__public-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.admin-topbar__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #123D67;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Content Area inside Glass Panel (Only this area scrolls) */
+.admin-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+
+/* 5. Dashboard Bento Grid Layout */
+.admin-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Bento Tile Base */
+.admin-bento-tile {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  padding: 18px 20px;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  animation: admin-tile-enter 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.admin-bento-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(5, 19, 41, 0.4);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+@keyframes admin-tile-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ONE Highlight Tile in Solid White/Silver with Navy Text */
+.admin-bento-tile--highlight {
+  background: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: #071B30;
+  box-shadow: 0 16px 40px rgba(5, 19, 41, 0.25);
+}
+
+.admin-bento-tile--highlight:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(5, 19, 41, 0.35);
+  border-color: #FFFFFF;
+}
+
+/* Tile Column Spans */
+.admin-bento-tile--headline {
+  grid-column: span 5;
+  min-height: 190px;
+}
+
+.admin-bento-tile--followups {
+  grid-column: span 3;
+  min-height: 190px;
+  border-top: 3px solid #E92332;
+}
+
+.admin-bento-tile--converted {
+  grid-column: span 4;
+  min-height: 190px;
+}
+
+.admin-bento-tile--quick-actions {
+  grid-column: span 4;
+  min-height: 170px;
+}
+
+.admin-bento-tile--chart {
+  grid-column: span 8;
+  min-height: 290px;
+}
+
+.admin-bento-tile--conversion-service {
+  grid-column: span 4;
+  min-height: 290px;
+}
+
+.admin-bento-tile--latest-enquiries {
+  grid-column: span 7;
+  min-height: 320px;
+}
+
+.admin-bento-tile--today-followups {
+  grid-column: span 5;
+  min-height: 320px;
+}
+
+/* Quick Action Chips */
+.admin-quick-actions-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: auto;
+}
+
+.admin-quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 6px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 160ms ease;
+  cursor: pointer;
+}
+
+.admin-quick-action-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.admin-quick-action-btn--primary {
+  background: #C81B29;
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(200, 27, 41, 0.35);
+}
+
+.admin-quick-action-btn--primary:hover {
+  background: #E92332;
+  box-shadow: 0 6px 18px rgba(233, 35, 50, 0.45);
+}
+
+/* Pulsing Red Dot */
+.admin-pulsing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E92332;
+  box-shadow: 0 0 10px rgba(233, 35, 50, 0.8);
+  animation: admin-dot-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes admin-dot-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.3);
+  }
+}
+
+/* Service Segmented Pills for Chart */
+.admin-chart-pills {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.admin-chart-pill-btn {
+  border: none;
+  background: transparent;
+  color: #D7D9DC;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+
+.admin-chart-pill-btn:hover {
+  color: #FFFFFF;
+}
+
+.admin-chart-pill-btn.is-active {
+  background: #123D67;
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Status Badges strictly using Navy, Silver, Red */
+.admin-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.admin-status-badge--new {
+  background: rgba(233, 35, 50, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(233, 35, 50, 0.5);
+}
+
+.admin-status-badge--contacted {
+  background: rgba(255, 255, 255, 0.1);
+  color: #D7D9DC;
+  border: 1px solid rgba(215, 217, 220, 0.3);
+}
+
+.admin-status-badge--qualified {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.admin-status-badge--inprogress {
+  background: rgba(27, 79, 130, 0.3);
+  color: #FFFFFF;
+  border: 1px solid rgba(27, 79, 130, 0.6);
+}
+
+.admin-status-badge--converted {
+  background: #123D67;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.admin-status-badge--closed {
+  background: rgba(255, 255, 255, 0.05);
+  color: #8A949D;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Compact Table (40px rows, zebra, hover) */
+.admin-compact-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.admin-compact-table th {
+  padding: 8px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.admin-compact-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
+  height: 40px;
+  box-sizing: border-box;
+}
+
+.admin-compact-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-compact-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Forms & Inputs in Glass Theme */
+.admin-input {
+  width: 100%;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  font-size: 13.5px;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 160ms ease;
+}
+
+.admin-input:focus {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+.admin-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #C81B29;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(200, 27, 41, 0.35);
+  transition: all 160ms ease;
+}
+
+.admin-btn-primary:hover {
+  background: #E92332;
+  box-shadow: 0 6px 18px rgba(233, 35, 50, 0.45);
+  transform: translateY(-1px);
+}
+
+.admin-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 160ms ease;
+}
+
+.admin-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* 6. Responsive Breakpoints */
+
+/* 1024px to 1279px (Tablet / Compact Desktop) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .admin-bento-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .admin-bento-tile--headline {
+    grid-column: span 5;
+  }
+
+  .admin-bento-tile--followups {
+    grid-column: span 3;
+  }
+
+  .admin-bento-tile--converted {
+    grid-column: span 4;
+  }
+
+  .admin-bento-tile--quick-actions {
+    grid-column: span 4;
+  }
+
+  .admin-bento-tile--chart {
+    grid-column: span 8;
+  }
+
+  .admin-bento-tile--conversion-service {
+    grid-column: span 8;
+  }
+
+  .admin-bento-tile--latest-enquiries {
+    grid-column: span 8;
+  }
+
+  .admin-bento-tile--today-followups {
+    grid-column: span 8;
+  }
+}
+
+/* Below 1024px (Mobile & Small Tablets) */
+@media (max-width: 1023px) {
+  .admin-glass-panel {
+    margin: 12px;
+    height: calc(100vh - 24px);
+    max-height: calc(100vh - 24px);
+    border-radius: 20px;
+  }
+
+  .admin-backdrop__watermark-wrap {
+    opacity: 0.05;
+  }
+
+  .admin-topbar__hamburger {
+    display: flex;
+  }
+
+  .admin-topbar__status-text {
+    display: none;
+  }
+
+  /* Off-canvas mobile drawer sidebar */
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px !important;
+    height: 100vh;
+    z-index: 1000;
+    background: #071B30;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+    transform: translateX(-100%);
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .admin-sidebar.is-drawer-open {
+    transform: translateX(0);
+  }
+
+  .admin-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 19, 41, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+  }
+
+  .admin-content-scroll {
+    padding: 16px;
+  }
+
+  .admin-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .admin-bento-tile {
+    grid-column: span 2 !important;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .admin-quick-actions-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  /* Hide date/secondary columns in table on mobile */
+  .admin-table-hide-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .admin-topbar {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .admin-topbar__left {
+    gap: 8px;
+  }
+
+  .admin-topbar__search-hint {
+    display: none;
+  }
+
+  .admin-topbar__search-input {
+    padding: 0 10px 0 32px;
+    font-size: 12px;
+  }
+
+  .admin-topbar__public-btn {
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+
+  .admin-topbar__right {
+    gap: 8px;
+  }
+}
+
+/* Optimization under 768px: remove tile backdrop blur */
+@media (max-width: 767px) {
+  .admin-bento-tile {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(10, 37, 64, 0.85);
+  }
+
+  .admin-bento-tile--highlight {
+    background: #FFFFFF;
+  }
+}
+
+/* 7. Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .admin-backdrop__watermark-svg,
+  .admin-glass-panel,
+  .admin-bento-tile,
+  .admin-pulsing-dot {
+    animation: none !important;
+    transition: none !important;
+  }
+}

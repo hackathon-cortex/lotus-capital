@@ -116,7 +116,7 @@ export const NavTrack: React.FC<NavTrackProps> = ({
     // Only apply hover pill on devices supporting hover & fine pointer
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       setHoveredKey(item.id);
-      if (item.id === 'services') {
+      if (item.id === 'insurance' || item.id === 'services' || item.isTrigger) {
         onServicesTriggerHover(true);
       } else {
         onServicesTriggerHover(false);

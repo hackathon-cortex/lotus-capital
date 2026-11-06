@@ -15,30 +15,65 @@ export const AdminPlaceholder: React.FC<AdminPlaceholderProps> = ({
   const params = useParams();
 
   return (
-    <div>
-      <div style={{ marginBottom: '1.5rem' }}>
-        <h2>{title}</h2>
-        <p style={{ color: 'var(--muted)' }}>{description}</p>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div>
+        <h1
+          style={{
+            fontSize: '26px',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 600,
+            color: '#FFFFFF',
+            margin: '0 0 4px',
+            letterSpacing: '-0.02em',
+          }}
+        >
+          {title}
+        </h1>
+        <p style={{ color: '#8A949D', margin: 0, fontSize: '13.5px' }}>
+          {description}
+        </p>
+
         {Object.keys(params).length > 0 && (
-          <div style={{ fontSize: '0.85rem', color: 'var(--navy-700)', marginTop: '0.25rem' }}>
-            Route Params: <code>{JSON.stringify(params)}</code>
+          <div style={{ fontSize: '12px', color: '#D7D9DC', marginTop: '6px' }}>
+            Route Params: <code style={{ background: 'rgba(255, 255, 255, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>{JSON.stringify(params)}</code>
           </div>
         )}
       </div>
 
-      <div className="card" style={{ padding: '2rem', borderTop: '4px solid var(--navy-700)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-          <span className="badge badge-warning">PLACEHOLDER SCREEN</span>
-          <span style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>MOCK WORKSPACE</span>
+      <div
+        className="admin-bento-tile"
+        style={{
+          padding: '24px',
+          borderTop: '3px solid #1B4F82',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+          <span className="admin-status-badge admin-status-badge--qualified">
+            SCHEDULED SPRINT MODULE
+          </span>
+          <span style={{ fontSize: '12px', color: '#8A949D' }}>
+            Structure.md Section 6 Spec
+          </span>
         </div>
 
-        <p style={{ fontSize: '0.95rem', color: 'var(--ink)' }}>
-          This administrative view has been routed and role-protected per <code>Structure.md section 6</code>.
-          The complete UI implementation is scheduled for the next development sprint.
+        <p style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.9)', lineHeight: 1.6, margin: '0 0 16px' }}>
+          This administrative view is routed, authenticated, and role-guarded. Real-time API integration with the FastAPI backend endpoint is scheduled in the operational roadmap.
         </p>
 
-        <h4 style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>Coworker TODO List:</h4>
-        <ul style={{ paddingLeft: '1.25rem', lineHeight: '1.8', fontSize: '0.9rem', color: 'var(--ink)' }}>
+        <h4
+          style={{
+            margin: '16px 0 8px',
+            fontSize: '13px',
+            fontFamily: 'Poppins, sans-serif',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            color: '#D7D9DC',
+          }}
+        >
+          Implementation Requirements:
+        </h4>
+
+        <ul style={{ paddingLeft: '20px', lineHeight: '1.9', fontSize: '13.5px', color: '#D7D9DC', margin: 0 }}>
           {todos.map((todo, idx) => (
             <li key={idx}>{todo}</li>
           ))}
@@ -47,4 +82,3 @@ export const AdminPlaceholder: React.FC<AdminPlaceholderProps> = ({
     </div>
   );
 };
-

@@ -790,4 +790,82 @@ This round remediated the 8 visible layout and interaction defects identified ac
   10. `10-gi-mobile-vertical-steps-375.png`
   11. `11-health-mobile-timeline-375.png`
 
+---
+
+## 6. Admin Panel Shell & Bento Grid Redesign (v2)
+
+### 6.1 Architectural Overview
+The admin portal has been comprehensively overhauled into a unified, config-driven administrative workspace built around `AdminShell`:
+1. **`AdminBackdrop`**: Fixed full-viewport layer (`linear-gradient(135deg, #051329 0%, #071B30 40%, #0A2540 75%, #123D67 100%)`) with two soft navy radial glows and an unclipped, centered Lotus Capital watermark logo (60–70vh tall) featuring a gentle 40s transform drift (disabled under `prefers-reduced-motion`).
+2. **`GlassPanel`**: A floating 32px rounded container (`margin: 16px 20px`, `backdrop-filter: blur(20px) saturate(120%)`, `border: 1px solid rgba(255,255,255,0.18)`, soft layered shadow) that houses the sidebar, topbar, and scrollable content area. Only the inner panel scrolls; the backdrop never moves.
+3. **`AdminSidebar`**: Collapsible 248px glass rail (collapsing to 72px icon rail with state persisted in `localStorage` via try/catch). Categorized into labelled sections: *Overview*, *Leads*, *Content*, and *Admin*. Features 40px item height, active ~14% white pill with a 3px red left bar (`#E92332`), hover states, red follow-up due count badge, and a bottom user chip with initials circle, role, and sign-out icon button.
+4. **`AdminTopbar`**: 64px sticky bar inside the glass panel with glass search field (`Ctrl+K` hint chip), system status dot (*FastAPI Connected*), public site link pill (`/`), and avatar circle.
+5. **`BentoGrid` (`/admin/dashboard`)**: 12-column CSS grid with 16px gaps and fixed compact row heights engineered so the primary operational tier fits into a standard 1440×900 desktop viewport without page scrolling.
+6. **Universal Page Inheritance**: Every admin route (`/admin/leads`, `/admin/content/pages`, etc.) automatically inherits this shell via `AdminLayout.tsx` without breaking RBAC, routing, or existing form logic.
+
+### 6.2 Strict Brand Palette & Iconography Compliance
+- **Brand Colors Only**: Midnight Navy (`#051329`), Navy-950 (`#071B30`), Rich Navy (`#0A2540`), Primary Navy (`#123D67`), Light Navy (`#1B4F82`), Pure White (`#FFFFFF`), Silver/Neutral Tints (`#D7D9DC`, `#E2E8F0`, `#F3F5F7`, `#8A949D`), and Brand Red (`#E92332`, `#C81B29`, `#D9232D`).
+- **Zero Forbidden Accents**: Zero green, teal, gold, purple, or coral. Positive trends render with a solid navy `#123D67` up-arrow (on white) or white up-arrow; negative trends use brand red down-arrows.
+- **Zero Coloured Emojis**: Purged all emojis (`📊`, `📥`, `⏰`, `📈`, `📄`, `❓`, `👥`, `🏆`, `💬`, `✍️`, `🖼️`, `🛡️`, `📋`, `⚙️`, `🚪`, `🔍`) and replaced them with unified SVG line icons (`AdminIcon`).
+- **Brand Lint & Compliance Test**: Verified via `frontend/tests/adminBrandAndShell.test.tsx`.
+
+### 6.3 Bento Grid Tile Specification (`/admin/dashboard`)
+| Tile | Name | Span | Highlights |
+|:---|:---|:---|:---|
+| **Tile A** | **Headline Enquiries** | 5 cols | Single high-contrast white tile with navy text (`#071B30`), count-up animation (`42`), `Oct 2026` label, navy up-arrow chip (`+18.5% vs previous month`), and inline SVG sparkline trajectory. |
+| **Tile B** | **Follow-ups Due Today** | 3 cols | Red-accented glass card, count-up `6`, morning/afternoon split (`3 scheduled morning • 3 afternoon`), pulsing red alert dot, direct link to `/admin/followups`. |
+| **Tile C** | **Converted This Month** | 4 cols | Count `18`, animated 900ms SVG conversion-rate ring (`42.8%`), and conversion caption. |
+| **Tile D** | **Quick Operations** | 4 cols | 4 rounded glass chips (Add Lead in brand red, Edit Content, Upload Media, Update FAQs) linking to active routes. |
+| **Tile E** | **Enquiries Trend Chart** | 8 cols | Inline interactive SVG line chart with soft area fill, hover data-point tooltip, and crossfading segmented pills (*All*, *Insurance*, *Mutual Funds*, *Equity*). |
+| **Tile F** | **Lead Conversion by Service** | 4 cols | Animated compact progress bars displaying conversion rates per practice area. |
+| **Tile G** | **Latest Inbound Enquiries** | 7 cols | Compact 40px table rows with zebra striping, live status change dropdowns, client contact details, and link to `/admin/leads`. |
+| **Tile H** | **Today's Follow-ups List** | 5 cols | Urgent consultation queue with timestamps, name, service, and direct one-click `tel:` and WhatsApp `wa.me` action buttons. |
+
+### 6.4 Key Assumptions Noted
+1. **Logo File Used**: Embedded vector component `<LotusLogo variant="light" />` for maximum scalability, zero clipping, and transparent background watermark.
+2. **Data Keys Mapped**: Mapped from the existing mock/API layer (`user`, `enquiries`, `monthlyData`). User display name strips development marker `(Mock Admin)` so headers and chips present clean institutional identity (`Abhilash Chudasama`).
+3. **Data Completeness**: Any widget lacking an authoritative data source (e.g. unverified notification streams) was omitted rather than displaying fabricated data.
+4. **Chart Library**: Lightweight custom SVG line chart with smooth mathematical Bézier/polyline projection and reactive state crossfading—eliminating heavy external charting dependencies and ensuring instantaneous render times.
+
+### 6.5 Verification & Test Status
+- **Vitest Test Suite**: 16 test files / **174 tests passing** (`npm test --prefix frontend -- --run`).
+- **Production Build**: Verified with 0 errors (`npm run build --prefix frontend`).
+- **Headless Chrome CDP Screenshots** (Saved in `docs/screenshots/admin-v2/`):
+  1. `01_dashboard_1440x900_expanded.png` (Desktop 1440×900, sidebar expanded)
+  2. `02_dashboard_1440x900_collapsed.png` (Desktop 1440×900, sidebar collapsed to 72px rail)
+  3. `03_dashboard_1440x900_chart_insurance.png` (Desktop 1440×900, chart filter set to Insurance)
+  4. `04_leads_page_1440x900.png` (Enquiries & Leads page at `/admin/leads`)
+  5. `05_page_content_1440x900.png` (CMS Page Content at `/admin/content/pages`)
+  6. `06_dashboard_1024x768.png` (Tablet 1024×768 with auto-collapsed rail)
+  7. `07_dashboard_375x812_mobile.png` (Mobile 375×812 responsive layout)
+  8. `08_mobile_drawer_open_375x812.png` (Mobile 375×812 with slide-in drawer open)
+
+---
+
+## 22. Reference Alignment: Process Timeline Pipeline & Insurance Navigation Scope
+
+### 22.1 Process Timeline Pipeline (Cortex Digital Solutions Reference Match)
+- **Component**: [`ReferenceTimelinePipeline.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/common/ReferenceTimelinePipeline.tsx)
+- **Applied across**: Home (`HomeHowWeWork.tsx`), About Us (`OurJourneyTimeline.tsx`), General Insurance (`StepScroller.tsx`), Health Insurance (`HealthProcessTimeline.tsx`), Life Insurance (`LifeProcessTimeline.tsx`), Equity (`EquityAccountJourney.tsx`).
+- **Key Refinements**:
+  1. **Alternating Snake Architecture**: Top row (odd steps 01, 03, 05, 07) and bottom row (even steps 02, 04, 06, 08) connected across a central continuous horizontal baseline.
+  2. **Top Phase Badges**: Clean rectangular phase badges (`[ DISCOVER ]`, `[ DESIGN ]`, `[ BUILD ]`, `[ LAUNCH & SUPPORT ]`) spanning the respective step column pairs across the top.
+  3. **Concentric Card Anchor Nodes**: Added 16px concentric rings (`◎`) with inner dot at the boundary of each card where the vertical stem connects to the baseline, matching the reference screenshot.
+  4. **Active Baseline Node**: Removed extraneous floating 32px Lotus icon from the line. Replaced with an authentic prominent active concentric node on the baseline with a soft red halo (`box-shadow: 0 0 0 6px rgba(233, 35, 50, 0.22), 0 0 16px rgba(233, 35, 50, 0.65)`), white inner ring, and solid red core, exactly mirroring Step 04 of the Cortex reference.
+  5. **Continuous Smooth Scroll Line Draw**: The central red progress line draws continuously with page scroll using sub-pixel interpolation (`progressRatio * trackSpanPercent`), activating nodes and cards as the line reaches them. Clicking any card jumps smoothly to that step, and scrolling resumes continuous scroll tracking after 60px of movement.
+  6. **Zero Dead Scroll Space**: No 300vh or 400vh sticky trapping; compact padding (`3.75rem 0 4.25rem`) with instant natural scroll release.
+
+### 22.2 Navigation Bar "Insurance" Solution Scoping
+- **Components**: [`SiteHeader.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/SiteHeader.tsx), [`NavTrack.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/NavTrack.tsx), [`NavMegaMenu.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/NavMegaMenu.tsx), [`MobileDrawer.tsx`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/components/nav/MobileDrawer.tsx), [`navigation.ts`](file:///c:/Users/lapto/OneDrive/Desktop/Lotus%20capital/frontend/src/config/navigation.ts).
+- **Key Refinements**:
+  1. **Label Changed to "Insurance"**: The primary solutions dropdown trigger is explicitly labelled **"Insurance"** in both desktop and mobile navigation.
+  2. **Scoped Strictly to Insurance Practices**: The mega-menu panel and mobile drawer accordion now display strictly the 3 insurance solutions:
+     - **General Insurance** (`/services/general-insurance`)
+     - **Life Insurance** (`/services/life-insurance`)
+     - **Health Insurance** (`/services/health-insurance`)
+  3. **Independent Investment Items**: Mutual Funds and Equity are maintained strictly as dedicated top-level navigation items and are never mixed into the Insurance mega-menu or accordion.
+  4. **Desktop Hover Intent Bug Fix**: Fixed `NavTrack.tsx` pointer handler to properly detect `item.id === 'insurance'` and trigger `onServicesTriggerHover(true)`, ensuring smooth instant hover-intent reveal of the Insurance mega-menu on desktop.
+
+
+
 

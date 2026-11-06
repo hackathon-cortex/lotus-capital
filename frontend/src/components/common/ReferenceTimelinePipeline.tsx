@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { LotusLogo } from './LotusLogo';
 
 export interface TimelinePhase {
   label: string;
@@ -45,6 +44,7 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0.35);
   const [manualActiveIndex, setManualActiveIndex] = useState<number | null>(null);
+  const lastClickScrollY = useRef<number | null>(null);
   const [isDesktop, setIsDesktop] = useState(
     typeof window !== 'undefined' ? window.innerWidth >= 1024 : true
   );
@@ -73,6 +73,15 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
 
     const handleScroll = () => {
       if (!containerRef.current) return;
+
+      // Resume scroll-driven progress if user scrolled past manual click point
+      if (manualActiveIndex !== null && lastClickScrollY.current !== null) {
+        if (Math.abs(window.scrollY - lastClickScrollY.current) > 60) {
+          setManualActiveIndex(null);
+          lastClickScrollY.current = null;
+        }
+      }
+
       const rect = containerRef.current.getBoundingClientRect();
       const windowH = window.innerHeight;
 
@@ -93,7 +102,7 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [manualActiveIndex]);
 
   const stepsCount = steps.length;
   const computedActiveIndex = Math.min(
@@ -105,6 +114,7 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
 
   const handleStepClick = (idx: number) => {
     setManualActiveIndex(idx);
+    lastClickScrollY.current = typeof window !== 'undefined' ? window.scrollY : null;
     if (onStepSelect) {
       onStepSelect(idx);
     }
@@ -123,7 +133,11 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
   // The line spans between the midpoint of column 1 (100% / 2N) and column N (100% - 100% / 2N)
   const colHalfPercent = 100 / (stepsCount * 2);
   const trackSpanPercent = 100 - colHalfPercent * 2;
-  const activeLineWidthPercent = (activeIndex / Math.max(1, stepsCount - 1)) * trackSpanPercent;
+  const progressRatio =
+    manualActiveIndex !== null
+      ? activeIndex / Math.max(1, stepsCount - 1)
+      : Math.min(1, Math.max(0, scrollProgress));
+  const activeLineWidthPercent = progressRatio * trackSpanPercent;
 
   return (
     <section
@@ -420,32 +434,6 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
                 }}
               />
 
-              {/* Traveling Lotus Bead / Glow on the Baseline */}
-              <div
-                style={{
-                  position: 'absolute',
-                  left: `calc(${colHalfPercent}% + ${activeLineWidthPercent}%)`,
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: isDark ? 'var(--navy-900, #0A2540)' : '#FFFFFF',
-                  border: `2px solid ${accentColor}`,
-                  boxShadow: `0 0 16px rgba(233, 35, 50, 0.75)`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 5,
-                  transition: 'left 240ms cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-                aria-hidden="true"
-              >
-                <div style={{ width: '16px', height: '16px' }}>
-                  <LotusLogo variant={isDark ? 'light' : 'dark'} width="100%" height="100%" />
-                </div>
-              </div>
-
               {/* Step Connectors & Concentric Nodes for every column */}
               <div
                 style={{
@@ -475,6 +463,36 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
                         height: '100%',
                       }}
                     >
+                      {/* Top Card Attachment Node */}
+                      {isTop && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '-8px',
+                            width: '16px',
+                            height: '16px',
+                            borderRadius: '50%',
+                            backgroundColor: cardBg,
+                            border: isLit ? `2px solid ${accentColor}` : `2px solid ${trackInactive}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 4,
+                            transition: 'border-color 240ms ease',
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: isLit ? accentColor : trackInactive,
+                              transition: 'background-color 240ms ease',
+                            }}
+                          />
+                        </div>
+                      )}
+
                       {/* Vertical Stem from Top Card to Baseline */}
                       {isTop && (
                         <div
@@ -493,36 +511,53 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
                       <div
                         onClick={() => handleStepClick(idx)}
                         style={{
-                          width: isActive ? '22px' : isPassed ? '18px' : '14px',
-                          height: isActive ? '22px' : isPassed ? '18px' : '14px',
+                          width: isActive ? '26px' : isPassed ? '20px' : '16px',
+                          height: isActive ? '26px' : isPassed ? '20px' : '16px',
                           borderRadius: '50%',
                           backgroundColor: isLit ? accentColor : cardBg,
                           border: isActive
-                            ? `3px solid ${isDark ? '#FFFFFF' : '#FFFFFF'}`
+                            ? `3px solid ${isDark ? '#0A2540' : '#FFFFFF'}`
                             : isPassed
-                            ? `2px solid ${accentColor}`
+                            ? `2px solid ${isDark ? '#0A2540' : '#FFFFFF'}`
                             : `2px solid ${trackInactive}`,
                           boxShadow: isActive
-                            ? `0 0 16px rgba(233, 35, 50, 0.85)`
+                            ? `0 0 0 6px rgba(233, 35, 50, 0.22), 0 0 16px rgba(233, 35, 50, 0.65)`
                             : 'none',
                           cursor: 'pointer',
                           transition: 'all 240ms cubic-bezier(0.16, 1, 0.3, 1)',
                           zIndex: 4,
                           position: 'relative',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         {/* Inner dot for concentric ring effect */}
-                        {isPassed && (
+                        {isPassed ? (
                           <div
                             style={{
-                              position: 'absolute',
-                              top: '50%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
                               width: '6px',
                               height: '6px',
                               borderRadius: '50%',
                               backgroundColor: '#FFFFFF',
+                            }}
+                          />
+                        ) : isActive ? (
+                          <div
+                            style={{
+                              width: '8px',
+                              height: '8px',
+                              borderRadius: '50%',
+                              backgroundColor: '#FFFFFF',
+                            }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              width: '4px',
+                              height: '4px',
+                              borderRadius: '50%',
+                              backgroundColor: trackInactive,
                             }}
                           />
                         )}
@@ -540,6 +575,36 @@ export const ReferenceTimelinePipeline: React.FC<ReferenceTimelinePipelineProps>
                             transition: 'background-color 240ms ease',
                           }}
                         />
+                      )}
+
+                      {/* Bottom Card Attachment Node */}
+                      {!isTop && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            bottom: '-8px',
+                            width: '16px',
+                            height: '16px',
+                            borderRadius: '50%',
+                            backgroundColor: cardBg,
+                            border: isLit ? `2px solid ${accentColor}` : `2px solid ${trackInactive}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 4,
+                            transition: 'border-color 240ms ease',
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: isLit ? accentColor : trackInactive,
+                              transition: 'background-color 240ms ease',
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
                   );
