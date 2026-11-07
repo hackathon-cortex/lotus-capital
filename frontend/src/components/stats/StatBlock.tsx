@@ -13,22 +13,18 @@ interface StatBlockProps {
 }
 
 const AnimatedStatValue: React.FC<{ value: string; isDark?: boolean }> = ({ value, isDark }) => {
-  // If in test environment, return value directly for deterministic assertion
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') {
-    return <div className={`stat-card__value ${isDark ? 'text-white' : ''}`}>{value}</div>;
-  }
-
   // Extract leading non-digits, the number, and trailing non-digits (e.g., "₹", "50", " crore+" or "", "2500", "+")
   const match = value.match(/^([^\d]*)(\d+)(.*)$/);
-  if (!match) {
-    return <div className={`stat-card__value ${isDark ? 'text-white' : ''}`}>{value}</div>;
-  }
-
-  const prefix = match[1];
-  const num = parseInt(match[2], 10);
-  const suffix = match[3];
+  const prefix = match ? match[1] : '';
+  const num = match ? parseInt(match[2], 10) : 0;
+  const suffix = match ? match[3] : '';
 
   const animatedVal = useCountUp(num, 1600);
+
+  // If in test environment, return value directly for deterministic assertion
+  if ((typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') || !match) {
+    return <div className={`stat-card__value ${isDark ? 'text-white' : ''}`}>{value}</div>;
+  }
 
   return (
     <div

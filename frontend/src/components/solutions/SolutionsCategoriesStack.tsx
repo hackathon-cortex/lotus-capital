@@ -140,7 +140,7 @@ export const SolutionsCategoriesStack: React.FC<SolutionsCategoriesStackProps> =
         borderTopRightRadius: '36px',
         backgroundColor: 'var(--silver-100, #f8f9fa)',
         boxShadow: '0 -10px 40px rgba(10,37,64,0.06)',
-        padding: '5rem 1.5rem',
+        padding: '5rem 0',
       }}
     >
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>

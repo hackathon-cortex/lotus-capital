@@ -1827,7 +1827,7 @@ export const Home: React.FC = () => {
          ========================================================= */}
       <section className="section-padding stacked-section" id="faq" data-tone="light" data-reveal style={{ backgroundColor: 'var(--white)' }}>
         <div className="container">
-          <div className="grid grid-cols-1 grid-cols-md-12" style={{ gap: '3.5rem' }}>
+          <div className="grid grid-cols-1 grid-cols-md-12 faq-grid-wrapper" style={{ gap: '3.5rem' }}>
             {/* Left Column (5 Cols): Intro + Help Card */}
             <div className="col-span-12 col-span-md-5">
               <span className="eyebrow-rule" />
@@ -1846,7 +1846,7 @@ export const Home: React.FC = () => {
                   backgroundColor: 'var(--silver-100)',
                   border: '1px solid var(--silver-300)',
                   borderRadius: '24px',
-                  padding: '1.75rem',
+                  padding: 'clamp(1.25rem, 3.5vw, 1.75rem)',
                   boxShadow: 'var(--shadow-soft)',
                 }}
               >
@@ -1891,64 +1891,29 @@ export const Home: React.FC = () => {
                         onClick={() => setOpenFaq(isOpen ? null : faq.id)}
                         aria-expanded={isOpen}
                         aria-controls={`faq-answer-${faq.id}`}
-                        style={{
-                          width: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          padding: '1.25rem 1.5rem',
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                        }}
+                        className="home-faq-button"
+                        type="button"
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                          <span
-                            style={{
-                              width: '32px',
-                              height: '32px',
-                              borderRadius: '50%',
-                              backgroundColor: isOpen ? 'var(--navy-900)' : 'var(--navy-100)',
-                              color: isOpen ? 'var(--white)' : 'var(--navy-700)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '0.78rem',
-                              fontWeight: 700,
-                              flexShrink: 0,
-                              transition: 'all 0.2s ease',
-                            }}
-                          >
-                            {itemNumber}
-                          </span>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-heading)',
-                              fontWeight: 600,
-                              fontSize: '1rem',
-                              color: 'var(--navy-900)',
-                            }}
-                          >
-                            {faq.question}
-                          </span>
-                        </div>
+                        <span
+                          className="home-faq-number"
+                          style={{
+                            backgroundColor: isOpen ? 'var(--navy-900)' : 'var(--navy-100)',
+                            color: isOpen ? 'var(--white)' : 'var(--navy-700)',
+                          }}
+                        >
+                          {itemNumber}
+                        </span>
+
+                        <span className="home-faq-question">
+                          {faq.question}
+                        </span>
 
                         <span
+                          className="home-faq-toggle"
                           style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
                             backgroundColor: isOpen ? 'var(--red-500)' : 'var(--silver-100)',
                             color: isOpen ? 'var(--white)' : 'var(--navy-700)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '1.2rem',
                             transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-                            transition: 'transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease',
-                            flexShrink: 0,
-                            marginLeft: '1rem',
                           }}
                         >
                           +
@@ -1966,8 +1931,8 @@ export const Home: React.FC = () => {
                       >
                         <div style={{ overflow: 'hidden' }}>
                           <div
+                            className="home-faq-answer"
                             style={{
-                              padding: '0 1.5rem 1.25rem 4.1rem',
                               color: 'var(--muted)',
                               fontSize: '0.92rem',
                               lineHeight: '1.65',

@@ -28,7 +28,7 @@ export const WaysToInvestGrid: React.FC<WaysToInvestGridProps> = ({
         borderTopLeftRadius: '36px',
         borderTopRightRadius: '36px',
         boxShadow: '0 -10px 40px rgba(10,37,64,0.06)',
-        padding: '5rem 1.5rem',
+        padding: '5rem 0',
       }}
     >
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>

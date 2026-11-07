@@ -87,6 +87,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
     };
 
     window.addEventListener('keydown', handleKeyDown);
+    const triggerBtn = triggerButtonRef?.current;
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -99,7 +100,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
       if (typeof window.scrollTo === 'function') {
         window.scrollTo(0, savedY);
       }
-      triggerButtonRef?.current?.focus();
+      triggerBtn?.focus();
       clearTimeout(timer);
     };
   }, [isOpen, onClose, triggerButtonRef]);

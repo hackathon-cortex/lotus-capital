@@ -125,18 +125,16 @@ export const Insights: React.FC = () => {
 
         {/* 6. Reassurance Enquiry Section */}
         <section id="enquiry" className="section-padding" style={{ paddingTop: '1rem', paddingBottom: '4rem' }}>
-          <div className="container">
-            <EnquiryPanel
-              title="Have Questions on Any Financial Topic?"
-              subtitle="Speak with our certified advisory team in Godhra for unbiased educational clarifications."
-              defaultService="mutual-funds"
-              reassuranceLines={[
-                'Direct consultation with our licensed advisor in Godhra',
-                'Unbiased educational guidance — zero high-pressure sales',
-                'Tailored reviews of existing portfolios and policies',
-              ]}
-            />
-          </div>
+          <EnquiryPanel
+            title="Have Questions on Any Financial Topic?"
+            subtitle="Speak with our certified advisory team in Godhra for unbiased educational clarifications."
+            defaultService="mutual-funds"
+            reassuranceLines={[
+              'Direct consultation with our licensed advisor in Godhra',
+              'Unbiased educational guidance — zero high-pressure sales',
+              'Tailored reviews of existing portfolios and policies',
+            ]}
+          />
         </section>
       </div>
     </>

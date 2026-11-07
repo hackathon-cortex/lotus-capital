@@ -15,17 +15,15 @@ import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
 import { OurJourneyTimeline } from '../../components/about/OurJourneyTimeline';
 
 const AnimatedNum: React.FC<{ value: string; isDark?: boolean }> = ({ value, isDark }) => {
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') {
-    return <span className={isDark ? 'text-white' : ''}>{value}</span>;
-  }
   const match = value.match(/^([^\d]*)(\d+)(.*)$/);
-  if (!match) {
+  const prefix = match ? match[1] : '';
+  const num = match ? parseInt(match[2], 10) : 0;
+  const suffix = match ? match[3] : '';
+  const animated = useCountUp(num, 1600);
+
+  if ((typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') || !match) {
     return <span className={isDark ? 'text-white' : ''}>{value}</span>;
   }
-  const prefix = match[1];
-  const num = parseInt(match[2], 10);
-  const suffix = match[3];
-  const animated = useCountUp(num, 1600);
 
   return (
     <span className={isDark ? 'text-white' : ''} style={{ fontVariantNumeric: 'tabular-nums' }}>

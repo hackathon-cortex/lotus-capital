@@ -53,11 +53,21 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ onMenuToggle }) => {
     document.documentElement.style.setProperty('--header-h', `${totalHeight}px`);
   }, []);
 
-  // Update height on mount, resize, and scroll transitions
+  // Update height on mount, resize, and scroll transitions via ResizeObserver and window resize
   useEffect(() => {
     updateHeaderHeightVar();
     window.addEventListener('resize', updateHeaderHeightVar, { passive: true });
-    return () => window.removeEventListener('resize', updateHeaderHeightVar);
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && barRef.current) {
+      ro = new ResizeObserver(() => {
+        updateHeaderHeightVar();
+      });
+      ro.observe(barRef.current);
+    }
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeightVar);
+      ro?.disconnect();
+    };
   }, [updateHeaderHeightVar]);
 
   // Red progress bar and scroll hysteresis / hide-on-scroll logic

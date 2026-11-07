@@ -115,7 +115,7 @@ export const OtherSolutions: React.FC = () => {
         <SolutionsCategoriesStack id="types" onSelectSolution={handleSolutionSelect} />
 
         {/* 3. FAQ + Notice (Notice directly inside FAQ section) */}
-        <div id="faqs" style={{ position: 'relative', zIndex: 14 }}>
+        <div style={{ position: 'relative', zIndex: 14 }}>
           <FaqAccordion
             page="other-solutions"
             title="Questions, answered."

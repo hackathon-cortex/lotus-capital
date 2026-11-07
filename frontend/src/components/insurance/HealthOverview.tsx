@@ -58,7 +58,7 @@ export const HealthOverview: React.FC<HealthOverviewProps> = ({ id = 'overview' 
         borderTopRightRadius: '36px',
         backgroundColor: '#ffffff',
         boxShadow: '0 -10px 40px rgba(10,37,64,0.06)',
-        padding: '4.5rem 1.5rem 4rem',
+        padding: '4.5rem 0 4rem',
       }}
     >
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>

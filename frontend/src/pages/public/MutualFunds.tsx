@@ -216,7 +216,7 @@ export const MutualFunds: React.FC = () => {
         <MfCompareSection id="compare" />
 
         {/* 6. Frequently Asked Questions & Mandatory Disclosure */}
-        <div id="faqs" style={{ position: 'relative', zIndex: 16 }}>
+        <div style={{ position: 'relative', zIndex: 16 }}>
           <FaqAccordion
             page="mutual-funds"
             title="Questions, answered."

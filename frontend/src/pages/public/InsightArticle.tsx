@@ -34,16 +34,9 @@ export const InsightArticle: React.FC = () => {
   const currentIndex = allArticles.findIndex((a) => a.slug === slug);
   const article = currentIndex !== -1 ? allArticles[currentIndex] : null;
 
-  if (!article) {
-    return <Navigate to="/insights" replace />;
-  }
-
-  // Previous and Next articles
-  const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
-  const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
-
   // Extract headings for Table of Contents
   const headings: TocHeading[] = useMemo(() => {
+    if (!article) return [];
     const list: TocHeading[] = [];
     article.blocks.forEach((b) => {
       if (b.type === 'heading' && b.text) {
@@ -74,6 +67,14 @@ export const InsightArticle: React.FC = () => {
     }
     return list;
   }, [article]);
+
+  if (!article) {
+    return <Navigate to="/insights" replace />;
+  }
+
+  // Previous and Next articles
+  const prevArticle = currentIndex > 0 ? allArticles[currentIndex - 1] : null;
+  const nextArticle = currentIndex < allArticles.length - 1 ? allArticles[currentIndex + 1] : null;
 
   const isInsurance =
     article.category.toLowerCase().includes('insurance') ||

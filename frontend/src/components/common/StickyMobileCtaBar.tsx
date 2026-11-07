@@ -18,6 +18,8 @@ export const StickyMobileCtaBar: React.FC<StickyMobileCtaBarProps> = ({ isMenuOp
   const { isOpen: isDrawerOpen, openContactDrawer } = useContactDrawer();
   const [isPastHero, setIsPastHero] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isEnquiryVisible, setIsEnquiryVisible] = useState(false);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const location = useLocation();
 
   // Determine current service slug from path
@@ -33,6 +35,18 @@ export const StickyMobileCtaBar: React.FC<StickyMobileCtaBarProps> = ({ isMenuOp
 
   const currentService = getServiceSlug(location.pathname);
 
+  // Keyboard open detection via visualViewport
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.visualViewport) return;
+    const handleViewportResize = () => {
+      const vv = window.visualViewport;
+      if (!vv) return;
+      setIsKeyboardOpen(vv.height < window.innerHeight * 0.75);
+    };
+    window.visualViewport.addEventListener('resize', handleViewportResize);
+    return () => window.visualViewport?.removeEventListener('resize', handleViewportResize);
+  }, []);
+
   // Monitor scroll to reveal after hero scrolls out (~380px)
   useEffect(() => {
     const handleScroll = () => {
@@ -45,29 +59,37 @@ export const StickyMobileCtaBar: React.FC<StickyMobileCtaBarProps> = ({ isMenuOp
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
 
-  // Monitor footer visibility via IntersectionObserver
+  // Monitor footer and enquiry visibility via IntersectionObserver
   useEffect(() => {
     const footer = document.querySelector('footer');
-    if (!footer) return;
+    const enquiry = document.querySelector('#enquiry, .enquiry-panel-section');
 
     if (typeof IntersectionObserver !== 'undefined') {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const entry = entries[0];
-          setIsFooterVisible(entry.isIntersecting);
-        },
-        { threshold: 0.05 }
-      );
-      observer.observe(footer);
-      return () => observer.disconnect();
-    } else {
-      const checkFooter = () => {
-        const rect = footer.getBoundingClientRect();
-        setIsFooterVisible(rect.top < window.innerHeight);
-      };
-      window.addEventListener('scroll', checkFooter, { passive: true });
-      checkFooter();
-      return () => window.removeEventListener('scroll', checkFooter);
+      const observers: IntersectionObserver[] = [];
+
+      if (footer) {
+        const footerObs = new IntersectionObserver(
+          (entries) => {
+            setIsFooterVisible(entries[0].isIntersecting);
+          },
+          { threshold: 0.05 }
+        );
+        footerObs.observe(footer);
+        observers.push(footerObs);
+      }
+
+      if (enquiry) {
+        const enquiryObs = new IntersectionObserver(
+          (entries) => {
+            setIsEnquiryVisible(entries[0].isIntersecting);
+          },
+          { threshold: 0.1 }
+        );
+        enquiryObs.observe(enquiry);
+        observers.push(enquiryObs);
+      }
+
+      return () => observers.forEach((obs) => obs.disconnect());
     }
   }, [location.pathname]);
 
@@ -76,7 +98,13 @@ export const StickyMobileCtaBar: React.FC<StickyMobileCtaBarProps> = ({ isMenuOp
     return null;
   }
 
-  const isVisible = isPastHero && !isFooterVisible && !isDrawerOpen && !isMenuOpen;
+  const isVisible =
+    isPastHero &&
+    !isFooterVisible &&
+    !isEnquiryVisible &&
+    !isDrawerOpen &&
+    !isMenuOpen &&
+    !isKeyboardOpen;
 
   return (
     <div

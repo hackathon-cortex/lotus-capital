@@ -531,7 +531,7 @@ export const ArticleBlockRenderer: React.FC<ArticleBlockRendererProps> = ({
                   key={idx}
                   style={{
                     borderRadius: '16px',
-                    border: '1px solid #E2E8F0',
+                    border: '1px solid var(--silver-300, #d7d9dc)',
                     overflow: 'hidden',
                   }}
                 >
@@ -540,21 +540,44 @@ export const ArticleBlockRenderer: React.FC<ArticleBlockRendererProps> = ({
                     onClick={() => toggleFaq(idx)}
                     style={{
                       width: '100%',
-                      padding: '1rem 1.25rem',
-                      display: 'flex',
+                      padding: '1rem 1.15rem',
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(0, 1fr) 32px',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
-                      backgroundColor: isOpen ? '#F1F5F9' : '#FFFFFF',
+                      backgroundColor: isOpen ? 'var(--silver-100, #f8f9fa)' : '#FFFFFF',
                       border: 'none',
                       textAlign: 'left',
                       fontSize: '0.98rem',
                       fontWeight: 600,
                       color: 'var(--navy-900, #0A2540)',
                       cursor: 'pointer',
+                      gap: '0.75rem',
+                      minWidth: 0,
+                      boxSizing: 'border-box',
                     }}
                   >
-                    <span>{faq.question || faq.q}</span>
-                    <span style={{ fontSize: '1.1rem', color: '#5B8DB8', marginLeft: '1rem' }}>
+                    <span
+                      style={{
+                        minWidth: 0,
+                        overflowWrap: 'break-word',
+                        wordBreak: 'normal',
+                        hyphens: 'manual',
+                        whiteSpace: 'normal',
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {faq.question || faq.q}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '1.1rem',
+                        color: isOpen ? 'var(--red-500, #d9232d)' : 'var(--navy-700, #0d2b4a)',
+                        flexShrink: 0,
+                        fontWeight: 700,
+                        minWidth: 0,
+                        textAlign: 'center',
+                      }}
+                    >
                       {isOpen ? '−' : '+'}
                     </span>
                   </button>
@@ -562,12 +585,12 @@ export const ArticleBlockRenderer: React.FC<ArticleBlockRendererProps> = ({
                   {isOpen && (
                     <div
                       style={{
-                        padding: '1rem 1.25rem 1.25rem',
+                        padding: '1rem 1.15rem 1.25rem',
                         backgroundColor: '#FFFFFF',
-                        borderTop: '1px solid #E2E8F0',
+                        borderTop: '1px solid var(--silver-300, #d7d9dc)',
                         fontSize: '0.92rem',
                         lineHeight: 1.65,
-                        color: 'var(--silver-800, #334155)',
+                        color: 'var(--ink, #1f2937)',
                       }}
                     >
                       {faq.answer || faq.a}

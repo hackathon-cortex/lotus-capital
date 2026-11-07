@@ -148,37 +148,30 @@ export const Equity: React.FC = () => {
         <EquityAccountJourney />
 
         {/* 5. FAQs with Filter Categories */}
+        <FaqAccordion
+          page="equity"
+          title="Questions, answered."
+          subtitle="Direct guidance on demat accounts, trading access, and broking terms."
+          onEnquiryClick={() => handleActionScroll('enquiry')}
+        />
+
+        {/* 6. Mandatory Securities Market Risk Disclosure Notice */}
         <section
-          id="faqs"
           data-tone="light"
-          className="stacked-section"
           style={{
             backgroundColor: '#F8F9FA',
-            padding: '5.5rem 1.5rem',
-            borderTopLeftRadius: '32px',
-            borderTopRightRadius: '32px',
-            marginTop: '-32px',
+            padding: '0 0 4rem',
             position: 'relative',
             zIndex: 10,
-            boxShadow: '0 -20px 48px rgba(0, 0, 0, 0.06)',
           }}
         >
-          <div className="container" style={{ maxWidth: '1180px' }}>
-            <FaqAccordion
-              page="equity"
-              title="Questions, answered."
-              subtitle="Direct guidance on demat accounts, trading access, and broking terms."
-              onEnquiryClick={() => handleActionScroll('enquiry')}
-            />
-
-            {/* 6. Mandatory Securities Market Risk Disclosure Notice */}
+          <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
             <div
               className="risk-disclosure-note"
               style={{
-                marginTop: '3.5rem',
                 backgroundColor: '#FFFFFF',
-                border: '1.5px solid rgba(79, 95, 176, 0.25)',
-                borderLeft: '5px solid #4F5FB0',
+                border: '1.5px solid var(--silver-300, #d7d9dc)',
+                borderLeft: '5px solid var(--navy-700, #0d2b4a)',
                 borderRadius: '20px',
                 padding: '1.75rem 2rem',
                 boxShadow: '0 8px 24px rgba(0, 0, 0, 0.04)',
@@ -190,11 +183,11 @@ export const Equity: React.FC = () => {
                     width: '36px',
                     height: '36px',
                     borderRadius: '10px',
-                    backgroundColor: 'rgba(79, 95, 176, 0.12)',
+                    backgroundColor: 'rgba(13, 43, 74, 0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#4F5FB0',
+                    color: 'var(--navy-700, #0d2b4a)',
                     fontSize: '1.1rem',
                     flexShrink: 0,
                     fontWeight: 700,
@@ -237,25 +230,23 @@ export const Equity: React.FC = () => {
           className="stacked-section"
           style={{
             backgroundColor: 'var(--navy-950, #051329)',
-            padding: '5.5rem 1.5rem',
+            padding: '4rem 0 5rem',
             position: 'relative',
             zIndex: 11,
           }}
         >
-          <div className="container" style={{ maxWidth: '1240px' }}>
-            <EnquiryPanel
-              defaultService="equity"
-              serviceDetailOptions={EQUITY_ENQUIRY_OPTIONS}
-              selectedServiceDetails={selectedCategories}
-              onServiceDetailChange={setSelectedCategories}
-              title="Talk to us about opening an account"
-              subtitle="Share your requirements to explore demat and secondary market facilities through Religare Broking Limited."
-              reassuranceLines={[
-                'Our Godhra team will follow up',
-                'Please do not share passwords, OTPs or demat credentials',
-              ]}
-            />
-          </div>
+          <EnquiryPanel
+            defaultService="equity"
+            serviceDetailOptions={EQUITY_ENQUIRY_OPTIONS}
+            selectedServiceDetails={selectedCategories}
+            onServiceDetailChange={setSelectedCategories}
+            title="Talk to us about opening an account"
+            subtitle="Share your requirements to explore demat and secondary market facilities through Religare Broking Limited."
+            reassuranceLines={[
+              'Our Godhra team will follow up',
+              'Please do not share passwords, OTPs or demat credentials',
+            ]}
+          />
         </section>
       </div>
     </>

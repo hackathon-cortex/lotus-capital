@@ -8,7 +8,6 @@ describe('Equity & Investments (v2) Compliance & Refinement Rules', () => {
   const brokingFramePath = path.resolve(__dirname, '../src/components/investments/BrokingPartnerFrame.tsx');
   const servicesStagePath = path.resolve(__dirname, '../src/components/investments/EquityServicesStage.tsx');
   const journeyPath = path.resolve(__dirname, '../src/components/investments/EquityAccountJourney.tsx');
-  const registrationsPath = path.resolve(__dirname, '../../content/data/registrations.json');
   const faqsPath = path.resolve(__dirname, '../../content/data/faqs.json');
   const servicesPath = path.resolve(__dirname, '../../content/data/services.json');
 
@@ -17,7 +16,6 @@ describe('Equity & Investments (v2) Compliance & Refinement Rules', () => {
   const brokingContent = fs.readFileSync(brokingFramePath, 'utf8');
   const servicesStageContent = fs.readFileSync(servicesStagePath, 'utf8');
   const journeyContent = fs.readFileSync(journeyPath, 'utf8');
-  const registrations = JSON.parse(fs.readFileSync(registrationsPath, 'utf8'));
   const faqs = JSON.parse(fs.readFileSync(faqsPath, 'utf8'));
   const services = JSON.parse(fs.readFileSync(servicesPath, 'utf8'));
 

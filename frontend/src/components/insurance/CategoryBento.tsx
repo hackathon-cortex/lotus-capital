@@ -219,10 +219,13 @@ export const CategoryBento: React.FC<CategoryBentoProps> = ({
                 {/* Top header within card */}
                 <div>
                   <div
+                    className="category-card-header"
                     style={{
                       display: 'flex',
+                      flexWrap: 'wrap',
                       alignItems: 'center',
                       justifyContent: 'space-between',
+                      gap: '0.5rem',
                       marginBottom: '1.25rem',
                     }}
                   >
@@ -240,6 +243,7 @@ export const CategoryBento: React.FC<CategoryBentoProps> = ({
                         justifyContent: 'center',
                         boxShadow: isFeatured ? '0 6px 18px rgba(10,37,64,0.18)' : 'none',
                         border: isFeatured ? '2px solid rgba(255,255,255,0.2)' : '1px solid var(--silver-300)',
+                        flexShrink: 0,
                       }}
                     >
                       {cat.icon}
@@ -248,7 +252,7 @@ export const CategoryBento: React.FC<CategoryBentoProps> = ({
                     {/* Stat / Feature Badge */}
                     {cat.badge && (
                       <span
-                        className="category-stat-badge"
+                        className="category-stat-badge badge"
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
@@ -261,6 +265,9 @@ export const CategoryBento: React.FC<CategoryBentoProps> = ({
                           borderRadius: 'var(--radius-full)',
                           border: '1px solid rgba(217, 35, 45, 0.25)',
                           letterSpacing: '0.02em',
+                          whiteSpace: 'nowrap',
+                          flexShrink: 0,
+                          width: 'max-content',
                         }}
                       >
                         <span
@@ -269,6 +276,7 @@ export const CategoryBento: React.FC<CategoryBentoProps> = ({
                             height: '6px',
                             borderRadius: '50%',
                             backgroundColor: 'var(--red-500)',
+                            flexShrink: 0,
                           }}
                         />
                         {cat.badge}

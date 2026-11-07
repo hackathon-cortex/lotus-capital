@@ -866,6 +866,71 @@ The admin portal has been comprehensively overhauled into a unified, config-driv
   3. **Independent Investment Items**: Mutual Funds and Equity are maintained strictly as dedicated top-level navigation items and are never mixed into the Insurance mega-menu or accordion.
   4. **Desktop Hover Intent Bug Fix**: Fixed `NavTrack.tsx` pointer handler to properly detect `item.id === 'insurance'` and trigger `onServicesTriggerHover(true)`, ensuring smooth instant hover-intent reveal of the Insurance mega-menu on desktop.
 
+---
+
+## 23. Mobile Layout Robustness & Root Cause Resolution (Flaws 1–5)
+
+### 23.1 Root Causes Found & Systematic Fixes
+1. **Flaw 1 (General Insurance category rail squeezed to ~60px, letters breaking vertically)**:
+   - *Root Cause*: Hardcoded `gridTemplateColumns: 'repeat(4, 1fr)'` in inline styles with broad `overflow-wrap: anywhere` in `main.css`.
+   - *Fix*: Replaced broad wrap with safe `:where(...) { overflow-wrap: break-word; word-break: normal; hyphens: manual; }`. Created `HorizontalRail` component with `min-width: 240px`, `flex: 0 0 min(82vw, 320px)` and touch-scroll snapping. Card header wrapped with `flex-wrap: wrap; gap: 8px;` and badges protected with `white-space: nowrap !important; width: max-content !important;`.
+2. **Flaw 2 (General Insurance enquiry form consent label vertical character stack & crushed button)**:
+   - *Root Cause*: Consent checkbox and submit button + circular progress ring shared a single horizontal flex row.
+   - *Fix*: Separated into distinct stacked rows. Consent row styled with `display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px;`. Submit button given full width below `md` with `min-height: 52px; white-space: nowrap;`.
+3. **Flaw 3 (Health Insurance plan cards asymmetric gutters ~46px left vs 4px right & sticky CTA bar overlap)**:
+   - *Root Cause*: Duplicate `padding: 5rem 1.5rem` on the outer section wrapping `.container` (which already had padding), plus `minmax(340px, 1fr)` exceeding screen width on 360px viewports.
+   - *Fix*: Removed redundant horizontal padding from section wrappers, letting `.container` enforce symmetric gutters (`padding-inline: var(--container-pad)`). Added `body` padding for sticky CTA bar (`padding-bottom: calc(var(--cta-bar-h) + env(safe-area-inset-bottom))`), `visualViewport` keyboard detection, and repositioned the floating DEV pill above the bar on mobile.
+4. **Flaw 4 (Health Insurance Deep-dive inspector mid-word break & button wrapping into circle)**:
+   - *Root Cause*: Heading and `+ Mark as Reviewed` button shared a single flex row without wrapping in a narrow column.
+   - *Fix*: Created `.inspector-header-row` stacking vertically below `768px`. Renamed button label to "Mark as reviewed" without the plus glyph, styled as a pill (`border-radius: 999px; padding: 10px 16px; min-height: 44px;`).
+5. **Flaw 5 (Equity enquiry panel ~185px wide, clipped, horizontal overflow blank strip)**:
+   - *Root Cause*: Inline `gridTemplateColumns: 'minmax(320px, 4fr) minmax(420px, 6fr)'` in `EnquiryPanel.tsx` forcing a 740px minimum width on mobile, combined with triple-nested containers in `Equity.tsx`.
+   - *Fix*: Converted `.enquiry-split-card` to a responsive single-column layout below `900px` (`max-width: 560px; margin-inline: auto`). Removed redundant container wrapper in `Equity.tsx`. Applied `.break-anywhere` strictly to long email addresses.
+
+### 23.2 Automated Audit & Verification Status
+- **Vitest Test Suite**: 17 test files / **181 tests passing** (`npm test --prefix frontend -- --run`), including dedicated `tests/mobileLayoutFixes.test.tsx`.
+- **Production Build**: Clean compilation in ~2.8s with 0 errors (`npm run build --prefix frontend`).
+- **Audit Script**: `scripts/audit-mobile.mjs` wired to `npm run audit:mobile`.
+
+---
+
+## 24. FAQ Accordion Mobile Layout Remediation (Site-Wide)
+
+### 24.1 Root Causes Found & Systematic Architectural Solutions
+
+1. **Root Cause 1: Two-Column Grid Expansion on Tablet/Mobile**:
+   - *Problem*: In `main.css`, `.faq-layout` used `grid-template-columns: 1fr` below `991px`. Because CSS Grid defaults `1fr` to `minmax(auto, 1fr)`, any overflowing child element (such as the 5 wide category filter pills on Equity) expanded the column to its content width (up to 650px), pushing the entire accordion past the right edge on mobile screens.
+   - *Solution*: Set `.faq-layout` below `1024px` to `grid-template-columns: minmax(0, 1fr) !important; width: 100%; max-width: 100%; min-width: 0;`. Set `.faq-intro-col` to `position: static !important;` so the sticky intro rests naturally above the list on mobile.
+2. **Root Cause 2: Accordion Item Layout & Flex Overflow**:
+   - *Problem*: Header buttons used flex rows with unconstrained text containers, squeezing long question titles and plus toggle icons.
+   - *Solution*: Rebuilt `.faq-card-button` and `.home-faq-button` with direct 3-column CSS Grid: `grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 1rem;` with `min-width: 0` on all children. Questions use `overflow-wrap: break-word; word-break: normal; hyphens: manual; white-space: normal; line-height: 1.35;`. Answers use `max-width: 100%; overflow-wrap: break-word;`.
+3. **Root Cause 3: Registration Code Wrapping & Break-Anywhere Isolation**:
+   - *Problem*: Dense alphanumeric codes (e.g., Religare Broking AP numbers `AP007909931`, `AP0130040172963`, ARN numbers, emails) either broke mid-word or pushed the width.
+   - *Solution*: Created `formatFaqAnswer()` helper to isolate dense registration codes, ARN codes, emails, and URLs into `<span className="break-anywhere">`, while preserving standard non-breaking hyphenation on prose.
+4. **Root Cause 4: Category Pills Widening the Page**:
+   - *Problem*: Category filter pills row lacked an independent bounded container on mobile.
+   - *Solution*: Created `.faq-category-pills-container` with `overflow: hidden; width: 100%; max-width: 100%; min-width: 0;` and a subtle right edge fade (`::after` linear-gradient). The child `.faq-category-pills` scrolls smoothly (`overflow-x: auto; scroll-snap-type: x proximity; padding-inline: 16px; margin-inline: -16px;`) without widening the document.
+5. **Root Cause 5: Sticky Mobile CTA Bar Covering Last Card**:
+   - *Problem*: The fixed bottom "Talk to an Advisor" bar (~76px tall) obscured the last FAQ item on mobile.
+   - *Solution*: Added `padding-bottom: calc(var(--cta-bar-h, 76px) + env(safe-area-inset-bottom, 0px) + 24px) !important;` to `.faq-section` and page containers below `768px`. Elevated `.dev-floating-pill-container` above the bar.
+
+### 24.2 Verification & Deliverables
+- **Unit & Regression Suite**: 17 test files, **181 tests passing** (`npm test --prefix frontend -- --run`), including verification of direct 3-column button grid, category pills container, and AP code wrapping.
+- **Production Build**: Clean compilation in 2.85s (`npm run build --prefix frontend`).
+- **ESLint**: 0 errors, 0 warnings (`npm run lint --prefix frontend`).
+- **Playwright Test Suite**: Added `tests/faq-accordion.spec.ts` evaluating 320, 360, 390, and 430px viewports across Home, General Insurance, Life, Health, Mutual Funds, Equity, More Solutions, and Insight articles.
+- **Audit Script**: Added rule `accordion bounds` in `scripts/audit-mobile.mjs` verifying bounding box containment (left >= 12px, right <= viewport - 12px, symmetric within 4px, text containment).
+- **Screenshots Saved**: Captured at 360px in `docs/screenshots/faq-mobile/`:
+  - `equity_faq_360px.png`
+  - `home_faq_360px.png`
+  - `general_insurance_faq_360px.png`
+  - `life_insurance_faq_360px.png`
+  - `health_insurance_faq_360px.png`
+  - `mutual_funds_faq_360px.png`
+  - `article_faq_360px.png`
+
+
+
 
 
 

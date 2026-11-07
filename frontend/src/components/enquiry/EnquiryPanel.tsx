@@ -398,7 +398,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
           )}
 
           {/* Row 1: Name + Mobile */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+          <div className="enquiry-two-col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
             <div>
               <label
                 htmlFor="drawer_full_name"
@@ -472,7 +472,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
           </div>
 
           {/* Row 2: Email + Preferred Contact Method */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', alignItems: 'start' }}>
+          <div className="enquiry-two-col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem', alignItems: 'start' }}>
             <div>
               <label
                 htmlFor="drawer_email"
@@ -639,70 +639,74 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
             />
           </div>
 
-          {/* Row 5: Consent + Submit with circular progress ring */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', marginTop: '0.1rem' }}>
-            <div style={{ flex: 1 }}>
-              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.4rem', cursor: 'pointer', margin: 0 }}>
-                <input
-                  type="checkbox"
-                  {...register('consent')}
-                  style={{ marginTop: '2px', accentColor: 'var(--navy-900, #0a2540)' }}
-                />
-                <span style={{ fontSize: '0.71rem', color: 'var(--muted, #556270)', lineHeight: 1.35 }}>
-                  I agree to be contacted by Lotus Capital advisors regarding this enquiry.
-                </span>
-              </label>
-              {errors.consent && (
-                <span style={{ fontSize: '0.7rem', color: 'var(--red-500, #d9232d)', marginTop: '0.15rem', display: 'block' }}>
-                  {errors.consent.message}
-                </span>
-              )}
-            </div>
+          {/* Row 5: Consent Checkbox */}
+          <div className="enquiry-consent-row" style={{ marginTop: '0.4rem', marginBottom: '0.65rem' }}>
+            <label style={{ display: 'grid', gridTemplateColumns: '24px minmax(0, 1fr)', gap: '10px', alignItems: 'start', cursor: 'pointer', margin: 0 }}>
+              <input
+                type="checkbox"
+                {...register('consent')}
+                style={{ marginTop: '3px', accentColor: 'var(--navy-900, #0a2540)', width: '16px', height: '16px' }}
+              />
+              <span style={{ fontSize: '0.74rem', color: 'var(--muted, #556270)', lineHeight: 1.4 }}>
+                I agree to be contacted by Lotus Capital advisors regarding this enquiry.
+              </span>
+            </label>
+            {errors.consent && (
+              <span style={{ fontSize: '0.7rem', color: 'var(--red-500, #d9232d)', marginTop: '0.15rem', display: 'block', paddingLeft: '34px' }}>
+                {errors.consent.message}
+              </span>
+            )}
+          </div>
 
-            {/* Submit button with circular progress ring */}
-            <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 44 44"
-                style={{
-                  position: 'absolute',
-                  right: '-6px',
-                  transform: 'rotate(-90deg)',
-                  pointerEvents: 'none',
-                }}
-              >
-                <circle cx="22" cy="22" r={ringRadius} stroke="rgba(215, 217, 220, 0.4)" strokeWidth="3" fill="none" />
-                <circle
-                  cx="22"
-                  cy="22"
-                  r={ringRadius}
-                  stroke="var(--red-500, #d9232d)"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeDasharray={ringCircumference}
-                  strokeDashoffset={strokeDashoffset}
-                  strokeLinecap="round"
-                  style={{ transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
-                />
-              </svg>
+          {/* Row 6: Submit button with circular progress ring */}
+          <div className="enquiry-submit-row" style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 44 44"
+              style={{
+                position: 'absolute',
+                right: '12px',
+                transform: 'rotate(-90deg)',
+                pointerEvents: 'none',
+                zIndex: 2,
+              }}
+            >
+              <circle cx="22" cy="22" r={ringRadius} stroke="rgba(215, 217, 220, 0.4)" strokeWidth="3" fill="none" />
+              <circle
+                cx="22"
+                cy="22"
+                r={ringRadius}
+                stroke="var(--red-500, #d9232d)"
+                strokeWidth="3"
+                fill="none"
+                strokeDasharray={ringCircumference}
+                strokeDashoffset={strokeDashoffset}
+                strokeLinecap="round"
+                style={{ transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
+              />
+            </svg>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn btn-primary"
-                style={{
-                  padding: '0.55rem 1.35rem 0.55rem 1.15rem',
-                  borderRadius: '12px',
-                  fontWeight: 600,
-                  fontSize: '0.84rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.45rem',
-                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                  border: 'none',
-                }}
-              >
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-primary"
+              style={{
+                width: '100%',
+                minHeight: '48px',
+                padding: '0.65rem 3rem 0.65rem 1.25rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                fontSize: '0.88rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.45rem',
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                border: 'none',
+                whiteSpace: 'nowrap',
+              }}
+            >
                 {isSubmitting ? (
                   <span>Sending...</span>
                 ) : (
@@ -723,7 +727,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 )}
               </button>
             </div>
-          </div>
         </form>
       </div>
     );
@@ -733,7 +736,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
   // DEFAULT VARIANT (Full Page Section / Split Card)
   // --------------------------------------------------------------------------
   return (
-    <section className={`enquiry-panel-section section-padding ${className}`} id="enquiry" style={{ padding: '4rem 1.5rem' }}>
+    <section className={`enquiry-panel-section section-padding ${className}`} id="enquiry" style={{ padding: '4rem 0' }}>
       <div
         className="container"
         style={{
@@ -750,9 +753,7 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
             boxShadow: '0 20px 50px rgba(10,37,64,0.12), 0 2px 8px rgba(10,37,64,0.06)',
             border: '1px solid var(--silver-300, #d7d9dc)',
             overflow: 'hidden',
-            minHeight: '520px',
-            display: 'grid',
-            gridTemplateColumns: 'minmax(320px, 4fr) minmax(420px, 6fr)',
+            minHeight: 'auto',
           }}
         >
           {submittedRef && renderSuccessOverlay()}
@@ -893,7 +894,8 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 <span style={{ color: 'var(--silver-300, #d7d9dc)' }}>Email:</span>
                 <a
                   href={`mailto:${contactData.email}`}
-                  style={{ color: 'var(--silver-300, #d7d9dc)', textDecoration: 'none', wordBreak: 'break-all' }}
+                  className="break-anywhere"
+                  style={{ color: 'var(--silver-300, #d7d9dc)', textDecoration: 'none' }}
                 >
                   {contactData.email}
                 </a>
@@ -1112,68 +1114,74 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                 />
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginTop: '0.25rem' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', cursor: 'pointer', margin: 0 }}>
-                    <input
-                      type="checkbox"
-                      {...register('consent')}
-                      style={{ marginTop: '2px', accentColor: 'var(--navy-900, #0a2540)' }}
-                    />
-                    <span style={{ fontSize: '0.74rem', color: 'var(--muted, #556270)', lineHeight: 1.35 }}>
-                      I agree to be contacted by Lotus Capital advisors regarding this quotation enquiry.
-                    </span>
-                  </label>
-                  {errors.consent && (
-                    <span style={{ fontSize: '0.72rem', color: 'var(--red-500, #d9232d)', marginTop: '0.2rem', display: 'block' }}>
-                      {errors.consent.message}
-                    </span>
-                  )}
-                </div>
+              {/* Row 5: Consent Checkbox */}
+              <div className="enquiry-consent-row" style={{ marginTop: '0.5rem', marginBottom: '0.75rem' }}>
+                <label style={{ display: 'grid', gridTemplateColumns: '24px minmax(0, 1fr)', gap: '12px', alignItems: 'start', cursor: 'pointer', margin: 0 }}>
+                  <input
+                    type="checkbox"
+                    {...register('consent')}
+                    style={{ marginTop: '3px', accentColor: 'var(--navy-900, #0a2540)', width: '18px', height: '18px' }}
+                  />
+                  <span style={{ fontSize: '0.78rem', color: 'var(--muted, #556270)', lineHeight: 1.45 }}>
+                    I agree to be contacted by Lotus Capital advisors regarding this quotation enquiry.
+                  </span>
+                </label>
+                {errors.consent && (
+                  <span style={{ fontSize: '0.72rem', color: 'var(--red-500, #d9232d)', marginTop: '0.2rem', display: 'block', paddingLeft: '36px' }}>
+                    {errors.consent.message}
+                  </span>
+                )}
+              </div>
 
-                <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-                  <svg
-                    width="44"
-                    height="44"
-                    viewBox="0 0 44 44"
-                    style={{
-                      position: 'absolute',
-                      right: '-6px',
-                      transform: 'rotate(-90deg)',
-                      pointerEvents: 'none',
-                    }}
-                  >
-                    <circle cx="22" cy="22" r={ringRadius} stroke="rgba(215, 217, 220, 0.4)" strokeWidth="3" fill="none" />
-                    <circle
-                      cx="22"
-                      cy="22"
-                      r={ringRadius}
-                      stroke="var(--red-500, #d9232d)"
-                      strokeWidth="3"
-                      fill="none"
-                      strokeDasharray={ringCircumference}
-                      strokeDashoffset={strokeDashoffset}
-                      strokeLinecap="round"
-                      style={{ transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
-                    />
-                  </svg>
+              {/* Row 6: Full-width Submit Row */}
+              <div className="enquiry-submit-row" style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 44 44"
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    transform: 'rotate(-90deg)',
+                    pointerEvents: 'none',
+                    zIndex: 2,
+                  }}
+                >
+                  <circle cx="22" cy="22" r={ringRadius} stroke="rgba(215, 217, 220, 0.4)" strokeWidth="3" fill="none" />
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r={ringRadius}
+                    stroke="var(--red-500, #d9232d)"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray={ringCircumference}
+                    strokeDashoffset={strokeDashoffset}
+                    strokeLinecap="round"
+                    style={{ transition: 'stroke-dashoffset 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                  />
+                </svg>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn btn-primary"
-                    style={{
-                      padding: '0.65rem 1.65rem 0.65rem 1.4rem',
-                      borderRadius: '14px',
-                      fontWeight: 600,
-                      fontSize: '0.9rem',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.65rem',
-                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                      border: 'none',
-                    }}
-                  >
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn btn-primary enquiry-submit-btn"
+                  style={{
+                    width: '100%',
+                    minHeight: '52px',
+                    padding: '0.75rem 3.5rem 0.75rem 1.5rem',
+                    borderRadius: '14px',
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.65rem',
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                    border: 'none',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                     {isSubmitting ? (
                       <>
                         <span className="spinner-border spinner-border-sm" style={{ width: '14px', height: '14px' }} />
@@ -1197,7 +1205,6 @@ export const EnquiryPanel: React.FC<EnquiryPanelProps> = ({
                     )}
                   </button>
                 </div>
-              </div>
             </form>
           </div>
         </div>

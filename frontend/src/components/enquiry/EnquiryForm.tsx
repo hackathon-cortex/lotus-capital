@@ -321,8 +321,8 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
         {/* Row 5: Consent Checkbox */}
         <div className="form-group" style={{ marginBottom: compact ? '0.85rem' : '1rem' }}>
-          <label className="form-checkbox" style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-            <input type="checkbox" style={{ marginTop: '3px' }} {...register('consent')} />
+          <label className="form-checkbox" style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'grid', gridTemplateColumns: '24px minmax(0, 1fr)', gap: '10px', alignItems: 'flex-start' }}>
+            <input type="checkbox" style={{ marginTop: '3px', width: '16px', height: '16px' }} {...register('consent')} />
             <span>
               I consent to Lotus Capital contacting me regarding this enquiry in accordance with the{' '}
               <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
@@ -332,7 +332,7 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
             </span>
           </label>
           {errors.consent && (
-            <div className="form-error" role="alert" style={{ fontSize: '0.75rem' }}>
+            <div className="form-error" role="alert" style={{ fontSize: '0.75rem', paddingLeft: '34px' }}>
               {errors.consent.message}
             </div>
           )}

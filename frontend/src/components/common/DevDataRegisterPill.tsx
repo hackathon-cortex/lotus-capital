@@ -11,10 +11,6 @@ import { useContactDrawer } from '../../context/ContactDrawerContext';
  * hides when drawer/modal is open or when site footer is in view.
  */
 export const DevDataRegisterPill: React.FC = () => {
-  if (!import.meta.env.DEV) {
-    return null;
-  }
-
   const { isOpen: isDrawerOpen } = useContactDrawer();
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -46,9 +42,14 @@ export const DevDataRegisterPill: React.FC = () => {
 
   const isHidden = isFooterVisible || isDrawerOpen;
 
+  if (!import.meta.env.DEV) {
+    return null;
+  }
+
   return (
     <aside
       aria-label="Development Navigation"
+      className="dev-floating-pill-container"
       style={{
         position: 'fixed',
         bottom: '16px',

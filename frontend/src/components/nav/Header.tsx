@@ -1,7 +1,7 @@
 import React from 'react';
 import { SiteHeader, SiteHeaderProps } from './SiteHeader';
 
-export interface HeaderProps extends SiteHeaderProps {}
+export type HeaderProps = SiteHeaderProps;
 
 /**
  * Global Header Component (v3 Floating Glass Bar)

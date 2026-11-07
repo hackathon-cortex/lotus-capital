@@ -143,7 +143,7 @@ export const PolicyTypesStack: React.FC<PolicyTypesStackProps> = ({
         paddingBottom: '5rem',
       }}
     >
-      <div className="container" ref={containerRef} style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <div className="container" ref={containerRef} style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div className="policy-types-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 1fr) minmax(340px, 1.6fr)', gap: '4rem', alignItems: 'start' }}>
           
           {/* Left Column (Sticky Intro + Vertical Dot Indicator) */}

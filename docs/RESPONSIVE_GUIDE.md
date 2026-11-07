@@ -120,5 +120,49 @@ When building a new section or page:
 2. **Avoid Hardcoded Widths:** Never use fixed pixel widths on layout containers (e.g., `width: 800px`). Use `width: 100%; max-width: 800px;`.
 3. **Grid Tracks:** In CSS Grid, use `minmax(0, 1fr)` rather than `1fr` alone on columns containing tables or code blocks to prevent layout blowout.
 4. **Watermarks & Bleeds:** Any section with background watermarks or decorative SVGs extending into negative margins (`right: -40px`) must declare `overflow: hidden;` (and `overflow: clip;`).
-5. **Verify Matrix:** Run `.\backend\.venv\Scripts\python.exe scripts/verify_responsive_matrix.py` to confirm zero horizontal overflow across all 10 device viewports from 320px to 1920px.
+5. **Verify Matrix:** Run `npm run audit:mobile` or `.\backend\.venv\Scripts\python.exe scripts/verify_responsive_matrix.py` to confirm zero horizontal overflow across all device viewports from 320px to 1920px.
+
+---
+
+## 7. Mobile Layout Robustness Rules (Post-Audit Standard)
+
+### A. Word-Break & Typography Reset
+- Global reset prevents single-letter wraps: `:where(h1,h2,h3,h4,h5,h6,p,li,dd,dt,label,a,button,span,td,th) { overflow-wrap: break-word; word-break: normal; hyphens: manual; }`.
+- `overflow-wrap: anywhere` and `word-break: break-all` are strictly forbidden on broad selectors and reserved exclusively for `.break-anywhere` (used on emails, URLs, registration codes, copy chips).
+- Heading clamp floors enforce minimum readable scale: H1 >= 28px (`clamp(1.75rem, 4vw + 0.75rem, 3.25rem)`), H2 >= 24px (`clamp(1.5rem, 2.5vw + 0.75rem, 2.5rem)`), H3 >= 20px (`clamp(1.25rem, 1.8vw + 0.5rem, 1.75rem)`).
+
+### B. HorizontalRail & Min-Width Protection
+- Any category rail, card list, or pill track on mobile must render via `HorizontalRail` or responsive flex with `min-width: 240px`, `flex: 0 0 min(82vw, 320px)`, and `scroll-snap-align: start`.
+- Hardcoded multi-column desktop grids (`repeat(4, 1fr)`) must never be applied to mobile viewports without responsive overrides.
+
+### C. Badges, Numerals & Chips
+- Badges and numeric indicators must declare `white-space: nowrap !important; flex-shrink: 0 !important; width: max-content !important;`.
+- Header rows containing an icon/title and a badge must use `flex-wrap: wrap; gap: 8px;` so badges wrap gracefully rather than squeezing.
+
+### D. Header Rows with Action Buttons
+- Below `768px`, header rows containing a heading and an action button (e.g. Deep-dive inspector "Mark as reviewed") stack vertically (`grid-template-columns: 1fr`).
+- Buttons must have `width: auto; white-space: nowrap; border-radius: 999px; padding: 10px 16px; min-height: 44px;`.
+
+### E. Symmetric Gutters
+- Content blocks must maintain symmetric left/right gutters (`padding-inline: var(--container-pad, clamp(16px, 5vw, 24px))`) across all viewports.
+- Never add ad-hoc `padding-left: 1.5rem` or `margin-left: 46px` to wrappers enclosing a `.container`.
+
+### F. Sticky CTA Bar Spacing
+- On mobile (< 768px), `body` declares `padding-bottom: calc(var(--cta-bar-h, 64px) + env(safe-area-inset-bottom, 0px))` so sticky bars never obscure content or submit buttons.
+- The floating DEV pill is repositioned above the bar or hidden on small viewports (`< 480px`).
+
+### G. Enquiry Forms
+- Below `900px`, split enquiry cards stack vertically into a single column (`max-width: 560px; margin-inline: auto`).
+- The consent row uses `display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px;` and is never shared in a row with the submit button on mobile.
+- The submit button is full-width with `min-height: 52px; white-space: nowrap;`.
+
+### H. FAQ Sections (FaqAccordion, Home & Mini-FAQ)
+- **Single-Column Stacking below 992px**: Collapses from 2 columns (`minmax(280px, 1fr) minmax(320px, 1.8fr)`) to 1 column (`grid-template-columns: 1fr; gap: 2rem;`) with sticky left intro resetting to `position: relative`.
+- **Category Filter Rail**: Category pills use `.faq-category-pills` with horizontal scroll touch support below `992px` (`overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none;`) and `white-space: nowrap; flex-shrink: 0; min-height: 40px;` per pill.
+- **No Redundant Container Padding**: Outer sections must not double-pad `.container`. The inner `.container` provides `padding-inline: clamp(16px, 5vw, 24px)`.
+- **Button & Question Text**: Uses `.faq-card-button` with responsive padding (`1rem 1rem 1rem 1.15rem` on mobile, `1.25rem 1.5rem 1.25rem 1.75rem` on desktop). The question container specifies `min-width: 0; flex: 1;` with `word-break: break-word; overflow-wrap: break-word;` on text to prevent flex blowout.
+- **Answer Indentation Reset**: Desktop indentation (`padding: 0 1.75rem 1.35rem 3.75rem`) aligns under the question text. On mobile (`< 768px`), left padding resets to `1.15rem` (`.faq-card-answer` / `.home-faq-answer`) so copy reads comfortably without letter-squeezing.
+- **Brand Palette Adherence**: Left accent bar and active status indicators use brand tokens (`var(--red-500, #d9232d)` when open, navy tones when closed). No unbranded blue or teal hex values.
+
+
 

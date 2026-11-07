@@ -156,7 +156,7 @@ export const HealthCompareInspector: React.FC<HealthCompareInspectorProps> = ({
         borderTopRightRadius: '36px',
         backgroundColor: '#ffffff',
         boxShadow: '0 -10px 40px rgba(10,37,64,0.06)',
-        padding: '5rem 1.5rem',
+        padding: '5rem 0',
       }}
     >
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -343,7 +343,7 @@ export const HealthCompareInspector: React.FC<HealthCompareInspectorProps> = ({
               top: '110px',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
+            <div className="inspector-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.25rem' }}>
               <div>
                 <span
                   style={{
@@ -361,10 +361,12 @@ export const HealthCompareInspector: React.FC<HealthCompareInspectorProps> = ({
                 <h3
                   style={{
                     fontFamily: "'Playfair Display', Georgia, serif",
-                    fontSize: '1.6rem',
+                    fontSize: 'clamp(1.25rem, 2.4vw, 1.6rem)',
                     fontWeight: 700,
                     color: 'var(--navy-950, #051329)',
                     margin: 0,
+                    textWrap: 'balance',
+                    hyphens: 'manual',
                   }}
                 >
                   {activeParam.name}
@@ -377,20 +379,25 @@ export const HealthCompareInspector: React.FC<HealthCompareInspectorProps> = ({
                 style={{
                   outline: 'none',
                   cursor: 'pointer',
-                  padding: '0.4rem 0.85rem',
+                  padding: '10px 16px',
                   borderRadius: '9999px',
-                  fontSize: '0.76rem',
+                  fontSize: '0.82rem',
                   fontWeight: 600,
+                  minHeight: '44px',
+                  width: 'auto',
+                  whiteSpace: 'nowrap',
                   backgroundColor: isReviewed ? 'var(--navy-900, #123D67)' : 'var(--white, #ffffff)',
                   color: isReviewed ? '#ffffff' : 'var(--navy-900, #0a2540)',
-                  border: isReviewed ? '1px solid var(--navy-900, #123D67)' : '1px solid var(--silver-300, #cbd5e1)',
+                  border: isReviewed ? '1.5px solid var(--navy-900, #123D67)' : '1.5px solid var(--silver-300, #cbd5e1)',
                   transition: 'all 0.2s ease',
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.4rem',
+                  justifyContent: 'center',
+                  gap: '0.45rem',
+                  flexShrink: 0,
                 }}
               >
-                <span>{isReviewed ? '✓ Reviewed' : '+ Mark as Reviewed'}</span>
+                <span>{isReviewed ? '✓ Reviewed' : 'Mark as reviewed'}</span>
               </button>
             </div>
 

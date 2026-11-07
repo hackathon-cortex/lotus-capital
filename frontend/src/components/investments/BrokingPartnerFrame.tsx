@@ -44,7 +44,7 @@ export const BrokingPartnerFrame: React.FC = () => {
         backgroundColor: 'var(--navy-900, #0A2540)',
         backgroundImage: 'linear-gradient(180deg, var(--navy-950, #071B30) 0%, var(--navy-900, #0A2540) 100%)',
         position: 'relative',
-        padding: '5rem 1.5rem',
+        padding: '5rem 0',
         overflow: 'hidden',
         borderTop: '1px solid rgba(215, 217, 220, 0.12)',
         borderBottom: '1px solid rgba(215, 217, 220, 0.12)',
@@ -92,8 +92,8 @@ export const BrokingPartnerFrame: React.FC = () => {
               className="authorised-person-seal"
               style={{
                 position: 'relative',
-                width: '320px',
-                height: '320px',
+                width: 'clamp(240px, 75vw, 320px)',
+                height: 'clamp(240px, 75vw, 320px)',
                 maxWidth: '100%',
                 display: 'flex',
                 alignItems: 'center',

@@ -20,10 +20,28 @@ interface FaqAccordionProps {
 const BAR_COLORS = [
   'var(--navy-600, #123d67)',
   'var(--navy-700, #0d2b4a)',
-  '#1F6F8B',
-  '#5B8DB8',
   'var(--navy-800, #0a2540)',
+  'var(--navy-900, #051329)',
+  'var(--silver-400, #adb5bd)',
 ];
+
+/**
+ * Wraps alphanumeric registration codes (e.g. AP007909931, ARN-XXXX), emails, and URLs in .break-anywhere
+ * so normal copy wraps cleanly with hyphens: manual, and only dense codes break anywhere if needed.
+ */
+function formatFaqAnswer(text: string) {
+  const parts = text.split(/((?:NSE\s+|BSE\s+)?AP\d+|ARN-?\d+|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/\S+)/g);
+  return parts.map((part, index) => {
+    if (/^((?:NSE\s+|BSE\s+)?AP\d+|ARN-?\d+|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?:\/\/\S+)$/.test(part)) {
+      return (
+        <span key={index} className="break-anywhere">
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+}
 
 export const FaqAccordion: React.FC<FaqAccordionProps> = ({
   page = 'general-insurance',
@@ -76,11 +94,11 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
         boxShadow: '0 -10px 40px rgba(10,37,64,0.06)',
       }}
     >
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
-        <div className="faq-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 1fr) minmax(320px, 1.8fr)', gap: '3.5rem', alignItems: 'start' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="faq-layout">
           
           {/* Left Sticky Intro */}
-          <div className="faq-intro-col" style={{ position: 'sticky', top: '110px' }}>
+          <div className="faq-intro-col">
             <span
               className="eyebrow"
               style={{
@@ -233,60 +251,45 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
 
           {/* Right Accordion Col */}
           <div className="faq-content-col">
-            {/* Category Filter Pills */}
-            <div
-              className="faq-category-pills"
-              role="tablist"
-              aria-label="FAQ categories"
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '0.5rem',
-                marginBottom: '1.75rem',
-              }}
-            >
-              {categories.map((cat) => {
-                const isSelected = activeCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    role="tab"
-                    aria-selected={isSelected}
-                    onClick={() => setActiveCategory(cat)}
-                    style={{
-                      border: 'none',
-                      outline: 'none',
-                      cursor: 'pointer',
-                      padding: '0.5rem 1.15rem',
-                      borderRadius: '9999px',
-                      fontSize: '0.86rem',
-                      fontWeight: 600,
-                      transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-                      backgroundColor: isSelected ? 'var(--navy-900, #0a2540)' : 'var(--white, #ffffff)',
-                      color: isSelected ? 'var(--white, #ffffff)' : 'var(--navy-700, #0d2b4a)',
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderColor: isSelected ? 'var(--navy-900, #0a2540)' : 'var(--silver-300, #d7d9dc)',
-                      boxShadow: isSelected ? '0 4px 12px rgba(10,37,64,0.15)' : 'none',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.4rem',
-                    }}
-                  >
-                    {isSelected && (
-                      <span
-                        style={{
-                          width: '6px',
-                          height: '6px',
-                          borderRadius: '50%',
-                          backgroundColor: 'var(--red-500, #d9232d)',
-                        }}
-                      />
-                    )}
-                    {cat}
-                  </button>
-                );
-              })}
+            {/* Category Filter Pills Container */}
+            <div className="faq-category-pills-container">
+              <div
+                className="faq-category-pills"
+                role="tablist"
+                aria-label="FAQ categories"
+              >
+                {categories.map((cat) => {
+                  const isSelected = activeCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      role="tab"
+                      className="faq-category-pill"
+                      aria-selected={isSelected}
+                      onClick={() => setActiveCategory(cat)}
+                      style={{
+                        backgroundColor: isSelected ? 'var(--navy-900, #0a2540)' : 'var(--white, #ffffff)',
+                        color: isSelected ? 'var(--white, #ffffff)' : 'var(--navy-700, #0d2b4a)',
+                        borderColor: isSelected ? 'var(--navy-900, #0a2540)' : 'var(--silver-300, #d7d9dc)',
+                        boxShadow: isSelected ? '0 4px 12px rgba(10,37,64,0.15)' : 'none',
+                      }}
+                    >
+                      {isSelected && (
+                        <span
+                          style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            backgroundColor: 'var(--red-500, #d9232d)',
+                            flexShrink: 0,
+                          }}
+                        />
+                      )}
+                      <span>{cat}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Accordion Items */}
@@ -296,7 +299,6 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1rem',
-                minHeight: '400px',
               }}
             >
               {filteredFaqs.map((faq, idx) => {
@@ -320,10 +322,11 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                         : '0 4px 14px rgba(10,37,64,0.04)',
                       position: 'relative',
                       overflow: 'hidden',
+                      transform: 'none',
                       transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                   >
-                    {/* 4px Left Accent Bar */}
+                    {/* 4px Left Accent Bar (inside card, does not push width) */}
                     <div
                       style={{
                         position: 'absolute',
@@ -336,76 +339,43 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                       }}
                     />
 
-                    {/* Button Header */}
+                    {/* Button Header (Direct 36px minmax(0, 1fr) 36px CSS Grid) */}
                     <button
                       id={headerId}
+                      type="button"
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       onClick={() => toggleFaq(faq.id)}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '1rem',
-                        padding: '1.25rem 1.5rem 1.25rem 1.75rem',
-                        background: 'none',
-                        border: 'none',
-                        outline: 'none',
-                        cursor: 'pointer',
-                      }}
+                      className="faq-card-button"
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        {/* Number in Tinted Circle */}
-                        <div
-                          style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                            backgroundColor: isOpen ? 'rgba(217, 35, 45, 0.1)' : 'var(--silver-100, #f8f9fa)',
-                            color: isOpen ? 'var(--red-500, #d9232d)' : 'var(--navy-700, #0d2b4a)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '0.8rem',
-                            fontWeight: 700,
-                            flexShrink: 0,
-                            transition: 'all 0.24s ease',
-                          }}
-                        >
-                          {String(idx + 1).padStart(2, '0')}
-                        </div>
-
-                        <span
-                          style={{
-                            fontFamily: 'Poppins, sans-serif',
-                            fontWeight: 600,
-                            fontSize: '1.02rem',
-                            color: isOpen ? 'var(--navy-950, #051329)' : 'var(--navy-900, #0a2540)',
-                            lineHeight: 1.4,
-                          }}
-                        >
-                          {faq.question}
-                        </span>
+                      {/* Number in Tinted Circle (36px) */}
+                      <div
+                        className="faq-number-circle"
+                        style={{
+                          backgroundColor: isOpen ? 'rgba(217, 35, 45, 0.1)' : 'var(--silver-100, #f8f9fa)',
+                          color: isOpen ? 'var(--red-500, #d9232d)' : 'var(--navy-700, #0d2b4a)',
+                        }}
+                      >
+                        {String(idx + 1).padStart(2, '0')}
                       </div>
 
-                      {/* Plus / Cross Icon in Circle */}
-                      <div
+                      {/* Question Text (minmax(0, 1fr)) */}
+                      <span
+                        className="faq-question-text"
                         style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '50%',
+                          color: isOpen ? 'var(--navy-950, #051329)' : 'var(--navy-900, #0a2540)',
+                        }}
+                      >
+                        {faq.question}
+                      </span>
+
+                      {/* Plus / Cross Icon in Circle (36px) */}
+                      <div
+                        className="faq-toggle-icon"
+                        style={{
                           backgroundColor: isOpen ? 'var(--red-500, #d9232d)' : 'var(--silver-200, #e9ecef)',
                           color: isOpen ? '#ffffff' : 'var(--navy-800, #0a2540)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
                           transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
-                          transition: 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.24s ease, color 0.24s ease',
-                          fontSize: '1.25rem',
-                          lineHeight: 1,
                         }}
                       >
                         +
@@ -421,21 +391,20 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                         display: 'grid',
                         gridTemplateRows: isOpen ? '1fr' : '0fr',
                         transition: 'grid-template-rows 0.32s cubic-bezier(0.16, 1, 0.3, 1)',
+                        maxWidth: '100%',
+                        overflow: 'hidden',
                       }}
                     >
-                      <div style={{ overflow: 'hidden' }}>
+                      <div style={{ overflow: 'hidden', maxWidth: '100%' }}>
                         <div
+                          className="faq-card-answer"
                           style={{
-                            padding: '0 1.75rem 1.35rem 3.75rem',
-                            fontSize: '0.94rem',
-                            lineHeight: 1.65,
-                            color: 'var(--ink, #1f2937)',
                             borderTop: isOpen ? '1px dashed rgba(215, 217, 220, 0.6)' : 'none',
                             marginTop: '0.25rem',
                             paddingTop: '0.85rem',
                           }}
                         >
-                          {faq.answer}
+                          {formatFaqAnswer(faq.answer)}
                         </div>
                       </div>
                     </div>

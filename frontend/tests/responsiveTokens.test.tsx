@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { renderHook } from '@testing-library/react';
 import { BREAKPOINTS, responsiveConfig } from '../src/config/responsive';
 import { useBreakpoint } from '../src/hooks/useBreakpoint';
 import { useMediaQuery } from '../src/hooks/useMediaQuery';
