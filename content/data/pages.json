@@ -1,0 +1,33 @@
+[
+  {
+    "slug": "home",
+    "title": "Welcome to Lotus Capital — Financial Services in Godhra, Gujarat",
+    "status": "published",
+    "meta_description": "Premier financial planning, mutual funds distribution, and insurance advisory in Godhra, Gujarat.",
+    "content_json": {
+      "hero_heading": "Build and Protect Your Family's Financial Future",
+      "hero_subheading": "Personalized mutual fund advisory, insurance protection, and retirement planning backed by ethical principles in Godhra, Gujarat.",
+      "cta_text": "Schedule a Consultation"
+    }
+  },
+  {
+    "slug": "about-us",
+    "title": "About Lotus Capital — Our Values & Commitment",
+    "status": "published",
+    "meta_description": "Learn about Lotus Capital's history, transparent financial guidance, and community trust in Godhra, Gujarat.",
+    "content_json": {
+      "mission": "To empower individuals and families with disciplined, transparent, and objective financial solutions.",
+      "vision": "To be the most trusted financial companion in Gujarat through ethical stewardship and rigorous regulatory compliance."
+    }
+  },
+  {
+    "slug": "services",
+    "title": "Our Financial Advisory Services",
+    "status": "published",
+    "meta_description": "Explore mutual funds, insurance, tax planning, and retirement solutions by Lotus Capital.",
+    "content_json": {
+      "headline": "Structured Financial Solutions for Every Life Stage",
+      "disclaimer": "All mutual fund investments are subject to market risks."
+    }
+  }
+]

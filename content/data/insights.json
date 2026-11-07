@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "understanding-power-of-compounding-sip",
+    "title": "Understanding the Power of Compounding via SIPs",
+    "summary": "How consistent monthly investments harness compounding over long-term market cycles.",
+    "status": "published",
+    "published_date": "2026-09-15",
+    "read_time_minutes": 4,
+    "content_json": {
+      "sections": [
+        {
+          "heading": "Why Consistency Outperforms Market Timing",
+          "body": "Systematic Investment Plans (SIP) eliminate emotional decision-making by averaging purchase costs across bull and bear phases."
+        },
+        {
+          "heading": "The Horizon Effect",
+          "body": "Compounding displays exponential growth primarily during later years. Starting early gives capital the luxury of time."
+        }
+      ]
+    }
+  },
+  {
+    "slug": "why-health-insurance-precedes-investments",
+    "title": "Why Adequate Health Insurance Must Precede Equity Investments",
+    "summary": "Medical inflation can erode years of portfolio gains if healthcare risks remain unhedged.",
+    "status": "published",
+    "published_date": "2026-10-02",
+    "read_time_minutes": 5,
+    "content_json": {
+      "sections": [
+        {
+          "heading": "Protecting Capital Against Catastrophic Outflows",
+          "body": "An unexpected hospitalization without adequate cover forces premature redemption of long-term investments."
+        }
+      ]
+    }
+  }
+]

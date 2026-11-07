@@ -1,0 +1,52 @@
+[
+  {
+    "statistic_key": "active_client_families",
+    "label": "Families Served",
+    "value": "1,500+",
+    "tier": "Tier A",
+    "approval_status": "approved",
+    "definition": "Verified count of active investor accounts and family portfolios guided.",
+    "as_of_date": "2026-10-01",
+    "approved_by": "Super Admin"
+  },
+  {
+    "statistic_key": "years_of_experience",
+    "label": "Years in Financial Guidance",
+    "value": "15+",
+    "tier": "Tier A",
+    "approval_status": "approved",
+    "definition": "Cumulative advisory and financial consulting experience of key principals in Godhra, Gujarat.",
+    "as_of_date": "2026-10-01",
+    "approved_by": "Super Admin"
+  },
+  {
+    "statistic_key": "aum_facilitated",
+    "label": "AUM Facilitated",
+    "value": "₹75+ Cr",
+    "tier": "Tier B",
+    "approval_status": "pending",
+    "definition": "Approximate cumulative assets under distributor facilitation across mutual funds.",
+    "as_of_date": null,
+    "approved_by": null
+  },
+  {
+    "statistic_key": "client_retention_rate",
+    "label": "Client Retention",
+    "value": "98%",
+    "tier": "Tier B",
+    "approval_status": "pending",
+    "definition": "Percentage of investors maintaining active folios over a 3-year rolling period. Requires audited verification.",
+    "as_of_date": null,
+    "approved_by": null
+  },
+  {
+    "statistic_key": "equity_cagr_historical",
+    "label": "Historical Equity CAGR",
+    "value": "18.4%",
+    "tier": "Tier C",
+    "approval_status": "withheld",
+    "definition": "Proprietary model performance calculation. RESTRICTED: Never expose to public under SEBI/AMFI compliance guidelines prohibiting performance guarantees.",
+    "as_of_date": "2026-09-30",
+    "approved_by": "Compliance Officer"
+  }
+]

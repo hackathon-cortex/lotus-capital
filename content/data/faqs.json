@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "question": "What services does Lotus Capital provide?",
+    "answer": "Lotus Capital assists families and businesses in Godhra and surrounding regions with Mutual Funds distribution, Life & Health Insurance planning, Retirement Corpus structuring, and Tax-saving investment guidance.",
+    "category": "General",
+    "order": 1
+  },
+  {
+    "id": 2,
+    "question": "How do I start a Systematic Investment Plan (SIP)?",
+    "answer": "You can submit an enquiry through our website or visit our Godhra office. Our team will review your time horizon and risk profile to recommend appropriate mutual fund schemes.",
+    "category": "Mutual Funds",
+    "order": 2
+  },
+  {
+    "id": 3,
+    "question": "Are returns on investments guaranteed?",
+    "answer": "No. In accordance with SEBI and AMFI regulations, mutual funds and equity investments do not offer guaranteed returns. All investments carry market risks.",
+    "category": "Compliance",
+    "order": 3
+  },
+  {
+    "id": 4,
+    "question": "What information is needed to submit an enquiry?",
+    "answer": "We only require your name, a valid 10-digit Indian mobile number, preferred contact mode, and the financial service you are interested in. We never ask for sensitive credentials like OTPs, PAN, or passwords.",
+    "category": "Enquiry & Security",
+    "order": 4
+  }
+]

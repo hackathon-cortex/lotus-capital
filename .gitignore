@@ -1,0 +1,28 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+
+# Databases
+*.db
+*.sqlite3
+
+# Environment & Secrets
+.env
+*.local
+
+# Media Uploads & Temp
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# IDEs & OS
+.DS_Store
+.idea/
+.vscode/

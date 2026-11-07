@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "mutual-funds",
+    "title": "Mutual Funds",
+    "short_description": "Systematic Investment Plans (SIP) and lump-sum mutual fund advisory aligned with long-term financial goals.",
+    "icon": "TrendingUp",
+    "order": 1,
+    "active": true
+  },
+  {
+    "slug": "health-insurance",
+    "title": "Health Insurance",
+    "short_description": "Comprehensive health protection and family floater plans ensuring medical security against unforeseen emergencies.",
+    "icon": "ShieldCheck",
+    "order": 2,
+    "active": true
+  },
+  {
+    "slug": "life-insurance",
+    "title": "Life Insurance",
+    "short_description": "Term insurance and life coverage solutions crafted to safeguard your family's future and financial independence.",
+    "icon": "HeartHandshake",
+    "order": 3,
+    "active": true
+  },
+  {
+    "slug": "retirement-planning",
+    "title": "Retirement Planning",
+    "short_description": "Strategic retirement corpus construction tailored for lifelong passive income and post-work peace of mind.",
+    "icon": "Compass",
+    "order": 4,
+    "active": true
+  },
+  {
+    "slug": "tax-planning",
+    "title": "Tax Planning Support",
+    "short_description": "Optimized tax-saving investment strategies under relevant IT provisions (ELSS, PPF, NPS).",
+    "icon": "FileText",
+    "order": 5,
+    "active": true
+  },
+  {
+    "slug": "wealth-management",
+    "title": "Wealth Guidance",
+    "short_description": "Holistic asset allocation and periodic portfolio reviews for disciplined wealth creation.",
+    "icon": "PieChart",
+    "order": 6,
+    "active": true
+  }
+]

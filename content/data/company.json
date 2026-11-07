@@ -1,0 +1,23 @@
+{
+  "name": "Lotus Capital",
+  "tagline": "Empowering Financial Clarity & Purposeful Wealth Building",
+  "address": {
+    "street": "Station Road / Commercial Hub",
+    "city": "Godhra",
+    "district": "Panchmahal",
+    "state": "Gujarat",
+    "country": "India",
+    "pincode": "389001"
+  },
+  "contact": {
+    "phone": "+91 98765 43210",
+    "email": "contact@lotuscapital.in",
+    "support_hours": "Monday - Saturday: 9:30 AM - 6:30 PM IST"
+  },
+  "regulatory": {
+    "distributor_type": "AMFI Registered Mutual Fund Distributor",
+    "arn": "ARN-CONFIGURED",
+    "disclaimer": "Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Lotus Capital operates as a distributor of financial products and does not promise or guarantee returns on any investment scheme.",
+    "privacy_statement": "Lotus Capital respects client privacy. We never request PAN, Aadhaar numbers, OTPs, or net banking passwords through public enquiry channels."
+  }
+}
