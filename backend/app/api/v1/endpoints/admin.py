@@ -258,6 +258,80 @@ def update_admin_content(
     return APIResponse(success=True, message="Content updated.", data=updated)
 
 
+@router.post(
+    "/admin/content/{id}/preview-token",
+    summary="Generate a Temporary Preview Token for Draft Content",
+)
+def create_preview_token(
+    id: int,
+    current_user: User = Depends(require_role(Role.EDITOR)),
+    db: Session = Depends(get_db),
+):
+    import secrets
+    from datetime import timedelta
+    from app.models.preview_token import PreviewToken
+    from app.models.content import Content
+
+    content = db.get(Content, id)
+    if not content:
+        raise NotFoundException(f"Content with ID {id} not found.")
+
+    token_str = secrets.token_urlsafe(24)
+    expires = datetime.now(timezone.utc) + timedelta(hours=24)
+
+    preview_record = PreviewToken(
+        token=token_str,
+        content_id=id,
+        expires_at=expires,
+    )
+    db.add(preview_record)
+    db.commit()
+
+    return APIResponse(
+        success=True,
+        message="Preview token generated successfully.",
+        data={
+            "token": token_str,
+            "preview_url": f"/api/v1/content/preview/{token_str}",
+            "expires_at": expires.isoformat(),
+        },
+    )
+
+
+@router.delete(
+    "/admin/content/{id}",
+    response_model=APIResponse[None],
+    summary="Archive Content Entry",
+)
+def archive_admin_content(
+    id: int,
+    request: Request,
+    current_user: User = Depends(require_role(Role.ADMIN)),
+    db: Session = Depends(get_db),
+):
+    from app.models.content import Content
+    content = db.get(Content, id)
+    if not content:
+        raise NotFoundException(f"Content with ID {id} not found.")
+
+    content.status = "archived"
+    content.updated_by = current_user.id
+    db.commit()
+
+    ip_address = request.client.host if request.client else None
+    AuditService.log_action(
+        db=db,
+        action="CONTENT_ARCHIVED",
+        entity_type="content",
+        entity_id=str(id),
+        user_id=current_user.id,
+        metadata={"slug": content.slug},
+        ip_address=ip_address,
+    )
+
+    return APIResponse(success=True, message="Content archived successfully.")
+
+
 # -------------------------------------------------------------
 # 5. User Management (Super Admin only)
 # -------------------------------------------------------------

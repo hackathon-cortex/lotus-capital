@@ -1,15 +1,32 @@
 import json
 import secrets
 import string
+import time
+from collections import defaultdict
 from typing import List, Optional, Tuple
 from sqlalchemy.orm import Session
 from app.models.enquiry import Enquiry
 from app.repositories.enquiry_repository import EnquiryRepository
 from app.schemas.enquiry import EnquiryCreate, EnquiryUpdate, EnquiryRead, EnquirySubmitResponse
-from app.core.exceptions import BadRequestException, NotFoundException
+from app.core.exceptions import BadRequestException, NotFoundException, RateLimitException
 from app.core.config import settings
 from app.services.email_service import email_service
 from app.services.audit_service import AuditService
+
+_enquiry_ip_attempts: defaultdict = defaultdict(list)
+MAX_ENQUIRY_PER_IP = 5
+ENQUIRY_WINDOW_SECONDS = 600  # 10 minutes
+
+
+def is_enquiry_rate_limited(ip: str) -> bool:
+    now = time.time()
+    valid_attempts = [t for t in _enquiry_ip_attempts[ip] if now - t < ENQUIRY_WINDOW_SECONDS]
+    _enquiry_ip_attempts[ip] = valid_attempts
+    return len(valid_attempts) >= MAX_ENQUIRY_PER_IP
+
+
+def record_enquiry_attempt(ip: str) -> None:
+    _enquiry_ip_attempts[ip].append(time.time())
 
 
 class EnquiryService:
@@ -42,6 +59,17 @@ class EnquiryService:
         ]
 
     def create_enquiry(self, payload: EnquiryCreate, ip_address: Optional[str] = None) -> EnquirySubmitResponse:
+        # Check rate limiting per IP
+        if ip_address and is_enquiry_rate_limited(ip_address):
+            AuditService.log_action(
+                db=self.db,
+                action="ENQUIRY_RATE_LIMITED",
+                entity_type="enquiry",
+                metadata={"reason": "IP enquiry submission limit reached"},
+                ip_address=ip_address,
+            )
+            raise RateLimitException("Too many enquiries submitted from your network. Please wait a few minutes.")
+
         # Validate service slugs
         valid_slugs = self.get_valid_service_slugs()
         for slug in payload.service_detail:
@@ -51,6 +79,9 @@ class EnquiryService:
         # Check spam/duplicate submission within recent minutes
         if self.repo.check_duplicate(payload.mobile, within_minutes=3):
             raise BadRequestException("An enquiry with this mobile number was recently submitted. Please wait a few minutes.")
+
+        if ip_address:
+            record_enquiry_attempt(ip_address)
 
         # Generate unique reference ID
         reference_id = self.generate_reference_id()

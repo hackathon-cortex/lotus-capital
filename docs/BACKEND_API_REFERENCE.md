@@ -135,6 +135,10 @@ Base URL: `/api/v1`
 - **Description**: Retrieves published page copy (e.g. `home`, `about-us`, `services`).
 - **Access**: Public (Draft pages return `404 Not Found`).
 
+### `GET /api/v1/content/preview/{token}`
+- **Description**: Securely preview unpublished draft content using a temporary 24-hour token.
+- **Access**: Public with valid token
+
 ### `GET /api/v1/content/insights` & `GET /api/v1/content/insights/{slug}`
 - **Description**: Published educational market articles and financial insights.
 - **Access**: Public
@@ -151,13 +155,17 @@ Base URL: `/api/v1`
 - **Description**: Frequently asked questions.
 - **Access**: Public
 
+### `GET /api/v1/media/{filename}`
+- **Description**: Serves uploaded images and documents with MIME detection and caching headers.
+- **Access**: Public
+
 ---
 
 ## 3. Authentication APIs
 
 ### `POST /api/v1/auth/login`
 - **Description**: Authenticates administrator credentials using Argon2 verification and returns JWT tokens.
-- **Access**: Public (Subject to brute-force rate limits).
+- **Access**: Public (Subject to brute-force rate limits: 5 attempts per 15 minutes).
 - **Request Body**:
 ```json
 {
@@ -183,17 +191,31 @@ Base URL: `/api/v1`
   }
 }
 ```
+- **Cookies**: Sets `lotus_refresh_token` as HttpOnly, SameSite=Lax cookie.
 
 ### `POST /api/v1/auth/refresh`
 - **Description**: Issues a fresh access token using a valid 7-day refresh token.
-- **Request Body**: `{"refresh_token": "..."}`
+- **Request Body**: `{"refresh_token": "..."}` (or read automatically from HttpOnly cookie).
 
 ### `GET /api/v1/auth/me`
 - **Description**: Profile of currently authenticated user.
 - **Headers**: `Authorization: Bearer <access_token>`
 
+### `POST /api/v1/auth/change-password`
+- **Description**: Update password after verifying old password.
+- **Headers**: `Authorization: Bearer <access_token>`
+- **Request Body**: `{"old_password": "...", "new_password": "..."}`
+
+### `POST /api/v1/auth/forgot-password`
+- **Description**: Request password reset link.
+- **Request Body**: `{"email": "..."}`
+
+### `POST /api/v1/auth/reset-password`
+- **Description**: Complete password reset using cryptographic token.
+- **Request Body**: `{"token": "...", "new_password": "..."}`
+
 ### `POST /api/v1/auth/logout`
-- **Description**: Logs audit trail for session termination.
+- **Description**: Logs audit trail, revokes access/refresh tokens in blacklist, and deletes refresh cookie.
 - **Headers**: `Authorization: Bearer <access_token>`
 
 ---
@@ -262,6 +284,22 @@ Base URL: `/api/v1`
 ### `PATCH /api/v1/admin/content/{id}`
 - **Required Role**: `editor` or higher.
 - **Usage**: Update content copy, change status between `draft`, `published`, and `archived`.
+
+### `POST /api/v1/admin/content/{id}/preview-token`
+- **Required Role**: `editor` or higher.
+- **Response**: Generates a 24-hour preview token with URL: `/api/v1/content/preview/{token}`.
+
+### `DELETE /api/v1/admin/content/{id}`
+- **Required Role**: `admin` or higher.
+- **Usage**: Archives the content entry so it is hidden from the public website.
+
+### `GET /api/v1/admin/media`
+- **Required Role**: `editor` or higher.
+- **Response**: Paginated list of uploaded media records.
+
+### `DELETE /api/v1/admin/media/{id}`
+- **Required Role**: `admin` or higher.
+- **Usage**: Removes the media record from the database and safely unlinks the file from disk.
 
 ### `GET /api/v1/admin/users`
 - **Required Role**: `super_admin` only.
