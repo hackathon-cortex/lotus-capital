@@ -33,3 +33,4 @@ def test_media_lifecycle(client, editor_token, admin_token):
     # 5. Media file is now gone
     get_res2 = client.get(f"/api/v1/media/{filename}")
     assert get_res2.status_code == 404
+
