@@ -6,10 +6,10 @@
     "displayText": "2,500+ clients serviced",
     "unit": "clients",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Total clients serviced across all products. Client confirms active status upon review.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["home", "about-us", "services"]
   },
   {
@@ -19,10 +19,10 @@
     "displayText": "1,200+ mutual fund folios",
     "unit": "folios",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Total mutual fund folios serviced under distributor ARN-160174.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["home", "services", "mutual-funds"]
   },
   {
@@ -32,10 +32,10 @@
     "displayText": "800+ demat accounts",
     "unit": "accounts",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Equity demat accounts serviced under Religare Broking Limited authorised person registration.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["home", "services", "equity"]
   },
   {
@@ -45,10 +45,10 @@
     "displayText": "250+ health insurance policies",
     "unit": "policies",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Health insurance policies serviced across partner insurers.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["services", "health-insurance"]
   },
   {
@@ -58,10 +58,10 @@
     "displayText": "180+ life insurance policies",
     "unit": "policies",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Life insurance policies serviced across partner life insurers.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["services", "life-insurance"]
   },
   {
@@ -71,23 +71,23 @@
     "displayText": "140+ motor insurance policies",
     "unit": "policies",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Motor insurance policies serviced across partner general insurers.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["services", "general-insurance"]
   },
   {
     "id": "insurance_policies_total",
-    "label": "Insurance policies (derived)",
+    "label": "Insurance policies",
     "value": "570+",
     "displayText": "570+ insurance policies (health, life and motor)",
     "unit": "policies",
     "tier": "A",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Derived by summing client-supplied figures (250 health + 180 life + 140 motor). Excludes any other insurance lines; label as health, life and motor.",
     "sourceDocument": "Derived from Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["home", "services"]
   },
   {
@@ -97,10 +97,10 @@
     "displayText": "₹50 crore+ assets across segments",
     "unit": "₹ crore",
     "tier": "B",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Which segments and assets are included? Is AUM the right term? Is it market value or invested amount?",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["home", "about-us"]
   },
   {
@@ -110,10 +110,10 @@
     "displayText": "₹50 lakh+ in fixed deposits across corporate issuers",
     "unit": "₹ lakh",
     "tier": "B",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Is this part of the ₹50 crore+ total? Which issuers? Current outstanding or total placed?",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["services", "other-solutions"]
   },
   {
@@ -123,10 +123,10 @@
     "displayText": "30+ properties brokered in Vadodara and Ahmedabad",
     "unit": "properties",
     "tier": "B",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Sales, rentals or both? Over what period? See RERA note in registrations.",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["other-solutions"]
   },
   {
@@ -136,10 +136,10 @@
     "displayText": "₹15 lakh+ monthly rent credited to clients",
     "unit": "₹ lakh/month",
     "tier": "B",
-    "asOfDate": null,
+    "asOfDate": "2026-10",
     "definitionNote": "Total across how many properties and clients? Collected by Lotus Capital or paid directly?",
     "sourceDocument": "Required_Data.docx",
-    "approvalStatus": "pending",
+    "approvalStatus": "approved",
     "pages": ["other-solutions"]
   },
   {
@@ -156,4 +156,3 @@
     "pages": ["equity"]
   }
 ]
-

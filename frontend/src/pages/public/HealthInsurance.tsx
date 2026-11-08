@@ -1,16 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import pageContent from '@content/pages/health-insurance.json';
+import { useSearchParams } from 'react-router-dom';
 import seoData from '@content/data/seo.json';
-import faqsData from '@content/data/faqs.json';
-import { useStatistics } from '../../hooks/useStatistics';
-import { StatBlock } from '../../components/stats/StatBlock';
-import { EnquiryForm } from '../../components/enquiry/EnquiryForm';
+import partnersData from '@content/data/partners.json';
+import { ServiceHero } from '../../components/insurance/ServiceHero';
+import { HealthCareBoard } from '../../components/insurance/HealthCareBoard';
+import { HealthOverview } from '../../components/insurance/HealthOverview';
+import { HealthCategoriesStack } from '../../components/insurance/HealthCategoriesStack';
+import { HealthCompareInspector } from '../../components/insurance/HealthCompareInspector';
+import { HealthProcessTimeline } from '../../components/insurance/HealthProcessTimeline';
+import { PartnerMarquee, PartnerItem } from '../../components/insurance/PartnerMarquee';
+import { FaqAccordion } from '../../components/insurance/FaqAccordion';
+import { EnquiryPanel, ServiceDetailOption } from '../../components/enquiry/EnquiryPanel';
+import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
+
+const HEALTH_SERVICE_OPTIONS: ServiceDetailOption[] = [
+  { id: 'individual', label: 'Individual' },
+  { id: 'family', label: 'Family floater' },
+  { id: 'senior', label: 'Senior citizen' },
+  { id: 'critical', label: 'Critical illness' },
+  { id: 'group', label: 'Group health' },
+];
 
 export const HealthInsurance: React.FC = () => {
   const seo = seoData['/services/health-insurance'];
-  const { stats } = useStatistics(['health_policies']);
-  const pageFaqs = faqsData.filter((f) => f.page === 'health-insurance');
+  const [searchParams] = useSearchParams();
+  const sectionQuery = searchParams.get('section');
+
+  // Selected categories for Enquiry preselection
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['family']);
+
+  // Confirmed Health Insurance Partners (Care Health Insurance, HDFC ERGO, ICICI Lombard)
+  const confirmedHealthPartners: PartnerItem[] = (partnersData as PartnerItem[]).filter(
+    (p) =>
+      p.status === 'confirmed' &&
+      (p.id === 'care_health' || p.id === 'hdfc_ergo' || p.id === 'icici_lombard')
+  );
+
+  // Smooth scroll handler for URL section param
+  useEffect(() => {
+    if (sectionQuery) {
+      const scrollTarget = () => {
+        const el = document.getElementById(sectionQuery);
+        if (el) {
+          window.scrollTo({
+            top: Math.max(0, el.offsetTop - 70),
+            behavior: 'instant' as ScrollBehavior,
+          });
+        }
+      };
+      scrollTarget();
+      const t1 = setTimeout(scrollTarget, 80);
+      const t2 = setTimeout(scrollTarget, 250);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [sectionQuery]);
+
+  const handleTypeSelect = (serviceDetail: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(serviceDetail) ? prev : [...prev, serviceDetail]
+    );
+    const enquiryEl = document.getElementById('enquiry');
+    if (enquiryEl) {
+      enquiryEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleActionScroll = (targetId: string) => {
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -19,148 +83,163 @@ export const HealthInsurance: React.FC = () => {
         <meta name="description" content={seo.description} />
       </Helmet>
 
-      {/* Hero */}
-      <section className="section-padding bg-navy">
-        <div className="container">
-          <div style={{ maxWidth: '800px' }}>
-            <span className="eyebrow" style={{ color: 'var(--red-300)' }}>Health Insurance</span>
-            <h1 style={{ color: 'var(--white)', marginBottom: '1.25rem' }}>
-              {pageContent.headline}
-            </h1>
-            <p style={{ fontSize: '1.15rem', color: 'var(--silver-300)' }}>
-              {pageContent.sections.find((s) => s.id === 'hero')?.copy}
-            </p>
-          </div>
+      {/* Thin Red Scroll Progress Bar */}
+      <ScrollProgressBar />
+
+      {/* Page Content Layout with Stacked Overlaps */}
+      <div className="health-page-wrapper" style={{ overflowX: 'hidden' }}>
+        {/* 1. Page Hero with Health Care Board */}
+        <div id="hero">
+          <ServiceHero
+            breadcrumb={[
+              { label: 'Home', path: '/' },
+              { label: 'Services', path: '/services' },
+              { label: 'Health Insurance' },
+            ]}
+            eyebrow="HEALTHCARE PROTECTION • GODHRA, GUJARAT"
+            headlinePlain="Healthcare Decisions Shouldn't"
+            headlineItalic="Become Financial Burdens."
+            leadCopy="Choose health cover with the details in view. Health insurance policies differ in cover, exclusions, waiting periods, room-rent limits, co-payments, network hospitals, renewal terms and claim process. Ask the Lotus Capital team about the options available and read the insurer's policy documents before you decide."
+            primaryButtonText="Request a Health Quote"
+            primaryButtonHref="#enquiry"
+            secondaryButtonText="See what to compare"
+            secondaryButtonHref="#compare"
+            backgroundGradient="radial-gradient(ellipse at 85% 25%, rgba(18, 61, 103, 0.45) 0%, rgba(10, 37, 64, 0) 70%), linear-gradient(135deg, #051329 0%, #0a2540 50%, #123D67 100%)"
+            customRightBoard={<HealthCareBoard onActionClick={handleActionScroll} />}
+            onEnquiryClick={() => handleActionScroll('enquiry')}
+          />
         </div>
-      </section>
 
-      {/* Stat Block */}
-      <section className="section-padding-sm bg-light">
-        <div className="container">
-          <StatBlock stats={stats} columns={2} />
-        </div>
-      </section>
+        {/* 2. Overview (Compact 2-Column with 4 Highlight Tiles) */}
+        <HealthOverview id="overview" />
 
-      {/* Overview & Policy Types */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="grid grid-cols-2" style={{ gap: '3rem', alignItems: 'start' }}>
-            <div>
-              <span className="eyebrow">Medical Protection</span>
-              <h2>Healthcare Policy Categories</h2>
-              <ul style={{ paddingLeft: '1.25rem', lineHeight: '2.2', marginTop: '1rem' }}>
-                <li><strong>Individual Health Insurance:</strong> Dedicated sum insured for a single individual.</li>
-                <li><strong>Family Floater Plans:</strong> Shared sum insured across spouse, children and parents.</li>
-                <li><strong>Senior Citizen Health Cover:</strong> Tailored for older adults with specialised coverage options.</li>
-                <li><strong>Critical Illness & Super Top-up:</strong> Additional cost-effective coverage above base policy deductibles.</li>
-              </ul>
-            </div>
+        {/* 3. Policy Categories (Sticky Card Stack) */}
+        <HealthCategoriesStack id="types" onSelectType={handleTypeSelect} />
 
-            <div className="card" style={{ backgroundColor: 'var(--silver-100)' }}>
-              <h3>Partner Insurers & Network Support</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>
-                Associated with <strong>Care Health Insurance</strong> (since 2012) and other confirmed insurers.
-              </p>
-              <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: 'var(--white)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--silver-300)' }}>
-                <strong>Claim Support Assistance</strong>
-                <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginTop: '0.25rem' }}>
-                  We assist clients with hospital intimation, document collation, and queries during cashless hospitalisation and reimbursement requests.
+        {/* 4. Compare (Interactive Deep-Dive Inspector) */}
+        <HealthCompareInspector
+          id="compare"
+          onEnquiryClick={() => handleActionScroll('enquiry')}
+        />
+
+        {/* 5. Process Timeline (Animated 6 Steps with Traveling Lotus Marker) */}
+        <HealthProcessTimeline
+          id="process"
+          onEnquiryClick={() => handleActionScroll('enquiry')}
+        />
+
+        {/* 6. Underwriting Partners Marquee */}
+        <PartnerMarquee
+          id="partners"
+          eyebrow="TRUSTED HEALTH UNDERWRITERS"
+          title="Underwriting & Partner Network"
+          subtitle="Associated with Care Health Insurance (since 2012) and established health underwriting institutions."
+          partners={confirmedHealthPartners}
+        />
+
+        {/* 7. FAQ Accordion (Sticky Left 2-Column, Health-Themed) */}
+        <FaqAccordion
+          page="health-insurance"
+          title="Questions, answered."
+          subtitle="Clear explanations on waiting periods, cashless vs reimbursement, room-rent caps, and claims."
+          onEnquiryClick={() => handleActionScroll('enquiry')}
+        />
+
+        {/* 8. Statutory Insurance Notice */}
+        <section
+          style={{
+            position: 'relative',
+            zIndex: 15,
+            backgroundColor: 'var(--silver-100, #f8f9fa)',
+            padding: '1.5rem 1.5rem 2.5rem',
+          }}
+        >
+          <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+            <div
+              className="hi-statutory-notice"
+              style={{
+                backgroundColor: 'var(--white, #ffffff)',
+                border: '1px solid var(--silver-300, #d7d9dc)',
+                borderLeft: '4px solid var(--navy-900, #123D67)',
+                borderRadius: '24px',
+                padding: '1.5rem 2rem',
+                boxShadow: '0 6px 20px rgba(10,37,64,0.04)',
+                display: 'flex',
+                gap: '1.25rem',
+                alignItems: 'flex-start',
+              }}
+            >
+              <div
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(18, 61, 103, 0.12)',
+                  color: 'var(--navy-900, #123D67)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  flexShrink: 0,
+                  marginTop: '2px',
+                }}
+              >
+                ⓘ
+              </div>
+              <div>
+                <strong
+                  style={{
+                    color: 'var(--navy-950, #051329)',
+                    fontSize: '0.94rem',
+                    display: 'block',
+                    marginBottom: '0.35rem',
+                  }}
+                >
+                  Insurance notice (IRDAI)
+                </strong>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: '0.86rem',
+                    color: 'var(--ink, #1f2937)',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Insurance is the subject matter of solicitation. Policy coverage, waiting periods, room-rent sub-limits,
+                  co-payments, and exclusions are subject to the specific policy terms and conditions issued by the underwriting insurer.
+                  No policy is presented as a guaranteed settlement; claim admissibility and reimbursement remain the sole prerogative of the insurer.
+                  Lotus Capital acts as a licensed corporate agent and facilitator; all policies are underwritten and issued directly by our IRDAI-registered insurance partners.
                 </p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* What to compare */}
-      <section className="section-padding bg-light" id="compare">
-        <div className="container" style={{ maxWidth: '850px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <span className="eyebrow">Detailed Checklist</span>
-            <h2>Comparison Checklist</h2>
-            <p style={{ color: 'var(--muted)' }}>What to examine before enrolling in a healthcare plan.</p>
-          </div>
-
-          <div className="grid grid-cols-2">
-            {[
-              'Pre-existing disease waiting periods (typically 1 to 3 years)',
-              'Room rent capping and proportionate internal deductions',
-              'Co-payment clauses and mandatory deductibles',
-              'Empanelled cashless hospital networks in Godhra and Gujarat',
-              'Day-care procedures and modern treatment robotic coverage',
-              'Restoration / recharge of sum insured upon exhaustion'
-            ].map((item, idx) => (
-              <div key={idx} className="card" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ color: 'var(--success)', fontWeight: 700 }}>✓</span>
-                <span style={{ fontSize: '0.95rem' }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How to request a quote */}
-      <section className="section-padding">
-        <div className="container" style={{ maxWidth: '850px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <span className="eyebrow">Simple Steps</span>
-            <h2>How to Request a Quotation</h2>
-          </div>
-
-          <div className="grid grid-cols-4">
-            {[
-              { step: '1', title: 'Share Details', desc: 'Family members, ages and any medical history.' },
-              { step: '2', title: 'Compare Plans', desc: 'Examine sum insured options and waiting periods.' },
-              { step: '3', title: 'Review Wording', desc: 'Verify policy exclusions before signing proposal.' },
-              { step: '4', title: 'Instant Issue', desc: 'Receive policy bond with digital card and network list.' }
-            ].map((s) => (
-              <div key={s.step} className="card">
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--red-500)', marginBottom: '0.25rem' }}>
-                  {s.step}
-                </div>
-                <h4>{s.title}</h4>
-                <p style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="section-padding bg-light" id="faqs">
-        <div className="container" style={{ maxWidth: '800px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h2>Health Insurance FAQs</h2>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {pageFaqs.map((faq) => (
-              <div key={faq.id} className="card">
-                <h4>{faq.question}</h4>
-                <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.95rem' }}>{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Risk note */}
-      <section className="container" style={{ margin: '2rem auto' }}>
-        <div className="card" style={{ borderLeft: '4px solid var(--warning)', backgroundColor: '#fffbe6' }}>
-          <strong>Notice:</strong> Insurance is the subject matter of solicitation. Cover is subject to insurer acceptance, medical underwriting declarations, waiting periods, and specific policy exclusions.
-        </div>
-      </section>
-
-      {/* Enquiry */}
-      <section className="section-padding" id="enquiry">
-        <div className="container" style={{ maxWidth: '750px' }}>
-          <EnquiryForm
+        {/* 9. Enquiry Panel */}
+        <section
+          style={{
+            position: 'relative',
+            zIndex: 16,
+            backgroundColor: 'var(--silver-100, #f8f9fa)',
+            paddingBottom: '5rem',
+          }}
+        >
+          <EnquiryPanel
             defaultService="health-insurance"
+            serviceDetailOptions={HEALTH_SERVICE_OPTIONS}
+            selectedServiceDetails={selectedCategories}
+            onServiceDetailChange={setSelectedCategories}
             title="Find Health Coverage for Your Needs"
-            subtitle="Tell us about your family size and medical coverage requirements."
+            subtitle="Tell us who needs cover and their ages for an objective plan comparison from our Godhra team."
+            reassuranceLines={[
+              'Direct consultation with our licensed advisor in Godhra',
+              'Objective comparison of waiting periods & exclusions',
+              'Local claim intimation and file collation assistance',
+            ]}
           />
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 };
-

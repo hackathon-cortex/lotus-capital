@@ -21,6 +21,7 @@ class Lead(Base):
     mobile = Column(String(15), nullable=False, index=True)
     email = Column(String(255), nullable=True)
     service = Column(String(50), nullable=False)
+    service_detail = Column(Text, nullable=True)
     message = Column(Text, nullable=True)
     contact_method = Column(String(20), default="phone")
     source_path = Column(String(255), nullable=False)

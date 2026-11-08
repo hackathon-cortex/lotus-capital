@@ -1,18 +1,76 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useSearchParams } from 'react-router-dom';
-import insightsData from '@content/pages/insights.json';
+import rawInsightsData from '@content/data/insights.json';
 import seoData from '@content/data/seo.json';
+import { InsightsHero } from '../../components/insights/InsightsHero';
+import { FeaturedGuideCard, InsightArticleSummary } from '../../components/insights/FeaturedGuideCard';
+import { InsightsLibraryBento } from '../../components/insights/InsightsLibraryBento';
+import { LearningPathsSection } from '../../components/insights/LearningPathsSection';
+import { JargonBusterSection } from '../../components/insights/JargonBusterSection';
+import { EnquiryPanel } from '../../components/enquiry/EnquiryPanel';
+import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
+
+const CATEGORIES = [
+  'All',
+  'Mutual Fund Basics',
+  'Insurance Basics',
+  'Equity & Market Risk',
+  'Financial Planning',
+];
 
 export const Insights: React.FC = () => {
-  const seo = seoData['/insights'];
-  const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get('page') || '1', 10);
-  const pageSize = 6;
+  const seo = seoData['/insights'] || {
+    title: 'Financial Insights & Educational Guides | Lotus Capital Godhra',
+    description:
+      'Clear, unbiased educational guides on mutual funds, health insurance, equity risks, and financial planning.',
+  };
 
-  const allArticles = insightsData.articles || [];
-  const totalPages = Math.ceil(allArticles.length / pageSize) || 1;
-  const displayedArticles = allArticles.slice((page - 1) * pageSize, page * pageSize);
+  const allArticles: InsightArticleSummary[] = rawInsightsData as InsightArticleSummary[];
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  // Compute category counts
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    CATEGORIES.forEach((cat) => {
+      if (cat === 'All') {
+        counts[cat] = allArticles.length;
+      } else {
+        counts[cat] = allArticles.filter((a) => a.category === cat).length;
+      }
+    });
+    return counts;
+  }, [allArticles]);
+
+  // Featured article (first with featured: true, or first article)
+  const featuredArticle = useMemo(() => {
+    return allArticles.find((a) => a.featured) || allArticles[0];
+  }, [allArticles]);
+
+  // Filtered articles
+  const filteredArticles = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+
+    return allArticles.filter((art) => {
+      const matchesCategory = selectedCategory === 'All' || art.category === selectedCategory;
+      if (!matchesCategory) return false;
+
+      if (!query) return true;
+
+      const titleMatch = art.title.toLowerCase().includes(query);
+      const summaryMatch = art.summary.toLowerCase().includes(query);
+      const categoryMatch = art.category.toLowerCase().includes(query);
+      const tagsMatch = art.tags?.some((t) => t.toLowerCase().includes(query)) ?? false;
+
+      return titleMatch || summaryMatch || categoryMatch || tagsMatch;
+    });
+  }, [allArticles, searchQuery, selectedCategory]);
+
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+  };
 
   return (
     <>
@@ -21,70 +79,64 @@ export const Insights: React.FC = () => {
         <meta name="description" content={seo.description} />
       </Helmet>
 
-      {/* Hero */}
-      <section className="section-padding bg-navy">
-        <div className="container">
-          <div style={{ maxWidth: '800px' }}>
-            <span className="eyebrow" style={{ color: 'var(--red-300)' }}>Educational Guides</span>
-            <h1 style={{ color: 'var(--white)', marginBottom: '1.25rem' }}>
-              {insightsData.headline}
-            </h1>
-            <p style={{ fontSize: '1.15rem', color: 'var(--silver-300)' }}>
-              {insightsData.intro}
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Red Reading Scroll Progress Bar */}
+      <ScrollProgressBar />
 
-      {/* Articles Listing */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="grid grid-cols-3">
-            {displayedArticles.map((art) => (
-              <div key={art.slug} className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <span className="badge badge-info">{art.category}</span>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--silver-500)' }}>{art.readTime}</span>
-                  </div>
-                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.75rem' }}>
-                    <Link to={`/insights/${art.slug}`} style={{ color: 'var(--navy-900)' }}>
-                      {art.title}
-                    </Link>
-                  </h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--muted)', marginBottom: '1rem' }}>
-                    {art.summary}
-                  </p>
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--silver-500)', marginBottom: '0.5rem' }}>
-                    Published: {art.publishedDate}
-                  </div>
-                  <Link to={`/insights/${art.slug}`} className="btn btn-secondary" style={{ width: '100%', padding: '0.5rem' }}>
-                    Read Guide &rarr;
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+      <div
+        className="insights-canvas-bg"
+        style={{
+          backgroundColor: '#EEF1F4',
+          minHeight: '100vh',
+          backgroundImage: `
+            radial-gradient(#CBD5E1 1px, transparent 1px),
+            linear-gradient(to bottom, #EEF1F4 0%, #E6EAF0 100%)
+          `,
+          backgroundSize: '24px 24px, 100% 100%',
+        }}
+      >
+        {/* 1. Hero with Search and Category Pills */}
+        <InsightsHero
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          selectedCategory={selectedCategory}
+          onCategorySelect={setSelectedCategory}
+          categories={CATEGORIES}
+          categoryCounts={categoryCounts}
+          totalCount={allArticles.length}
+          filteredCount={filteredArticles.length}
+        />
 
-          {totalPages > 1 && (
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '3rem' }}>
-              {Array.from({ length: totalPages }).map((_, idx) => (
-                <Link
-                  key={idx}
-                  to={`/insights?page=${idx + 1}`}
-                  className={`btn ${page === idx + 1 ? 'btn-primary' : 'btn-secondary'}`}
-                  style={{ padding: '0.5rem 1rem' }}
-                >
-                  {idx + 1}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+        {/* 2. Featured Guide Card (shown when no specific filter active or when featured matches) */}
+        {(!searchQuery && selectedCategory === 'All') && featuredArticle && (
+          <FeaturedGuideCard article={featuredArticle} />
+        )}
+
+        {/* 3. Library Bento Grid */}
+        <InsightsLibraryBento
+          articles={filteredArticles}
+          onResetFilters={handleResetFilters}
+        />
+
+        {/* 4. Curated Learning Paths */}
+        <LearningPathsSection />
+
+        {/* 5. Financial Jargon Buster 3D Flip Cards */}
+        <JargonBusterSection />
+
+        {/* 6. Reassurance Enquiry Section */}
+        <section id="enquiry" className="section-padding" style={{ paddingTop: '1rem', paddingBottom: '4rem' }}>
+          <EnquiryPanel
+            title="Have Questions on Any Financial Topic?"
+            subtitle="Speak with our certified advisory team in Godhra for unbiased educational clarifications."
+            defaultService="mutual-funds"
+            reassuranceLines={[
+              'Direct consultation with our licensed advisor in Godhra',
+              'Unbiased educational guidance — zero high-pressure sales',
+              'Tailored reviews of existing portfolios and policies',
+            ]}
+          />
+        </section>
+      </div>
     </>
   );
 };
-

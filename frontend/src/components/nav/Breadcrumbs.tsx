@@ -10,8 +10,25 @@ export const Breadcrumbs: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
 
-  // Don't render breadcrumbs on homepage
-  if (path === '/' || path.startsWith('/admin')) {
+  // Don't render global breadcrumbs on homepage or pages embedding their breadcrumb in hero
+  if (
+    path === '/' ||
+    path === '/services' ||
+    path === '/services/general-insurance' ||
+    path === '/services/life-insurance' ||
+    path === '/services/health-insurance' ||
+    path === '/investments/mutual-funds' ||
+    path === '/investments/equity' ||
+    path === '/investments/other-solutions' ||
+    path === '/insights' ||
+    path.startsWith('/insights/') ||
+    path === '/privacy-policy' ||
+    path === '/terms-and-conditions' ||
+    path === '/disclosures' ||
+    path === '/complaints' ||
+    path.startsWith('/enquiry/') ||
+    path.startsWith('/admin')
+  ) {
     return null;
   }
 
@@ -50,10 +67,7 @@ export const Breadcrumbs: React.FC = () => {
       case '/insights':
         crumbs.push({ label: 'Insights' });
         break;
-      case '/contact-us':
-        crumbs.push({ label: 'Contact Us' });
-        break;
-      case '/privacy-policy':
+            case '/privacy-policy':
         crumbs.push({ label: 'Privacy Policy' });
         break;
       case '/terms-and-conditions':

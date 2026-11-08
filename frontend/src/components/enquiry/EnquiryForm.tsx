@@ -30,6 +30,7 @@ export const enquirySchema = z.object({
     ],
     { required_error: 'Please select a service' }
   ),
+  service_detail: z.array(z.string()).optional(),
   message: z.string().max(1000, 'Message cannot exceed 1000 characters').optional(),
   contact_method: z.enum(['phone', 'whatsapp', 'email']).default('phone'),
   consent: z.literal(true, {
@@ -43,12 +44,14 @@ interface EnquiryFormProps {
   defaultService?: string;
   title?: string;
   subtitle?: string;
+  compact?: boolean;
 }
 
 export const EnquiryForm: React.FC<EnquiryFormProps> = ({
   defaultService,
   title = 'Send an Enquiry',
   subtitle = 'Share a few details and our Godhra team will follow up during business hours.',
+  compact = false,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -121,9 +124,28 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
   };
 
   return (
-    <div className="card enquiry-card" id="enquiry" data-testid="enquiry-form-container">
-      {title && <h3 style={{ marginBottom: '0.25rem' }}>{title}</h3>}
-      {subtitle && <p style={{ fontSize: '0.9rem', color: 'var(--muted)', marginBottom: '1.5rem' }}>{subtitle}</p>}
+    <div
+      className="card enquiry-card"
+      id="enquiry"
+      data-testid="enquiry-form-container"
+      style={{
+        borderRadius: 'var(--radius-card)',
+        padding: compact ? '1.75rem' : '2rem',
+        boxShadow: 'var(--shadow-soft)',
+        backgroundColor: 'var(--white)',
+        border: '1px solid var(--silver-300)',
+      }}
+    >
+      {title && (
+        <h3 style={{ marginBottom: '0.25rem', fontSize: compact ? '1.25rem' : '1.5rem', color: 'var(--navy-900)' }}>
+          {title}
+        </h3>
+      )}
+      {subtitle && (
+        <p style={{ fontSize: '0.88rem', color: 'var(--muted)', marginBottom: compact ? '1rem' : '1.5rem' }}>
+          {subtitle}
+        </p>
+      )}
 
       {serverError && (
         <div className="badge badge-danger" style={{ display: 'block', padding: '0.75rem', marginBottom: '1rem' }}>
@@ -132,142 +154,195 @@ export const EnquiryForm: React.FC<EnquiryFormProps> = ({
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate data-testid="enquiry-form">
-        <div className="form-group">
-          <label htmlFor="full_name" className="form-label">
-            Full Name <span style={{ color: 'var(--danger)' }}>*</span>
-          </label>
-          <input
-            id="full_name"
-            type="text"
-            className={`form-control ${errors.full_name ? 'is-invalid' : ''}`}
-            placeholder="e.g. Ramesh Patel"
-            {...register('full_name')}
-          />
-          {errors.full_name && (
-            <div className="form-error" role="alert">
-              {errors.full_name.message}
-            </div>
-          )}
+        {/* Row 1: Name + Mobile (Split when compact) */}
+        <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr 1fr' : '1fr', gap: '0.85rem' }}>
+          <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : '1rem' }}>
+            <label htmlFor="full_name" className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>
+              Full Name <span style={{ color: 'var(--danger)' }}>*</span>
+            </label>
+            <input
+              id="full_name"
+              type="text"
+              className={`form-control ${errors.full_name ? 'is-invalid' : ''}`}
+              placeholder="e.g. Ramesh Patel"
+              style={{ borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+              {...register('full_name')}
+            />
+            {errors.full_name && (
+              <div className="form-error" role="alert" style={{ fontSize: '0.75rem' }}>
+                {errors.full_name.message}
+              </div>
+            )}
+          </div>
+
+          <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : '1rem' }}>
+            <label htmlFor="mobile" className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>
+              Mobile (10 digits) <span style={{ color: 'var(--danger)' }}>*</span>
+            </label>
+            <input
+              id="mobile"
+              type="tel"
+              maxLength={10}
+              className={`form-control ${errors.mobile ? 'is-invalid' : ''}`}
+              placeholder="e.g. 9825012345"
+              style={{ borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+              {...register('mobile')}
+            />
+            {errors.mobile && (
+              <div className="form-error" role="alert" style={{ fontSize: '0.75rem' }}>
+                {errors.mobile.message}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="mobile" className="form-label">
-            10-digit Indian Mobile Number <span style={{ color: 'var(--danger)' }}>*</span>
-          </label>
-          <input
-            id="mobile"
-            type="tel"
-            maxLength={10}
-            className={`form-control ${errors.mobile ? 'is-invalid' : ''}`}
-            placeholder="e.g. 9825012345"
-            {...register('mobile')}
-          />
-          {errors.mobile && (
-            <div className="form-error" role="alert">
-              {errors.mobile.message}
-            </div>
-          )}
+        {/* Row 2: Email + Service (Split when compact) */}
+        <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr 1fr' : '1fr', gap: '0.85rem' }}>
+          <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : '1rem' }}>
+            <label htmlFor="email" className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>
+              Email Address (optional)
+            </label>
+            <input
+              id="email"
+              type="email"
+              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+              placeholder="name@example.com"
+              style={{ borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.75rem', fontSize: '0.9rem' }}
+              {...register('email')}
+            />
+            {errors.email && (
+              <div className="form-error" role="alert" style={{ fontSize: '0.75rem' }}>
+                {errors.email.message}
+              </div>
+            )}
+          </div>
+
+          <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : '1rem' }}>
+            <label htmlFor="service" className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>
+              Service <span style={{ color: 'var(--danger)' }}>*</span>
+            </label>
+            <select
+              id="service"
+              className={`form-control ${errors.service ? 'is-invalid' : ''}`}
+              style={{ borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.75rem', fontSize: '0.88rem' }}
+              {...register('service')}
+            >
+              <option value="general-insurance">General Insurance</option>
+              <option value="life-insurance">Life Insurance</option>
+              <option value="health-insurance">Health Insurance</option>
+              <option value="mutual-funds">Mutual Funds</option>
+              <option value="equity">Equity (Religare AP)</option>
+              <option value="other-solutions">More Solutions</option>
+            </select>
+            {errors.service && (
+              <div className="form-error" role="alert" style={{ fontSize: '0.75rem' }}>
+                {errors.service.message}
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email Address (optional)
-          </label>
-          <input
-            id="email"
-            type="email"
-            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-            placeholder="name@example.com"
-            {...register('email')}
-          />
-          {errors.email && (
-            <div className="form-error" role="alert">
-              {errors.email.message}
-            </div>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="service" className="form-label">
-            Service of Interest <span style={{ color: 'var(--danger)' }}>*</span>
-          </label>
-          <select
-            id="service"
-            className={`form-control ${errors.service ? 'is-invalid' : ''}`}
-            {...register('service')}
-          >
-            <option value="general-insurance">General Insurance (Motor, Property, Business)</option>
-            <option value="life-insurance">Life Insurance (Term, Savings)</option>
-            <option value="health-insurance">Health Insurance (Family, Senior, Top-up)</option>
-            <option value="mutual-funds">Mutual Funds (SIP, Lump sum)</option>
-            <option value="equity">Equity & Investments (Religare AP)</option>
-            <option value="other-solutions">More Solutions (Fixed Deposits, Bonds, NPS)</option>
-          </select>
-          {errors.service && (
-            <div className="form-error" role="alert">
-              {errors.service.message}
-            </div>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="message" className="form-label">
+        {/* Row 3: Short Message (2 rows when compact) */}
+        <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : '1rem' }}>
+          <label htmlFor="message" className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600 }}>
             Message (optional)
           </label>
           <textarea
             id="message"
-            rows={3}
+            rows={compact ? 2 : 3}
             className={`form-control ${errors.message ? 'is-invalid' : ''}`}
             placeholder="Tell us what you would like to explore..."
+            style={{ borderRadius: 'var(--radius-sm)', padding: '0.5rem 0.75rem', fontSize: '0.88rem', resize: 'none' }}
             {...register('message')}
           />
           {errors.message && (
-            <div className="form-error" role="alert">
+            <div className="form-error" role="alert" style={{ fontSize: '0.75rem' }}>
               {errors.message.message}
             </div>
           )}
         </div>
 
-        <div className="form-group">
-          <label className="form-label">Preferred Contact Method</label>
-          <div style={{ display: 'flex', gap: '1.5rem', marginTop: '0.25rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
+        {/* Row 4: Preferred Contact Method (Pill Radios) */}
+        <div className="form-group" style={{ marginBottom: compact ? '0.75rem' : '1rem' }}>
+          <label className="form-label" style={{ fontSize: '0.82rem', fontWeight: 600, marginBottom: '0.35rem' }}>
+            Preferred Contact Method
+          </label>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <label
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontSize: '0.82rem',
+                padding: '0.3rem 0.75rem',
+                borderRadius: 'var(--radius-pill)',
+                border: '1px solid var(--silver-300)',
+                backgroundColor: 'var(--silver-100)',
+                cursor: 'pointer',
+              }}
+            >
               <input type="radio" value="phone" {...register('contact_method')} />
               Phone Call
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
+            <label
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontSize: '0.82rem',
+                padding: '0.3rem 0.75rem',
+                borderRadius: 'var(--radius-pill)',
+                border: '1px solid var(--silver-300)',
+                backgroundColor: 'var(--silver-100)',
+                cursor: 'pointer',
+              }}
+            >
               <input type="radio" value="whatsapp" {...register('contact_method')} />
               WhatsApp
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}>
+            <label
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontSize: '0.82rem',
+                padding: '0.3rem 0.75rem',
+                borderRadius: 'var(--radius-pill)',
+                border: '1px solid var(--silver-300)',
+                backgroundColor: 'var(--silver-100)',
+                cursor: 'pointer',
+              }}
+            >
               <input type="radio" value="email" {...register('contact_method')} />
               Email
             </label>
           </div>
         </div>
 
-        <div className="form-group">
-          <label className="form-checkbox">
-            <input type="checkbox" {...register('consent')} />
+        {/* Row 5: Consent Checkbox */}
+        <div className="form-group" style={{ marginBottom: compact ? '0.85rem' : '1rem' }}>
+          <label className="form-checkbox" style={{ fontSize: '0.78rem', color: 'var(--muted)', display: 'grid', gridTemplateColumns: '24px minmax(0, 1fr)', gap: '10px', alignItems: 'flex-start' }}>
+            <input type="checkbox" style={{ marginTop: '3px', width: '16px', height: '16px' }} {...register('consent')} />
             <span>
               I consent to Lotus Capital contacting me regarding this enquiry in accordance with the{' '}
-              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+              <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>
                 Privacy Policy
               </a>
               .
             </span>
           </label>
           {errors.consent && (
-            <div className="form-error" role="alert">
+            <div className="form-error" role="alert" style={{ fontSize: '0.75rem', paddingLeft: '34px' }}>
               {errors.consent.message}
             </div>
           )}
         </div>
 
+        {/* Row 6: Submit Button */}
         <button
           type="submit"
           className="btn btn-primary"
-          style={{ width: '100%', marginTop: '0.5rem' }}
+          style={{ width: '100%', borderRadius: 'var(--radius-btn)', padding: '0.75rem 1.5rem', fontSize: '0.95rem', fontWeight: 600 }}
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Submitting Enquiry...' : 'Submit Enquiry'}

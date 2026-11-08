@@ -1,39 +1,52 @@
 {
   "route": "/privacy-policy",
-  "title": "Privacy Policy",
+  "title": "Privacy Policy | Lotus Capital",
   "headline": "Privacy Policy",
-  "lastUpdated": "October 2026",
+  "summary": "Understand how Lotus Capital collects, uses, and safeguards information submitted through our services and website.",
+  "lastUpdated": null,
+  "_comment": "TODO: Client / legal counsel to confirm effective date upon final compliance review.",
   "sections": [
     {
       "id": "legal-entity",
       "type": "textBlock",
-      "title": "1. Legal Entity & Contact",
-      "copy": "Lotus Capital operates as a financial services firm located at Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat. For privacy-related inquiries, contact us at lotuscapitalinfo@gmail.com."
+      "title": "1. Legal Entity & Privacy Contact",
+      "copy": "Lotus Capital operates as a financial services firm located at Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat. For privacy-related inquiries, clarifications, or requests regarding personal data, you can reach us directly at lotuscapitalinfo@gmail.com or call +91 93288 52555."
     },
     {
       "id": "data-collected",
       "type": "textBlock",
       "title": "2. Data We Collect",
-      "copy": "We collect information submitted voluntarily through our enquiry forms, including your full name, 10-digit mobile number, optional email address, selected service of interest, message text, preferred contact method, source URL, and campaign attribution (UTM parameters). We never collect PAN, Aadhaar, bank passwords, or OTPs on this website."
+      "copy": "We collect information submitted voluntarily through our service enquiry forms, including your full name, 10-digit Indian mobile number, optional email address, selected service of interest, enquiry message text, preferred contact method (phone, WhatsApp, or email), source URL, and campaign attribution parameters (UTM tags). We do not collect cookies or tracker profiles for profiling."
+    },
+    {
+      "id": "data-minimisation",
+      "type": "calloutBlock",
+      "title": "3. Strict Data Minimisation",
+      "copy": "This website never requests or collects sensitive credentials such as passwords, OTPs, login credentials, PAN card numbers, Aadhaar numbers, or bank account credentials. Please do not submit financial access credentials through any digital enquiry form or email."
     },
     {
       "id": "purpose-processing",
       "type": "textBlock",
-      "title": "3. Purpose of Processing",
-      "copy": "Information is used solely to respond to your service enquiry, clarify requirements, coordinate with authorised product providers, and maintain administrative records as required by regulatory compliance."
+      "title": "4. Purpose of Data Processing",
+      "copy": "Information collected is processed solely to respond to your service enquiry, clarify your insurance or investment requirements, facilitate introductory discussions with authorised advisors, and maintain compliance records as required by Indian financial regulatory frameworks."
     },
     {
       "id": "disclosure-third-parties",
       "type": "textBlock",
-      "title": "4. Sharing with Third Parties",
-      "copy": "Your details are only shared with partner insurers, broking partner Religare Broking Limited, or Asset Management Companies (AMCs) after your explicit instruction to proceed with an application or account opening."
+      "title": "5. Sharing with Regulated Product Providers",
+      "copy": "Your personal details are shared with authorised partner insurers, broking partner Religare Broking Limited, or Asset Management Companies (AMCs) only after your explicit instruction and consent to proceed with a formal application, policy issuance, or Demat account opening."
     },
     {
       "id": "security-retention",
       "type": "textBlock",
-      "title": "5. Security & Retention",
-      "copy": "We implement transport layer security (HTTPS), strict role-based access controls for staff, and audit logs. Data is retained for periods required by applicable Indian financial regulations."
+      "title": "6. Security & Data Retention",
+      "copy": "We implement transport layer security (HTTPS encryption), role-based access controls for authorized personnel, and secure audit logging. Personal data is retained strictly for periods necessary to fulfill service requests or comply with applicable Indian statutory record-keeping obligations."
+    },
+    {
+      "id": "user-rights",
+      "type": "textBlock",
+      "title": "7. Your Rights & Contact Channel",
+      "copy": "You have the right to request access to the personal information you have submitted, request corrections to inaccurate records, or ask to withdraw consent for further advisory communication. To exercise these rights, please write to lotuscapitalinfo@gmail.com with your contact details."
     }
   ]
 }
-

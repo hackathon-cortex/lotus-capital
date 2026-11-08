@@ -1,5 +1,6 @@
+import os
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 class Settings:
     PROJECT_NAME: str = "Lotus Capital API"
@@ -17,5 +18,13 @@ class Settings:
         "http://localhost:3000",
     ]
 
-settings = Settings()
+    # Email notification settings
+    SMTP_HOST: str = os.getenv("SMTP_HOST", "")
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER: str = os.getenv("SMTP_USER", "")
+    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
+    SMTP_TLS: bool = os.getenv("SMTP_TLS", "true").lower() in ("true", "1", "yes")
+    NOTIFICATION_EMAIL_TO: str = os.getenv("NOTIFICATION_EMAIL_TO", "lotuscapitalinfo@gmail.com")
+    NOTIFICATION_EMAIL_FROM: str = os.getenv("NOTIFICATION_EMAIL_FROM", "no-reply@lotuscapital.in")
 
+settings = Settings()

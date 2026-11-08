@@ -1,39 +1,46 @@
 {
   "route": "/disclosures",
-  "title": "Regulatory & Risk Disclosures",
+  "title": "Regulatory & Risk Disclosures | Lotus Capital",
   "headline": "Regulatory & Risk Disclosures",
-  "lastUpdated": "October 2026",
+  "summary": "Regulatory registrations, intermediary capacities, and mandatory statutory risk disclosures across financial products.",
+  "lastUpdated": null,
+  "_comment": "TODO: Client / compliance reviewer to confirm effective date upon final review.",
   "sections": [
     {
       "id": "mf-risk",
       "type": "disclosureBlock",
-      "title": "1. Mutual Fund Risk Disclosure",
+      "title": "1. Mutual Fund Statutory Risk Disclosure",
       "copy": "Mutual fund investments are subject to market risks, read all scheme related documents carefully. The Net Asset Value (NAV) of schemes can go up or down based on market forces and interest rate changes. Past performance does not guarantee future results, and dividends or payouts depend on distributable surplus availability. Investors must read the Key Information Memorandum (KIM), Scheme Information Document (SID), and Statement of Additional Information (SAI) before investing."
     },
     {
       "id": "registrations-summary",
       "type": "registrationsTable",
-      "title": "2. Registrations & Capacities",
-      "copy": "Wording and holder details verified against official regulatory registrations."
+      "title": "2. Official Registrations & Capacities",
+      "copy": "Wording and holder details verified against official regulatory registrations from 00-client-data-register.md."
     },
     {
       "id": "equity-risk",
       "type": "disclosureBlock",
-      "title": "3. Securities Market Risk",
-      "copy": "Investments in securities market are subject to market risks. Read all related documents carefully before investing. Lotus Capital acts as an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963)."
+      "title": "3. Securities Market & Broking Risk Disclosure",
+      "copy": "Investments in securities market are subject to market risks. Read all related documents carefully before investing. Lotus Capital acts strictly as an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963). Demat accounts and broking operations are governed by SEBI regulations, exchange bye-laws, and Religare Broking Limited terms."
     },
     {
       "id": "insurance-solicitation",
       "type": "disclosureBlock",
       "title": "4. Insurance Solicitation Notice",
-      "copy": "Insurance is the subject matter of solicitation. Policy terms, conditions, waiting periods, deductibles, and exclusions are determined by the respective underwriter."
+      "copy": "Insurance is the subject matter of solicitation. Policy terms, conditions, waiting periods, deductibles, and exclusions are determined exclusively by the respective underwriter. Lotus Capital acts as a corporate facilitator/POSP intermediary and does not underwrite insurance risk or guarantee claim settlement."
     },
     {
       "id": "fixed-income-risk",
       "type": "disclosureBlock",
       "title": "5. Corporate Fixed Deposits & Bonds Risk",
-      "copy": "Fixed deposits with corporate issuers carry credit and issuer default risk. Market-linked debentures and corporate bonds are subject to liquidity and issuer risk."
+      "copy": "Fixed deposits with corporate issuers carry credit and issuer default risk. Ratings assigned by credit rating agencies reflect the issuer's financial strength at the time of evaluation and do not represent a guarantee. Market-linked debentures and corporate bonds are subject to liquidity, interest rate, and credit risks."
+    },
+    {
+      "id": "entity-capacity",
+      "type": "calloutBlock",
+      "title": "6. Entity Status & Regulatory Clarity",
+      "copy": "Lotus Capital is an AMFI-registered Mutual Fund Distributor (ARN-160174) and an Authorised Person of Religare Broking Limited. Lotus Capital is not a SEBI-registered Investment Adviser (RIA), a portfolio management service (PMS) provider, a stock exchange broker, or an insurance underwriting company. All advice is incidental to distributor activities."
     }
   ]
 }
-

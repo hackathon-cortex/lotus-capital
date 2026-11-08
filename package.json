@@ -10,6 +10,7 @@
     "test": "npm run test --prefix frontend",
     "test:frontend": "npm run test --prefix frontend",
     "test:backend": ".\\backend\\.venv\\Scripts\\pytest.exe backend\\tests",
+    "audit:mobile": "node scripts/audit-mobile.mjs",
     "backend:dev": ".\\backend\\.venv\\Scripts\\uvicorn.exe backend.app.main:app --reload --port 8000"
   }
 }

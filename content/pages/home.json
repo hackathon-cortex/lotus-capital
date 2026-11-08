@@ -12,7 +12,7 @@
       "eyebrow": "Financial solutions • Godhra, Gujarat",
       "copy": "Lotus Capital helps individuals and families explore insurance, mutual funds, equity and other financial solutions. Start with a clear conversation about your goals, priorities and time horizon.",
       "primaryCta": { "text": "Explore Our Services", "link": "/services" },
-      "secondaryCta": { "text": "Talk to an Advisor", "link": "/contact-us" }
+      "secondaryCta": { "text": "Talk to an Advisor", "link": "/?contact=open" }
     },
     {
       "id": "trust-strip",

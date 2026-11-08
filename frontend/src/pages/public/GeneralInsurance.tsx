@@ -1,18 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import pageContent from '@content/pages/general-insurance.json';
+import { useSearchParams } from 'react-router-dom';
 import seoData from '@content/data/seo.json';
-import faqsData from '@content/data/faqs.json';
 import partnersData from '@content/data/partners.json';
-import { useStatistics } from '../../hooks/useStatistics';
-import { StatBlock } from '../../components/stats/StatBlock';
-import { EnquiryForm } from '../../components/enquiry/EnquiryForm';
+import { ServiceHero } from '../../components/insurance/ServiceHero';
+import { CategoryBento } from '../../components/insurance/CategoryBento';
+import { PolicyAnatomy } from '../../components/insurance/PolicyAnatomy';
+import { StepScroller } from '../../components/insurance/StepScroller';
+import { FaqAccordion } from '../../components/insurance/FaqAccordion';
+import { EnquiryPanel } from '../../components/enquiry/EnquiryPanel';
+import { ScrollProgressBar } from '../../components/common/ScrollProgressBar';
 
 export const GeneralInsurance: React.FC = () => {
   const seo = seoData['/services/general-insurance'];
-  const { stats } = useStatistics(['motor_policies']);
-  const pageFaqs = faqsData.filter((f) => f.page === 'general-insurance');
-  const insurancePartners = partnersData.filter((p) => p.category === 'insurance');
+  const [searchParams] = useSearchParams();
+  const sectionQuery = searchParams.get('section');
+
+  // Selected categories for Enquiry preselection
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['vehicle']);
+
+  // Confirmed GI partners (ICICI Lombard, HDFC ERGO, Religare Broking)
+  const confirmedPartners = partnersData.filter(
+    (p) => p.id === 'icici_lombard' || p.id === 'hdfc_ergo' || p.id === 'religare_broking'
+  );
+
+  // Scroll handler for URL section param
+  useEffect(() => {
+    if (sectionQuery) {
+      const scrollTarget = () => {
+        const el = document.getElementById(sectionQuery);
+        if (el) {
+          el.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' });
+        }
+      };
+      scrollTarget();
+      const t1 = setTimeout(scrollTarget, 80);
+      const t2 = setTimeout(scrollTarget, 250);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [sectionQuery]);
+
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId) ? prev : [...prev, categoryId]
+    );
+    const enquiryEl = document.getElementById('enquiry');
+    if (enquiryEl) {
+      enquiryEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleEnquiryScroll = () => {
+    const enquiryEl = document.getElementById('enquiry');
+    if (enquiryEl) {
+      enquiryEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -21,153 +67,239 @@ export const GeneralInsurance: React.FC = () => {
         <meta name="description" content={seo.description} />
       </Helmet>
 
-      {/* Hero */}
-      <section className="section-padding bg-navy">
-        <div className="container">
-          <div style={{ maxWidth: '800px' }}>
-            <span className="eyebrow" style={{ color: 'var(--red-300)' }}>General Insurance</span>
-            <h1 style={{ color: 'var(--white)', marginBottom: '1.25rem' }}>
-              {pageContent.headline}
-            </h1>
-            <p style={{ fontSize: '1.15rem', color: 'var(--silver-300)' }}>
-              {pageContent.sections.find((s) => s.id === 'hero')?.copy}
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Thin Red Scroll Progress Bar */}
+      <ScrollProgressBar />
 
-      {/* Stat Block */}
-      <section className="section-padding-sm bg-light">
-        <div className="container">
-          <StatBlock stats={stats} columns={2} />
+      {/* Main Content Layout with Stacked Overlaps */}
+      <div className="gi-page-wrapper" style={{ overflow: 'clip' }}>
+        
+        {/* 1. Page Hero + Coverage Board */}
+        <div id="hero">
+          <ServiceHero onEnquiryClick={handleEnquiryScroll} />
         </div>
-      </section>
 
-      {/* Overview & Categories */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="grid grid-cols-2" style={{ gap: '3rem', alignItems: 'start' }}>
-            <div>
-              <span className="eyebrow">Cover Options</span>
-              <h2>Product Categories</h2>
-              <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>
-                We assist individuals and commercial enterprises with general non-life covers:
+        {/* 2. Categories Bento Grid */}
+        <CategoryBento id="categories" onCategorySelect={handleCategorySelect} />
+
+        {/* 3. Policy Anatomy (What to Compare) */}
+        <PolicyAnatomy id="compare" onEnquiryClick={handleEnquiryScroll} />
+
+        {/* 4. Pinned Step-by-Step Workflow Scroller */}
+        <StepScroller id="process" onEnquiryClick={handleEnquiryScroll} />
+
+        {/* 5. Underwriting Partners */}
+        <section
+          id="partners"
+          data-tone="light"
+          className="gi-stacked-section section-padding"
+          style={{
+            position: 'relative',
+            zIndex: 13,
+            marginTop: '-36px',
+            borderTopLeftRadius: '36px',
+            borderTopRightRadius: '36px',
+            backgroundColor: 'var(--white, #ffffff)',
+            boxShadow: '0 -10px 40px rgba(10,37,64,0.06)',
+            paddingTop: '4.5rem',
+            paddingBottom: '4.5rem',
+          }}
+        >
+          <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
+            <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3.5rem' }}>
+              <span
+                className="eyebrow"
+                style={{
+                  display: 'inline-block',
+                  color: 'var(--navy-700, #0d2b4a)',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  marginBottom: '0.75rem',
+                }}
+              >
+                TRUSTED NETWORK
+              </span>
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: 'clamp(2rem, 3.2vw, 2.75rem)',
+                  fontWeight: 700,
+                  lineHeight: 1.15,
+                  color: 'var(--navy-950, #051329)',
+                  marginBottom: '1rem',
+                }}
+              >
+                Underwriting & Execution <span style={{ fontStyle: 'italic', color: 'var(--navy-700, #0d2b4a)' }}>Partners</span>
+              </h2>
+              <p style={{ color: 'var(--muted, #556270)', fontSize: '1.02rem', lineHeight: 1.6 }}>
+                Underwriting and execution partners for general insurance policies in Godhra.
               </p>
-              <ul style={{ paddingLeft: '1.25rem', lineHeight: '2' }}>
-                <li>Vehicle Insurance (Cars, two-wheelers, and commercial fleets)</li>
-                <li>Commercial property, fire, and special perils insurance</li>
-                <li>Marine transit and cargo policies</li>
-                <li>Professional indemnity and business liabilities</li>
-                <li>Shopkeeper and enterprise package policies</li>
-                <li>Travel insurance (domestic and overseas)</li>
-              </ul>
             </div>
 
-            <div className="card" style={{ backgroundColor: 'var(--silver-100)' }}>
-              <h3>Insurer Partners</h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>
-                General insurance contracts are underwritten by our partner insurers including ICICI Lombard, HDFC ERGO, and Bajaj Allianz General Insurance.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem' }}>
-                {insurancePartners.slice(0, 4).map((p) => (
-                  <div key={p.id} style={{ padding: '0.5rem', backgroundColor: 'var(--white)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--silver-300)' }}>
-                    <strong>{p.name}</strong> <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>({p.relationshipLabel})</span>
+            {/* Partner Tiles (>= 280x160 with subtle lift & glow) */}
+            <div
+              className="gi-partners-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '2rem',
+                justifyContent: 'center',
+                maxWidth: '980px',
+                margin: '0 auto',
+              }}
+            >
+              {confirmedPartners.map((partner) => (
+                <div
+                  key={partner.id}
+                  className="gi-partner-card"
+                  style={{
+                    minWidth: '280px',
+                    minHeight: '160px',
+                    padding: '2rem 1.75rem',
+                    borderRadius: '24px',
+                    backgroundColor: 'var(--white, #ffffff)',
+                    border: '1px solid var(--silver-300, #d7d9dc)',
+                    boxShadow: '0 10px 30px rgba(10,37,64,0.06)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '56px',
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '1rem',
+                    }}
+                  >
+                    <img
+                      src={partner.logoPlaceholder}
+                      alt={partner.name}
+                      style={{
+                        maxHeight: '48px',
+                        maxWidth: '180px',
+                        objectFit: 'contain',
+                        filter: 'grayscale(15%)',
+                        transition: 'filter 0.25s ease',
+                      }}
+                      className="gi-partner-img"
+                    />
                   </div>
-                ))}
+                  <h4 style={{ margin: '0 0 0.35rem', fontSize: '0.98rem', color: 'var(--navy-900, #0a2540)', fontWeight: 600 }}>
+                    {partner.name}
+                  </h4>
+                  <span
+                    style={{
+                      fontSize: '0.78rem',
+                      color: 'var(--muted, #556270)',
+                      backgroundColor: 'var(--silver-100, #f8f9fa)',
+                      padding: '0.2rem 0.65rem',
+                      borderRadius: '9999px',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {partner.relationshipLabel}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 6. FAQ Accordion (Sticky Left 2-Column) */}
+        <FaqAccordion onEnquiryClick={handleEnquiryScroll} />
+
+        {/* 7. Risk / Solicitation Notice */}
+        <section
+          data-tone="light"
+          style={{
+            position: 'relative',
+            zIndex: 15,
+            backgroundColor: 'var(--silver-100, #f8f9fa)',
+            padding: '1.5rem 1.5rem 2.5rem',
+          }}
+        >
+          <div className="container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+            <div
+              className="gi-statutory-notice"
+              style={{
+                backgroundColor: 'var(--white, #ffffff)',
+                border: '1px solid var(--silver-300, #d7d9dc)',
+                borderLeft: '4px solid var(--navy-700, #0d2b4a)',
+                borderRadius: '24px',
+                padding: '1.5rem 2rem',
+                boxShadow: '0 6px 20px rgba(10,37,64,0.04)',
+                display: 'flex',
+                gap: '1.25rem',
+                alignItems: 'flex-start',
+              }}
+            >
+              <div
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(18, 61, 103, 0.1)',
+                  color: 'var(--navy-700, #0d2b4a)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.1rem',
+                  fontWeight: 700,
+                  flexShrink: 0,
+                  marginTop: '2px',
+                }}
+              >
+                ⓘ
+              </div>
+              <div>
+                <strong style={{ color: 'var(--navy-950, #051329)', fontSize: '0.94rem', display: 'block', marginBottom: '0.35rem' }}>
+                  Statutory Insurance Notice (IRDAI)
+                </strong>
+                <p style={{ margin: 0, fontSize: '0.86rem', color: 'var(--ink, #1f2937)', lineHeight: 1.6 }}>
+                  Insurance is the subject matter of solicitation. Policy coverage, terms, waiting periods, sub-limits,
+                  and exclusions are subject to the specific policy terms and conditions issued by the underwriting insurer.
+                  Lotus Capital acts as a facilitator and advisor; all policies are underwritten and issued directly by our
+                  IRDAI-registered insurance partners.
+                </p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* What to compare checklist */}
-      <section className="section-padding bg-light" id="compare">
-        <div className="container" style={{ maxWidth: '850px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <span className="eyebrow">Careful Selection</span>
-            <h2>What to Compare Before You Buy</h2>
-          </div>
-
-          <div className="grid grid-cols-2">
-            {[
-              'Cover scope vs specific exclusions',
-              'Insured Declared Value (IDV) adequacy',
-              'Compulsory and voluntary deductibles',
-              'No-Claim Bonus (NCB) retention and transfer',
-              'Cashless garage empanelment in Godhra & Gujarat',
-              'Add-on bundles: Zero Depreciation, Engine Protect, Roadside Assistance'
-            ].map((item, idx) => (
-              <div key={idx} className="card" style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ color: 'var(--success)', fontWeight: 700 }}>✓</span>
-                <span style={{ fontSize: '0.95rem' }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How to request a quote */}
-      <section className="section-padding">
-        <div className="container" style={{ maxWidth: '850px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <span className="eyebrow">Clear Process</span>
-            <h2>How to Request a Quotation</h2>
-          </div>
-
-          <div className="grid grid-cols-4">
-            {[
-              { step: '1', title: 'Contact Us', desc: 'Send an enquiry or call our Godhra office.' },
-              { step: '2', title: 'Share Details', desc: 'Provide vehicle registration (RC) or property specifics.' },
-              { step: '3', title: 'Compare Quotes', desc: 'Receive side-by-side rates and term sheets from partner insurers.' },
-              { step: '4', title: 'Review & Decide', desc: 'Examine policy wording before payment.' }
-            ].map((s) => (
-              <div key={s.step} className="card">
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--red-500)', marginBottom: '0.25rem' }}>
-                  {s.step}
-                </div>
-                <h4>{s.title}</h4>
-                <p style={{ fontSize: '0.85rem', color: 'var(--muted)' }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="section-padding bg-light" id="faqs">
-        <div className="container" style={{ maxWidth: '800px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h2>General Insurance FAQs</h2>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {pageFaqs.map((faq) => (
-              <div key={faq.id} className="card">
-                <h4>{faq.question}</h4>
-                <p style={{ margin: 0, color: 'var(--muted)', fontSize: '0.95rem' }}>{faq.answer}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Risk note */}
-      <section className="container" style={{ margin: '2rem auto' }}>
-        <div className="card" style={{ borderLeft: '4px solid var(--warning)', backgroundColor: '#fffbe6' }}>
-          <strong>Notice:</strong> Insurance is the subject matter of solicitation. Policy issuance and claim settlement are subject to underwriter approval, policy terms, conditions, and declared exclusions.
-        </div>
-      </section>
-
-      {/* Enquiry Form */}
-      <section className="section-padding" id="enquiry">
-        <div className="container" style={{ maxWidth: '750px' }}>
-          <EnquiryForm
+        {/* 8. Enquiry Panel (<= 560px Desktop Height, Compact Split Card) */}
+        <section
+          id="enquiry"
+          data-tone="light"
+          style={{
+            position: 'relative',
+            zIndex: 16,
+            backgroundColor: 'var(--silver-100, #f8f9fa)',
+            paddingBottom: '5rem',
+          }}
+        >
+          <EnquiryPanel
             defaultService="general-insurance"
-            title="Request a General Insurance Quote"
-            subtitle="Share your requirement and vehicle or property details for a quick quote comparison."
+            selectedServiceDetails={selectedCategories}
+            onServiceDetailChange={setSelectedCategories}
+            title="Request a General Insurance quotation"
+            subtitle="Share your vehicle registration or asset notes for a personalised quotation."
+            reassuranceLines={[
+              'Direct consultation with our licensed advisor in Godhra',
+              'No automated robo-calls or spam',
+              'Personalised coverage & IDV evaluation',
+            ]}
           />
-        </div>
-      </section>
+        </section>
+
+      </div>
     </>
   );
 };
-

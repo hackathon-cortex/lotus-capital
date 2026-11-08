@@ -1,92 +1,128 @@
+import { useContactDrawer } from '../../context/ContactDrawerContext';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import disclaimersData from '@content/data/disclaimers.json';
 import contactData from '@content/data/contact.json';
+import { LotusLogo } from '../common/LotusLogo';
+import { FooterLink } from './NavLinkButton';
 
 export const Footer: React.FC = () => {
+  const { openContactDrawer } = useContactDrawer();
+
   return (
-    <footer className="footer" role="contentinfo" data-testid="global-footer">
-      <div className="container">
-        <div className="grid grid-cols-4">
-          {/* Column 1: Lotus Capital Info */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <img
-                src="/assets/lotus_capital_logo_traced.svg"
-                alt="Lotus Capital"
-                style={{ height: '36px', filter: 'brightness(0) invert(1)' }}
-              />
-              <span style={{ fontWeight: 700, fontSize: '1.2rem', color: 'var(--white)' }}>
-                Lotus Capital
-              </span>
+    <footer
+      className="footer site-footer"
+      role="contentinfo"
+      data-testid="global-footer"
+    >
+      {/* Background Watermark (bottom-right, white 5%) */}
+      <div
+        className="site-footer__watermark"
+        aria-hidden="true"
+      >
+        <LotusLogo variant="watermark" width="100%" height="100%" />
+      </div>
+
+      <div className="container site-footer__container">
+        {/* Four-column desktop grid */}
+        <div className="site-footer__grid footer-columns-grid">
+          {/* Column 1: Brand */}
+          <div className="site-footer__col site-footer__col--brand" data-testid="footer-col-brand">
+            <div style={{ marginBottom: '20px', maxHeight: '56px' }}>
+              <LotusLogo variant="light" height={42} />
             </div>
-            <p style={{ fontSize: '0.875rem' }}>
+            <p className="site-footer__tagline">
               Partnering Wealth Creation. Guiding individuals and families with insurance,
               mutual funds, and equity solutions in Godhra, Gujarat.
             </p>
-            <p style={{ fontSize: '0.8rem', color: 'var(--silver-500)' }}>
-              AMFI-registered Mutual Fund Distributor (ARN-160174) & Authorised Person of Religare Broking Limited.
+            <p className="site-footer__reg-text">
+              AMFI-registered Mutual Fund Distributor (ARN-160174) &amp; Authorised Person of Religare Broking Limited.
             </p>
           </div>
 
           {/* Column 2: Services */}
-          <div>
-            <h4>Services</h4>
-            <ul>
-              <li><Link to="/services/general-insurance">General Insurance</Link></li>
-              <li><Link to="/services/life-insurance">Life Insurance</Link></li>
-              <li><Link to="/services/health-insurance">Health Insurance</Link></li>
-              <li><Link to="/investments/mutual-funds">Mutual Funds</Link></li>
-              <li><Link to="/investments/equity">Equity & Investments</Link></li>
-              <li><Link to="/investments/other-solutions">More Solutions</Link></li>
+          <div className="site-footer__col site-footer__col--services" data-testid="footer-col-services">
+            <h4 className="site-footer__heading">Services</h4>
+            <ul className="site-footer__list">
+              <li>
+                <FooterLink to="/services/general-insurance">General Insurance</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/services/life-insurance">Life Insurance</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/services/health-insurance">Health Insurance</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/investments/mutual-funds">Mutual Funds</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/investments/equity">Equity &amp; Investments</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/investments/other-solutions">More Solutions</FooterLink>
+              </li>
             </ul>
           </div>
 
           {/* Column 3: Company & Legal */}
-          <div>
-            <h4>Company & Legal</h4>
-            <ul>
-              <li><Link to="/about-us">About Us</Link></li>
-              <li><Link to="/insights">Insights</Link></li>
-              <li><Link to="/contact-us">Contact Us</Link></li>
-              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
-              <li><Link to="/terms-and-conditions">Terms & Conditions</Link></li>
-              <li><Link to="/disclosures">Disclosures</Link></li>
-              <li><Link to="/complaints">Complaints</Link></li>
+          <div className="site-footer__col site-footer__col--company" data-testid="footer-col-company">
+            <h4 className="site-footer__heading">Company &amp; Legal</h4>
+            <ul className="site-footer__list">
+              <li>
+                <FooterLink to="/about-us">About Us</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/insights">Insights</FooterLink>
+              </li>
+              <li>
+                <FooterLink onClick={() => openContactDrawer()}>Contact Us</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/privacy-policy">Privacy Policy</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/terms-and-conditions">Terms &amp; Conditions</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/disclosures">Disclosures</FooterLink>
+              </li>
+              <li>
+                <FooterLink to="/complaints">Complaints</FooterLink>
+              </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact */}
-          <div>
-            <h4>Contact Godhra Office</h4>
-            <p style={{ fontSize: '0.85rem' }}>
-              {contactData.address.full}
-            </p>
-            <p style={{ fontSize: '0.85rem' }}>
-              Phone: <a href={`tel:${contactData.phone}`}>{contactData.phoneDisplay}</a>
-            </p>
-            <p style={{ fontSize: '0.85rem' }}>
-              Email: <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
-            </p>
-            <p style={{ fontSize: '0.8rem', color: 'var(--silver-500)' }}>
-              Hours: {contactData.officeHours}
-            </p>
+          {/* Column 4: Contact Godhra Office */}
+          <div className="site-footer__col site-footer__col--contact" data-testid="footer-col-contact">
+            <h4 className="site-footer__heading">Contact Godhra Office</h4>
+            <div className="site-footer__contact-info">
+              <div style={{ color: '#C9CED4', lineHeight: 1.4 }}>
+                {contactData.address.full}
+              </div>
+              <div>
+                <FooterLink href={`tel:${contactData.phone}`}>
+                  {contactData.phoneDisplay}
+                </FooterLink>
+              </div>
+              <div>
+                <FooterLink href={`mailto:${contactData.email}`}>
+                  {contactData.email}
+                </FooterLink>
+              </div>
+              {'officeHours' in contactData && (contactData as any).officeHours ? (
+                <div style={{ fontSize: '13px', color: 'var(--silver-400, #94a3b8)', marginTop: '4px' }}>
+                  Hours: {(contactData as any).officeHours}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
 
-        {/* Global Footer Disclaimer from disclaimers.json */}
-        <div
-          className="footer__disclaimer"
-          data-testid="footer-disclaimer"
-          aria-label="Regulatory and risk disclosure"
-        >
-          <p style={{ margin: 0 }}>
-            <strong>Regulatory Disclosure:</strong> {disclaimersData.footer_disclaimer}
-          </p>
-        </div>
+        {/* 1px divider */}
+        <hr className="site-footer__divider" />
 
-        {/* Bottom Bar */}
-        <div className="footer__bottom">
+        {/* Bottom Bar: Copyright on left, registrations on right */}
+        <div className="site-footer__bottom-row footer__bottom">
           <div>
             &copy; {new Date().getFullYear()} Lotus Capital. All rights reserved.
           </div>
@@ -94,8 +130,18 @@ export const Footer: React.FC = () => {
             <span>AMFI ARN-160174 | NSE AP007909931 | BSE AP0130040172963</span>
           </div>
         </div>
+
+        {/* Global Footer Disclaimer from disclaimers.json */}
+        <div
+          className="site-footer__disclaimer footer__disclaimer"
+          data-testid="footer-disclaimer"
+          aria-label="Regulatory and risk disclosure"
+        >
+          <p style={{ margin: 0 }}>
+            <strong>Regulatory Disclosure:</strong> {disclaimersData.footer_disclaimer}
+          </p>
+        </div>
       </div>
     </footer>
   );
 };
-

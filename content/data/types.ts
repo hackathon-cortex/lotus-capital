@@ -104,6 +104,16 @@ export interface ContactInfo {
   officeHours: string;
 }
 
+export interface TestimonialItem {
+  id: string;
+  name: string;
+  location: string;
+  profession?: string;
+  quote: string;
+  service: string;
+  approvalStatus: 'approved' | 'pending';
+}
+
 export interface DisclaimersData {
   footer_disclaimer: string;
   mutual_fund_risk: string;

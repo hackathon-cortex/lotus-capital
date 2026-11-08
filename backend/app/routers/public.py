@@ -3,13 +3,14 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, List
-from fastapi import APIRouter, HTTPException, Query, Depends
+from fastapi import APIRouter, HTTPException, Query, Depends, BackgroundTasks
 from sqlalchemy.orm import Session
 
 from ..core.config import settings
 from ..db.session import get_db
 from ..db.models import Lead
 from ..schemas.enquiry import EnquiryCreate, EnquiryResponse
+from ..services.email import send_enquiry_notification_email
 
 router = APIRouter()
 
@@ -28,7 +29,11 @@ def health_check():
     }
 
 @router.post("/enquiries", response_model=EnquiryResponse, status_code=201)
-def create_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
+def create_enquiry(
+    enquiry: EnquiryCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db)
+):
     # Create unique non-sensitive reference id
     enquiry_id = f"LC-{datetime.now().strftime('%Y%m%d')}-{uuid.uuid4().hex[:6].upper()}"
 
@@ -38,6 +43,7 @@ def create_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
         mobile=enquiry.mobile,
         email=enquiry.email,
         service=enquiry.service,
+        service_detail=json.dumps(enquiry.service_detail) if enquiry.service_detail else None,
         message=enquiry.message,
         contact_method=enquiry.contact_method,
         source_path=enquiry.source_path,
@@ -55,6 +61,20 @@ def create_enquiry(enquiry: EnquiryCreate, db: Session = Depends(get_db)):
         db.rollback()
         # In case DB is not initialized or failover, generate enquiry_id and return 201
         pass
+
+    # Trigger asynchronous email notification to proprietor
+    enquiry_dict = {
+        "enquiry_id": enquiry_id,
+        "full_name": enquiry.full_name,
+        "mobile": enquiry.mobile,
+        "email": enquiry.email,
+        "service": enquiry.service,
+        "service_detail": enquiry.service_detail,
+        "message": enquiry.message,
+        "contact_method": enquiry.contact_method,
+        "source_path": enquiry.source_path,
+    }
+    background_tasks.add_task(send_enquiry_notification_email, enquiry_dict)
 
     return EnquiryResponse(
         enquiry_id=enquiry_id,

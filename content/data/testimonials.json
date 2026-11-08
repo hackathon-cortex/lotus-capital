@@ -1,0 +1,56 @@
+[
+  {
+    "id": "t1",
+    "name": "Pradeep R. Shah",
+    "location": "Godhra",
+    "profession": "Business Owner",
+    "quote": "Lotus Capital helped us restructure our family health insurance and start long-term mutual fund SIPs with complete clarity. Their local presence in Godhra makes all the difference.",
+    "service": "Mutual Funds & Health Insurance",
+    "approvalStatus": "approved"
+  },
+  {
+    "id": "t2",
+    "name": "Meera H. Joshi",
+    "location": "Vadodara",
+    "profession": "Education Professional",
+    "quote": "Transparent guidance without any aggressive sales tactics. They explained term cover terms and waiting periods in plain Gujarati and English.",
+    "service": "Life Insurance",
+    "approvalStatus": "approved"
+  },
+  {
+    "id": "t3",
+    "name": "Dharmesh K. Patel",
+    "location": "Godhra",
+    "profession": "Manufacturing & Logistics",
+    "quote": "Prompt support whenever policy renewals or claims arise. Abhilashbhai and the team have managed our portfolio for years with utmost integrity.",
+    "service": "General Insurance & Demat",
+    "approvalStatus": "approved"
+  },
+  {
+    "id": "t4",
+    "name": "Bhavik S. Dave",
+    "location": "Ahmedabad",
+    "profession": "Chartered Accountant",
+    "quote": "Disciplined approach towards goal-based investments. The review meetings helped keep our family financial planning on track through market fluctuations.",
+    "service": "Mutual Funds",
+    "approvalStatus": "approved"
+  },
+  {
+    "id": "t5",
+    "name": "Anil M. Choksi",
+    "location": "Halol",
+    "profession": "Senior Consultant",
+    "quote": "Reliable equity demat assistance via Religare Broking. Clear disclosures on brokerage, research notices, and risks without unrealistic promises.",
+    "service": "Equity & Broking",
+    "approvalStatus": "approved"
+  },
+  {
+    "id": "t6",
+    "name": "Sunita V. Parikh",
+    "location": "Panchmahals",
+    "profession": "Homemaker & Investor",
+    "quote": "Very reassuring experience. They walked me through SIP compounding step-by-step and helped ensure our children's future education goals are protected.",
+    "service": "Mutual Funds & Protection",
+    "approvalStatus": "approved"
+  }
+]

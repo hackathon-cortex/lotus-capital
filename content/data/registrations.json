@@ -7,7 +7,9 @@
     "role": "Mutual Fund Distributor",
     "recommendedWording": "Abhilash Chudasama is an AMFI-registered Mutual Fund Distributor (ARN-160174).",
     "verifyBeforePublishing": "Validity date; whether the firm has its own ARN; EUIN, if applicable",
-    "validityDate": null,
+    "euin": "E303534",
+    "validityDate": "03-Oct-2027",
+    "verified": false,
     "status": "active"
   },
   {
@@ -33,15 +35,37 @@
     "status": "active"
   },
   {
-    "id": "irdai_codes",
-    "clientEntry": "IRDA (correct name: IRDAI)",
-    "number": "RLH20126535, HDF01032560, LIC03693848, 3248307",
-    "holder": "To be confirmed (firm or individual)",
-    "role": "Insurance Agent / POSP",
-    "recommendedWording": "One line per insurer once mapped, for example [Insurer name] — agent/POSP code [code]",
-    "verifyBeforePublishing": "Which insurer each code belongs to; whether each is held by the firm or by an individual; validity. The last code (3248307) has no prefix, so its insurer is unknown.",
+    "id": "irdai_care_health",
+    "clientEntry": "IRDAI — Care Health Insurance",
+    "number": "RLH20126535",
+    "holder": "Lotus Capital / Abhilash Chudasama",
+    "role": "Insurance Agent / POSP (Care Health Insurance)",
+    "recommendedWording": "Care Health Insurance — Agent/POSP code RLH20126535",
+    "verifyBeforePublishing": "Confirmed by client: RLH code belongs to Care Health Insurance",
     "validityDate": null,
-    "status": "to_confirm"
+    "status": "active"
+  },
+  {
+    "id": "irdai_hdfc",
+    "clientEntry": "IRDAI — HDFC",
+    "number": "HDF01032560",
+    "holder": "Lotus Capital / Abhilash Chudasama",
+    "role": "Insurance Agent / POSP (HDFC)",
+    "recommendedWording": "HDFC — Agent/POSP code HDF01032560",
+    "verifyBeforePublishing": "Confirmed by client: HDF code belongs to HDFC",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "irdai_lic",
+    "clientEntry": "IRDAI — Life Insurance Corporation of India (LIC)",
+    "number": "LIC03693848",
+    "holder": "Lotus Capital / Abhilash Chudasama",
+    "role": "Insurance Agent (LIC)",
+    "recommendedWording": "Life Insurance Corporation of India (LIC) — Agent code LIC03693848",
+    "verifyBeforePublishing": "Confirmed by client: LIC code belongs to LIC",
+    "validityDate": null,
+    "status": "active"
   },
   {
     "id": "nps_religare",
