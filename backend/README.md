@@ -62,3 +62,4 @@ Execute the automated test suite with pytest:
 ```bash
 PYTHONPATH=. pytest app/tests -v
 ```
+

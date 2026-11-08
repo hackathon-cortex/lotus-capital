@@ -102,8 +102,8 @@ List of published Frequently Asked Questions.
 
 ## 4. Admin Authentication
 ### `POST /api/v1/auth/login`
-Admin user login.
-- **Access**: Public (Strict Rate Limited)
+Admin user login with Argon2 verification and brute-force protection.
+- **Access**: Public (Strict Rate Limited — 5 attempts / 15 minutes)
 - **Request Body**:
 ```json
 {
@@ -125,10 +125,11 @@ Admin user login.
   }
 }
 ```
+- **Cookies**: Sets `lotus_refresh_token` as HttpOnly, SameSite=Lax cookie.
 
 ### `POST /api/v1/auth/refresh`
-Refresh expired access token.
-- **Request Body**:
+Refresh expired access token using token string or HttpOnly cookie.
+- **Request Body (Optional if cookie set)**:
 ```json
 {
   "refresh_token": "eyJhbGciOi..."
@@ -139,8 +140,38 @@ Refresh expired access token.
 Retrieve profile of currently authenticated admin user.
 - **Headers**: `Authorization: Bearer <access_token>`
 
+### `POST /api/v1/auth/change-password`
+Authenticated password update verifying old password against new password.
+- **Headers**: `Authorization: Bearer <access_token>`
+- **Request Body**:
+```json
+{
+  "old_password": "CurrentPassword123",
+  "new_password": "NewSecurePassword2026!"
+}
+```
+
+### `POST /api/v1/auth/forgot-password`
+Request password reset link for forgotten credentials.
+- **Request Body**:
+```json
+{
+  "email": "admin@lotuscapital.in"
+}
+```
+
+### `POST /api/v1/auth/reset-password`
+Complete password reset using cryptographic 1-hour reset token.
+- **Request Body**:
+```json
+{
+  "token": "reset_jwt_token_here",
+  "new_password": "NewSecurePassword2026!"
+}
+```
+
 ### `POST /api/v1/auth/logout`
-Revoke session token.
+Revoke session token, blacklist refresh token, and clear auth cookie.
 
 ---
 
@@ -187,3 +218,4 @@ Update role or activate/deactivate user (requires `super_admin`).
 
 ### `GET /api/v1/admin/audit-logs`
 Audit log of admin actions (requires `admin` or `super_admin`).
+

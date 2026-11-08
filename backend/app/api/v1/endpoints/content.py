@@ -61,3 +61,4 @@ def get_faqs(db: Session = Depends(get_db)):
     service = ContentService(db)
     items = service.get_faqs()
     return APIResponse(success=True, data=items)
+

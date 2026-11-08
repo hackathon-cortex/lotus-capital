@@ -21,3 +21,4 @@ class AuditLog(Base):
         index=True,
         nullable=False,
     )
+

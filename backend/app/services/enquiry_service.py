@@ -167,3 +167,4 @@ class EnquiryService:
             service_slug=service_slug,
         )
         return [EnquiryRead.model_validate(item) for item in items], total
+

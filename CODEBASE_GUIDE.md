@@ -19,3 +19,4 @@
    - Schema is managed by Alembic.
    - SQLite is supported out-of-the-box for rapid pytest test execution with zero external dependencies.
    - PostgreSQL is the production engine with connection pooling and strict foreign key integrity.
+

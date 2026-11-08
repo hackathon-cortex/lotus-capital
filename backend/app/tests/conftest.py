@@ -120,3 +120,4 @@ def admin_token(admin_user):
 @pytest.fixture
 def editor_token(editor_user):
     return create_access_token({"sub": str(editor_user.id), "email": editor_user.email, "role": editor_user.role})
+

@@ -30,3 +30,4 @@ class User(Base):
     # Relationships
     assigned_enquiries = relationship("Enquiry", back_populates="assigned_user")
     approved_statistics = relationship("Statistic", back_populates="approver_user")
+

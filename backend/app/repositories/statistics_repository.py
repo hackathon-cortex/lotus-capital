@@ -46,3 +46,4 @@ class StatisticsRepository:
         self.db.commit()
         self.db.refresh(stat)
         return stat
+

@@ -67,3 +67,4 @@ class RateLimitException(LotusException):
             detail=detail,
             error_code="RATE_LIMIT_EXCEEDED",
         )
+

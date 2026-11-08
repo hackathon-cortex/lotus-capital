@@ -135,9 +135,61 @@ class ApiClient {
     return res.json();
   }
 
-  logout() {
-    localStorage.removeItem("lotus_access_token");
-    localStorage.removeItem("lotus_refresh_token");
+  async changePassword(old_password: string, new_password: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.getAuthHeader(),
+      },
+      body: JSON.stringify({ old_password, new_password }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Password change failed.");
+    }
+    return data;
+  }
+
+  async forgotPassword(email: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    return res.json();
+  }
+
+  async resetPassword(token: string, new_password: string) {
+    const res = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, new_password }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || "Password reset failed.");
+    }
+    return data;
+  }
+
+  async logout() {
+    const refreshToken = localStorage.getItem("lotus_refresh_token");
+    try {
+      await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...this.getAuthHeader(),
+        },
+        body: JSON.stringify({ refresh_token: refreshToken || "" }),
+      });
+    } catch (e) {
+      // Ignore network errors on logout
+    } finally {
+      localStorage.removeItem("lotus_access_token");
+      localStorage.removeItem("lotus_refresh_token");
+    }
   }
 
   // --- Admin APIs ---
@@ -193,3 +245,4 @@ class ApiClient {
 }
 
 export const api = new ApiClient();
+

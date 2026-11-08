@@ -29,3 +29,4 @@ api_router.include_router(auth.router, tags=["Auth"])
 api_router.include_router(admin.router, tags=["Admin"])
 api_router.include_router(media.router, tags=["Media"])
 api_router.include_router(audit.router, tags=["Audit"])
+

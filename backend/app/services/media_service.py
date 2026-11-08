@@ -74,3 +74,4 @@ class MediaService:
         )
 
         return media_record
+

@@ -40,3 +40,4 @@ class AuditService:
             db.rollback()
             logger.error(f"Failed to record audit log: {str(e)}")
         return entry
+

@@ -40,3 +40,4 @@ class Enquiry(Base):
         back_populates="enquiry",
         cascade="all, delete-orphan",
     )
+

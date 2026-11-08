@@ -35,3 +35,4 @@ def test_user_management_rbac(client, editor_token, superadmin_token):
     )
     assert res_patch.status_code == 200
     assert res_patch.json()["data"]["role"] == "editor"
+

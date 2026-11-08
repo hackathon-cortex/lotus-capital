@@ -14,3 +14,4 @@ class EnquiryService(Base):
 
     # Relationships
     enquiry = relationship("Enquiry", back_populates="services")
+

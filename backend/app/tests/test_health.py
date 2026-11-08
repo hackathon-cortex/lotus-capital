@@ -13,3 +13,4 @@ def test_root_endpoint(client):
     data = response.json()
     assert "documentation" in data
     assert "health" in data
+

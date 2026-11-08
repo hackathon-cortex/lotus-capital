@@ -121,3 +121,4 @@ class EnquiryRepository:
             .order_by(func.count(EnquiryService.id).desc())
         )
         return list(self.db.execute(query).all())
+

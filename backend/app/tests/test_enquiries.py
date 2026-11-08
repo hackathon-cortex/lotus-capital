@@ -109,3 +109,4 @@ def test_admin_enquiry_workflow(client, admin_token):
     assert patch_res.status_code == 200
     assert patch_res.json()["data"]["status"] == "in_progress"
     assert "Called client" in patch_res.json()["data"]["admin_notes"]
+

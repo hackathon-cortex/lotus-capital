@@ -24,3 +24,4 @@ def get_health(db: Session = Depends(get_db)):
         "version": settings.APP_VERSION,
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
+

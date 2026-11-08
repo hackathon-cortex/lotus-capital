@@ -49,3 +49,4 @@ def test_seo_metadata_endpoint(client):
     data = res.json()["data"]
     assert "title" in data
     assert "description" in data
+

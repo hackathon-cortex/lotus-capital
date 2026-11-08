@@ -27,3 +27,4 @@ class Statistic(Base):
 
     # Relationships
     approver_user = relationship("User", back_populates="approved_statistics")
+

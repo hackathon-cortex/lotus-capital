@@ -17,3 +17,4 @@ Lotus Capital requires a high-performance, secure backend API to serve the offic
 - **Tier A**: Public statistics. Criteria: `approval_status == 'approved'` AND `as_of_date is not null`.
 - **Tier B**: Pending verification. Visible only to authenticated administrators.
 - **Tier C**: Confidential/Restricted claims (e.g. Equity CAGR). Strictly withheld from public exposure; requires super_admin role to view and cannot be marked public.
+

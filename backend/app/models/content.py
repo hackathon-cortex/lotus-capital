@@ -27,3 +27,4 @@ class Content(Base):
         onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
+

@@ -170,3 +170,4 @@ def downgrade() -> None:
     op.drop_table("enquiry_services")
     op.drop_table("enquiries")
     op.drop_table("admin_users")
+

@@ -24,3 +24,4 @@
    - **Tier A (Public Approved Statistics)**: Fully verified metrics. Visible to the public ONLY when `approval_status == 'approved'` and a valid `as_of_date` is defined.
    - **Tier B (Pending / Client-Confirmed Statistics)**: Under compliance review. Requires explicit client confirmation and documented methodology before publication.
    - **Tier C (Restricted / Withheld Metrics)**: Proprietary or sensitive claims (e.g., Equity CAGR claims). **STRICT COMPLIANCE REQUIREMENT**: Never expose Tier C publicly or in public API responses under any circumstances.
+

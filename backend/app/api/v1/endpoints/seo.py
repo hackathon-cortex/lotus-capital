@@ -16,3 +16,4 @@ def get_seo_metadata(slug: str, db: Session = Depends(get_db)):
     service = ContentService(db)
     seo_data = service.get_public_seo(slug)
     return APIResponse(success=True, data=seo_data)
+

@@ -291,3 +291,4 @@ Base URL: `/api/v1`
 ### `GET /api/v1/admin/audit-logs`
 - **Required Role**: `admin` or higher.
 - **Response**: Paginated audit log of system events (logins, enquiry state changes, content changes, statistics approvals).
+

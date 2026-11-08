@@ -21,3 +21,4 @@ def get_db_session() -> Session:
         return session
     finally:
         session.close()
+

@@ -22,3 +22,4 @@ def get_public_statistics(db: Session = Depends(get_db)):
         message="Public statistics retrieved successfully.",
         data=items,
     )
+

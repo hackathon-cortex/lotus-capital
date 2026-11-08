@@ -116,3 +116,4 @@ class StatisticsService:
         )
 
         return StatisticAdminRead.model_validate(updated)
+

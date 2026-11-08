@@ -158,3 +158,4 @@ Lotus Capital requires a production-grade FastAPI and PostgreSQL backend service
 - **Phase 5**: Alembic database migrations.
 - **Phase 6**: Comprehensive pytest test suite.
 - **Phase 7**: End-to-end verification and documentation (`docs/BACKEND_API_REFERENCE.md`).
+

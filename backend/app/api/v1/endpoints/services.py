@@ -22,3 +22,4 @@ def get_services(db: Session = Depends(get_db)):
         message="Services retrieved successfully.",
         data=items,
     )
+
