@@ -1,0 +1,93 @@
+[
+  {
+    "id": "amfi_mfd",
+    "clientEntry": "AMFI",
+    "number": "ARN-160174",
+    "holder": "Abhilash Chudasama (individual)",
+    "role": "Mutual Fund Distributor",
+    "recommendedWording": "Abhilash Chudasama is an AMFI-registered Mutual Fund Distributor (ARN-160174).",
+    "verifyBeforePublishing": "Validity date; whether the firm has its own ARN; EUIN, if applicable",
+    "euin": "E303534",
+    "validityDate": "03-Oct-2027",
+    "verified": false,
+    "status": "active"
+  },
+  {
+    "id": "religare_ap_nse",
+    "clientEntry": "SEBI – NSE",
+    "number": "AP007909931",
+    "holder": "Lotus Capital",
+    "role": "Authorised Person of Religare Broking Limited",
+    "recommendedWording": "Lotus Capital is an Authorised Person of Religare Broking Limited (NSE AP registration AP007909931).",
+    "verifyBeforePublishing": "Exact registration type; Religare Broking Ltd's SEBI broker registration number (usually required alongside); validity",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "religare_ap_bse",
+    "clientEntry": "SEBI – BSE",
+    "number": "AP0130040172963",
+    "holder": "Lotus Capital",
+    "role": "Authorised Person of Religare Broking Limited",
+    "recommendedWording": "Lotus Capital is an Authorised Person of Religare Broking Limited (BSE AP registration AP0130040172963).",
+    "verifyBeforePublishing": "Exact registration type; Religare Broking Ltd's SEBI broker registration number (usually required alongside); validity",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "irdai_care_health",
+    "clientEntry": "IRDAI — Care Health Insurance",
+    "number": "RLH20126535",
+    "holder": "Lotus Capital / Abhilash Chudasama",
+    "role": "Insurance Agent / POSP (Care Health Insurance)",
+    "recommendedWording": "Care Health Insurance — Agent/POSP code RLH20126535",
+    "verifyBeforePublishing": "Confirmed by client: RLH code belongs to Care Health Insurance",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "irdai_hdfc",
+    "clientEntry": "IRDAI — HDFC",
+    "number": "HDF01032560",
+    "holder": "Lotus Capital / Abhilash Chudasama",
+    "role": "Insurance Agent / POSP (HDFC)",
+    "recommendedWording": "HDFC — Agent/POSP code HDF01032560",
+    "verifyBeforePublishing": "Confirmed by client: HDF code belongs to HDFC",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "irdai_lic",
+    "clientEntry": "IRDAI — Life Insurance Corporation of India (LIC)",
+    "number": "LIC03693848",
+    "holder": "Lotus Capital / Abhilash Chudasama",
+    "role": "Insurance Agent (LIC)",
+    "recommendedWording": "Life Insurance Corporation of India (LIC) — Agent code LIC03693848",
+    "verifyBeforePublishing": "Confirmed by client: LIC code belongs to LIC",
+    "validityDate": null,
+    "status": "active"
+  },
+  {
+    "id": "nps_religare",
+    "clientEntry": "NPS",
+    "number": "POSP 4199",
+    "holder": "Religare Broking Ltd",
+    "role": "NPS POP / POSP facilitator",
+    "recommendedWording": "NPS services are offered through Religare Broking Limited (registration 4199).",
+    "verifyBeforePublishing": "The exact PFRDA role name; whether Lotus Capital is an authorised person or sub-agent under Religare",
+    "validityDate": null,
+    "status": "to_confirm"
+  },
+  {
+    "id": "rera_gujarat",
+    "clientEntry": "RERA Gujarat",
+    "number": "Under process",
+    "holder": "Lotus Capital",
+    "role": "Real Estate Brokerage / Facilitator (under process)",
+    "recommendedWording": "RERA registration under process.",
+    "verifyBeforePublishing": "Registration status and date. Compliance to decide whether real-estate brokerage may be promoted before registration. Do not say RERA registered.",
+    "validityDate": null,
+    "status": "under_process"
+  }
+]
+

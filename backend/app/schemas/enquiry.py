@@ -1,39 +1,84 @@
 import re
 from datetime import datetime
-from typing import List, Optional
-from pydantic import BaseModel, Field, EmailStr, field_validator, ConfigDict
+from typing import List, Optional, Any
+from pydantic import BaseModel, Field, EmailStr, field_validator, model_validator, ConfigDict
 
 
 INDIAN_MOBILE_REGEX = re.compile(r"^[6-9]\d{9}$")
 FORBIDDEN_KEYWORDS = ["pan", "aadhaar", "otp", "password", "netbanking", "cvv"]
+VALID_SERVICES = {
+    "general-insurance",
+    "life-insurance",
+    "health-insurance",
+    "mutual-funds",
+    "equity",
+    "other-solutions",
+}
 
 
 class EnquiryCreate(BaseModel):
-    name: str = Field(..., min_length=2, max_length=100)
+    name: Optional[str] = None
+    full_name: Optional[str] = None
     mobile: str = Field(..., description="10-digit Indian Mobile Number")
-    email: Optional[EmailStr] = None
-    contact_method: str = Field(default="phone", pattern="^(phone|email|whatsapp)$")
-    service_detail: List[str] = Field(default_factory=list, description="Selected service slugs")
+    email: Optional[str] = None
+    service: Optional[str] = None
+    service_detail: Optional[List[str]] = Field(default_factory=list, description="Selected service slugs or details")
+    contact_method: Optional[str] = Field(default="phone", pattern="^(phone|email|whatsapp)$")
     message: Optional[str] = Field(None, max_length=1000)
     consent: bool = Field(..., description="Consent to be contacted")
+    source_path: Optional[str] = None
+    utm_source: Optional[str] = None
+    utm_medium: Optional[str] = None
+    utm_campaign: Optional[str] = None
 
-    @field_validator("name")
+    @model_validator(mode="before")
     @classmethod
-    def sanitize_name(cls, v: str) -> str:
-        clean = v.strip()
-        if len(clean) < 2:
-            raise ValueError("Name must be at least 2 characters long")
-        return clean
+    def unify_name_and_service(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            # If full_name provided but not name:
+            if "full_name" in data and not data.get("name"):
+                data["name"] = data["full_name"]
+            elif "name" in data and not data.get("full_name"):
+                data["full_name"] = data["name"]
+        return data
+
+    @field_validator("service")
+    @classmethod
+    def validate_service_slug(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and v not in VALID_SERVICES:
+            raise ValueError(f"Invalid service '{v}'. Allowed services are: {', '.join(sorted(VALID_SERVICES))}")
+        return v
+
+    @field_validator("name", "full_name")
+    @classmethod
+    def sanitize_name(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None:
+            clean = v.strip()
+            if len(clean) < 2:
+                raise ValueError("Name must be at least 2 characters long")
+            return clean
+        return v
+
+    @field_validator("service_detail")
+    @classmethod
+    def validate_service_detail(cls, v: Optional[List[str]]) -> Optional[List[str]]:
+        if v is not None:
+            sanitized = []
+            for item in v:
+                cleaned = str(item).strip()
+                if cleaned and len(cleaned) <= 100:
+                    sanitized.append(cleaned)
+            return sanitized
+        return None
 
     @field_validator("mobile")
     @classmethod
     def validate_indian_mobile(cls, v: str) -> str:
-        # Strip spaces or hyphens if present
         cleaned = re.sub(r"[\s\-\+]", "", v)
         if cleaned.startswith("91") and len(cleaned) == 12:
             cleaned = cleaned[2:]
         if not INDIAN_MOBILE_REGEX.match(cleaned):
-            raise ValueError("Invalid Indian mobile number. Must be a 10-digit number starting with 6, 7, 8, or 9.")
+            raise ValueError("Mobile must be a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.")
         return cleaned
 
     @field_validator("consent")
@@ -50,7 +95,6 @@ class EnquiryCreate(BaseModel):
             return v
         lower_msg = v.lower()
         for kw in FORBIDDEN_KEYWORDS:
-            # Check for words like 'pan:', 'aadhaar:', etc.
             if re.search(rf"\b{kw}\b", lower_msg):
                 raise ValueError(
                     f"For your security, please do not include sensitive financial credentials ({kw}) in enquiries."
@@ -60,7 +104,23 @@ class EnquiryCreate(BaseModel):
 
 class EnquirySubmitResponse(BaseModel):
     reference_id: str
-    status: str
+    enquiry_id: str
+    message: str = "Your enquiry has been submitted. Our Godhra team will follow up shortly."
+    status: str = "received"
+
+    @model_validator(mode="before")
+    @classmethod
+    def sync_ids(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            ref = data.get("reference_id") or data.get("enquiry_id", "LC-UNKNOWN")
+            data["reference_id"] = ref
+            data["enquiry_id"] = ref
+        return data
+
+
+class EnquiryResponse(BaseModel):
+    enquiry_id: str
+    message: str = "Your enquiry has been submitted."
 
 
 class EnquiryServiceRead(BaseModel):

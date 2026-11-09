@@ -3,7 +3,7 @@ import uuid
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.exceptions import RequestValidationError
 
 from app.core.config import settings
@@ -134,6 +134,17 @@ async def generic_exception_handler(request: Request, exc: Exception):
 
 # Mount API Routers
 app.include_router(api_router, prefix="/api/v1")
+
+
+# Route aliases for convenience
+@app.get("/api/v1/docs", include_in_schema=False)
+def get_api_v1_docs():
+    return RedirectResponse(url="/docs")
+
+
+@app.get("/api/v1/openapi.json", include_in_schema=False)
+def get_api_v1_openapi():
+    return RedirectResponse(url="/openapi.json")
 
 
 @app.get("/", tags=["Root"])

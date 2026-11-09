@@ -1,0 +1,37 @@
+{
+  "route": "/services",
+  "title": "Services Overview",
+  "headline": "Solutions for protection, investing and long-term planning.",
+  "intro": "Explore the services available through Lotus Capital. Availability, eligibility, costs and risks depend on the product and the provider. Speak with our team to understand the process before you proceed.",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Solutions for protection, investing and long-term planning.",
+      "copy": "Explore the services available through Lotus Capital. Availability, eligibility, costs and risks depend on the product and the provider. Speak with our team to understand the process before you proceed."
+    },
+    {
+      "id": "stat-strip",
+      "type": "statStrip",
+      "statIds": ["clients_serviced", "insurance_policies_total", "mf_folios", "demat_accounts"]
+    },
+    {
+      "id": "services-grid",
+      "type": "serviceCards",
+      "title": "All Services"
+    },
+    {
+      "id": "how-to-choose",
+      "type": "infoBlock",
+      "title": "How to Choose the Right Solution",
+      "copy": "We invite you to discuss your objectives, time frame, comfort with risk, budget, and existing arrangements. We explain product characteristics clearly so you make informed choices."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Not sure where to start? Send an enquiry.",
+      "copy": "Our team will reach out to help you determine the appropriate service."
+    }
+  ]
+}
+

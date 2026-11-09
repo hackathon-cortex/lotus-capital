@@ -1,0 +1,91 @@
+{
+  "route": "/investments/mutual-funds",
+  "title": "Mutual Funds",
+  "headline": "Invest with a Goal. Review with a Plan.",
+  "intro": "Understand the fund, the risk and the time horizon.",
+  "serviceSlug": "mutual-funds",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Invest with a Goal. Review with a Plan.",
+      "copy": "Mutual funds pool money from investors and invest according to a scheme's stated objective. Schemes differ by asset class, approach, risk, cost and time horizon. Lotus Capital can explain the distribution process and help with investing through mutual funds."
+    },
+    {
+      "id": "stat-block",
+      "type": "statBlock",
+      "statIds": ["mf_folios"]
+    },
+    {
+      "id": "distributor-registration",
+      "type": "registrationCallout",
+      "title": "AMFI Registration",
+      "copy": "Abhilash Chudasama is an AMFI-registered Mutual Fund Distributor (ARN-160174)."
+    },
+    {
+      "id": "overview",
+      "type": "overview",
+      "title": "What Mutual Funds Are",
+      "copy": "Mutual funds allow investors to access professionally managed diversified portfolios across equities, fixed income securities, or hybrid combinations suited to specific time horizons."
+    },
+    {
+      "id": "categories",
+      "type": "categories",
+      "title": "Fund Categories",
+      "items": [
+        "Equity Funds (Large Cap, Mid Cap, Multi Cap, Focused, Sectoral)",
+        "Debt & Fixed Income Funds (Liquid, Short Duration, Corporate Bond)",
+        "Hybrid Funds (Balanced Advantage, Aggressive Hybrid)",
+        "Index Funds and Exchange Traded Funds (ETFs)",
+        "Tax-Saving ELSS Schemes (with 3-year statutory lock-in)"
+      ]
+    },
+    {
+      "id": "plans-comparison",
+      "type": "infoBlock",
+      "title": "Regular Plans vs Direct Plans",
+      "copy": "Investors can invest in mutual funds either directly with the AMC (Direct Plan) or through an intermediary like Lotus Capital (Regular Plan). Regular plans include distributor commission paid by the AMC, which covers ongoing investor servicing, paperwork, and periodic reviews. Direct plans do not involve distributor commission."
+    },
+    {
+      "id": "sip-vs-lumpsum",
+      "type": "infoBlock",
+      "title": "SIP vs Lump Sum Investing",
+      "copy": "Systematic Investment Plans (SIPs) allow investing fixed amounts at regular intervals, fostering financial discipline and rupee cost averaging. Lump sum investments deploy capital all at once, which is generally aligned with clear surplus liquidity and longer time horizons."
+    },
+    {
+      "id": "sip-calculator",
+      "type": "sipCalculator",
+      "title": "SIP Growth Illustration",
+      "disclaimer": "Illustration only. Not a forecast or guarantee. Actual returns vary."
+    },
+    {
+      "id": "getting-started",
+      "type": "processSteps",
+      "title": "How to Get Started",
+      "steps": [
+        "Initial discussion regarding financial goals, surplus funds, and timeline.",
+        "Complete one-time KYC verification with PAN and Aadhaar/address proof.",
+        "Review Scheme Information Documents (SID) and Key Information Memorandums (KIM).",
+        "Initiate investment mandates (SIP or lump sum) and track performance periodically."
+      ]
+    },
+    {
+      "id": "faqs",
+      "type": "faq",
+      "title": "Frequently Asked Questions",
+      "page": "mutual-funds"
+    },
+    {
+      "id": "mandatory-disclaimer",
+      "type": "riskNote",
+      "content": "Mutual fund investments are subject to market risks, read all scheme related documents carefully. The Net Asset Value (NAV) of schemes can go up or down based on market forces and interest rate changes. Past performance does not guarantee future results, and dividends or payouts depend on distributable surplus availability. Investors must read the Key Information Memorandum (KIM), Scheme Information Document (SID), and Statement of Additional Information (SAI) before investing."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Discuss Your Investment Goals",
+      "serviceSlug": "mutual-funds"
+    }
+  ]
+}
+

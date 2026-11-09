@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, Any, Dict
+from typing import Optional, Any, Dict, List
 from pydantic import BaseModel, Field, ConfigDict
 
 
@@ -40,17 +40,77 @@ class ContentPublicRead(BaseModel):
 
 
 class ServicePublicRead(BaseModel):
+    model_config = ConfigDict(extra="allow", from_attributes=True)
+
     slug: str
     title: str
-    short_description: str
+    short_description: Optional[str] = None
+    shortDescription: Optional[str] = None
+    category: Optional[str] = None
+    path: Optional[str] = None
     icon: Optional[str] = None
-    order: int = 0
-    active: bool = True
+    theme: Optional[Dict[str, Any]] = None
+    order: Optional[int] = 0
+    active: Optional[bool] = True
 
 
 class FAQPublicRead(BaseModel):
-    id: int
+    id: Any
     question: str
     answer: str
+    page: Optional[str] = None
     category: Optional[str] = "General"
-    order: int = 0
+    order: Optional[int] = 0
+
+
+class StatisticSchema(BaseModel):
+    id: str
+    label: str
+    value: str
+    displayText: str
+    unit: Optional[str] = None
+    tier: str
+    asOfDate: Optional[str] = None
+    definitionNote: Optional[str] = None
+    sourceDocument: str
+    approvalStatus: str
+    pages: List[str]
+
+
+class RegistrationSchema(BaseModel):
+    id: str
+    clientEntry: str
+    number: str
+    holder: str
+    role: str
+    recommendedWording: str
+    verifyBeforePublishing: str
+    validityDate: Optional[str] = None
+    status: str
+
+
+class PartnerSchema(BaseModel):
+    id: str
+    name: str
+    category: str
+    relationshipLabel: str
+    logoPlaceholder: str
+    status: str
+
+
+class TeamMemberSchema(BaseModel):
+    id: str
+    name: str
+    designation: str
+    credentials: str
+    bio: str
+    photoPath: str
+    approvalStatus: str
+
+
+class AchievementSchema(BaseModel):
+    id: str
+    year: int
+    award: str
+    issuedBy: str
+    status: str

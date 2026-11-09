@@ -1,0 +1,52 @@
+{
+  "route": "/terms-and-conditions",
+  "title": "Terms & Conditions | Lotus Capital",
+  "headline": "Terms & Conditions",
+  "summary": "General website terms, usage scope, and informational disclosures for visitors and prospective clients.",
+  "lastUpdated": null,
+  "_comment": "TODO: Client / legal counsel to confirm effective date upon final compliance review.",
+  "sections": [
+    {
+      "id": "permitted-use",
+      "type": "textBlock",
+      "title": "1. Website Ownership & Permitted Use",
+      "copy": "This website is owned and operated by Lotus Capital, Godhra, Panchmahals, Gujarat. Access to and use of this website is provided for general informational purposes to residents of India seeking financial product distribution, mutual fund assistance, insurance solutions, and broking partner services."
+    },
+    {
+      "id": "nature-of-content",
+      "type": "textBlock",
+      "title": "2. Informational Nature of Content",
+      "copy": "All content, calculators, comparison tables, and articles provided on this website are designed for educational and informational reference only. Nothing on this website constitutes direct investment advice, portfolio management services, a formal solicitation, or an offer to buy or sell securities or financial instruments."
+    },
+    {
+      "id": "services-provided",
+      "type": "textBlock",
+      "title": "3. Scope of Intermediary Services",
+      "copy": "Lotus Capital acts as an AMFI-registered Mutual Fund Distributor (ARN-160174) and an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963). We do not act as an independent investment adviser (RIA) or a deposit-taking entity. Formal client engagements commence only upon execution of relevant distributor and provider application documentation."
+    },
+    {
+      "id": "no-guarantee",
+      "type": "calloutBlock",
+      "title": "4. No Guarantee of Investment Outcomes",
+      "copy": "Past performance across equity markets, mutual fund schemes, or debt instruments does not guarantee future results. Lotus Capital makes no warranty, express or implied, regarding returns, capital protection, dividend distributions, or claim settlement decisions made by third-party underwriters."
+    },
+    {
+      "id": "third-party-terms",
+      "type": "textBlock",
+      "title": "5. Third-Party Products & Terms",
+      "copy": "Financial products including mutual fund schemes, insurance policies, corporate fixed deposits, and Demat accounts are issued and underwritten solely by respective Asset Management Companies (AMCs), insurance companies, and broking entities. Terms and conditions set by those issuing institutions govern all contractual relationships."
+    },
+    {
+      "id": "accuracy-limits",
+      "type": "textBlock",
+      "title": "6. Accuracy & Market Updates",
+      "copy": "While Lotus Capital endeavors to keep site content accurate and updated as of October 2026, market data, tax regulations, and statutory parameters are subject to frequent change. Visitors are advised to verify details with scheme information documents and policy wordings before executing financial decisions."
+    },
+    {
+      "id": "governing-law",
+      "type": "textBlock",
+      "title": "7. Governing Law & Jurisdiction",
+      "copy": "These terms and conditions are governed by and construed in accordance with the laws of the Republic of India. Any dispute, claim, or controversy arising out of or in connection with the use of this website shall be subject to the exclusive jurisdiction of the competent courts in Godhra, Panchmahals, Gujarat."
+    }
+  ]
+}

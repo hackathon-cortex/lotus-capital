@@ -1,36 +1,19 @@
 from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from typing import Optional, List, Dict, Any
+from pydantic import BaseModel, EmailStr, Field, ConfigDict, model_validator
+
+
+class UserProfile(BaseModel):
+    id: str
+    email: str
+    full_name: str
+    role: str
+    permissions: List[str] = []
 
 
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=6)
-
-
-class TokenResponse(BaseModel):
-    access_token: str
-    refresh_token: str
-    token_type: str = "bearer"
-    user: "UserRead"
-
-
-class RefreshRequest(BaseModel):
-    refresh_token: str
-
-
-class ChangePasswordRequest(BaseModel):
-    old_password: str = Field(..., min_length=6)
-    new_password: str = Field(..., min_length=8)
-
-
-class ForgotPasswordRequest(BaseModel):
-    email: EmailStr
-
-
-class ResetPasswordRequest(BaseModel):
-    token: str = Field(..., min_length=10)
-    new_password: str = Field(..., min_length=8)
 
 
 class UserBase(BaseModel):
@@ -58,6 +41,56 @@ class UserRead(UserBase):
     is_superuser: bool
     created_at: datetime
     last_login_at: Optional[datetime] = None
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+    user: UserRead
+
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserProfile
+
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
+
+
+class ChangePasswordRequest(BaseModel):
+    old_password: Optional[str] = None
+    current_password: Optional[str] = None
+    new_password: str = Field(..., min_length=8)
+
+    @model_validator(mode="before")
+    @classmethod
+    def unify_old_password(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            if "current_password" in data and "old_password" not in data:
+                data["old_password"] = data["current_password"]
+            elif "old_password" in data and "current_password" not in data:
+                data["current_password"] = data["old_password"]
+        return data
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str = Field(..., min_length=10)
+    new_password: str = Field(..., min_length=8)
+
+
+class DashboardSummaryResponse(BaseModel):
+    total_leads: int
+    new_leads: int
+    pending_followups: int
+    conversion_rate_percent: float
+    statistics_overview: List[Dict[str, Any]] = []
 
 
 TokenResponse.model_rebuild()

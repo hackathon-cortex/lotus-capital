@@ -1,0 +1,41 @@
+{
+  "route": "/complaints",
+  "title": "Complaints & Grievance Information | Lotus Capital",
+  "headline": "Complaints & Grievance Redressal",
+  "summary": "Grievance redressal process, direct contact channels, and official escalation pathways for client concerns.",
+  "lastUpdated": null,
+  "_comment": "TODO: Client / compliance reviewer to confirm effective date upon final review.",
+  "sections": [
+    {
+      "id": "approach",
+      "type": "textBlock",
+      "title": "1. Client Grievance Approach",
+      "copy": "We want to understand and resolve your concerns promptly. If your query or complaint relates to services facilitated by Lotus Capital, please reach out directly through our Godhra office channels. If your concern relates to an insurer, broker, fund house or other provider, we will point you to that provider's official grievance process."
+    },
+    {
+      "id": "contact-info",
+      "type": "complaintContact",
+      "title": "2. Lotus Capital Grievance Contact",
+      "phone": "+91 93288 52555",
+      "email": "lotuscapitalinfo@gmail.com",
+      "address": "Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat",
+      "grievanceOfficer": "[To be supplied by client upon compliance review]"
+    },
+    {
+      "id": "complaint-details",
+      "type": "calloutBlock",
+      "title": "3. Information to Include in a Complaint",
+      "copy": "When lodging a complaint, please provide your full name, registered mobile number, scheme or policy name, and a concise summary of the issue. Never include account passwords, OTPs, PINs, or sensitive banking credentials in your correspondence."
+    },
+    {
+      "id": "provider-escalation",
+      "type": "escalationGuide",
+      "title": "4. Regulated Provider Escalation Pathways",
+      "points": [
+        "Broking / Demat issues: Escalated directly to Religare Broking Limited Grievance Cell or official regulatory mechanisms including SEBI SCORES portal (scores.gov.in) and SMART ODR portal (smartodr.in).",
+        "Mutual Fund issues: Directly to the respective Asset Management Company (AMC) Investor Relations officer, followed by the SEBI SCORES portal.",
+        "Insurance issues: Directly to the respective insurance partner's designated Grievance Redressal Officer (GRO), followed by the IRDAI Bima Bharosa portal."
+      ]
+    }
+  ]
+}

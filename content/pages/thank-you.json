@@ -1,0 +1,17 @@
+{
+  "route": "/enquiry/thank-you",
+  "title": "Thank You",
+  "headline": "Thank you for contacting Lotus Capital.",
+  "intro": "Your enquiry has been received. Our team will review the details and contact you by your chosen method, during business hours.",
+  "sections": [
+    {
+      "id": "confirmation",
+      "type": "thankYouMessage",
+      "headline": "Thank you for contacting Lotus Capital.",
+      "copy": "Your enquiry has been received. Our team will review the details and contact you by your chosen method, during business hours.",
+      "homeLink": { "text": "Return to Home", "path": "/" },
+      "servicesLink": { "text": "Explore Services", "path": "/services" }
+    }
+  ]
+}
+

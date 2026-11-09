@@ -1,0 +1,78 @@
+{
+  "route": "/",
+  "title": "Home",
+  "headline": "Plan with confidence. Protect what matters. Build your future.",
+  "eyebrow": "Financial solutions • Godhra, Gujarat",
+  "intro": "Lotus Capital helps individuals and families explore insurance, mutual funds, equity and other financial solutions. Start with a clear conversation about your goals, priorities and time horizon.",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Plan with confidence. Protect what matters. Build your future.",
+      "eyebrow": "Financial solutions • Godhra, Gujarat",
+      "copy": "Lotus Capital helps individuals and families explore insurance, mutual funds, equity and other financial solutions. Start with a clear conversation about your goals, priorities and time horizon.",
+      "primaryCta": { "text": "Explore Our Services", "link": "/services" },
+      "secondaryCta": { "text": "Talk to an Advisor", "link": "/?contact=open" }
+    },
+    {
+      "id": "trust-strip",
+      "type": "statStrip",
+      "title": "Verified Figures",
+      "statIds": ["clients_serviced", "aum_total", "mf_folios", "demat_accounts"],
+      "secondaryStatIds": ["insurance_policies_total"],
+      "footnote": "Figures as of date confirmed by Lotus Capital records."
+    },
+    {
+      "id": "about-preview",
+      "type": "aboutPreview",
+      "title": "About Lotus Capital",
+      "copy": "Lotus Capital is a financial services business based in Godhra, Gujarat. We help clients understand and access insurance, mutual funds, equity and related services, and we stay in touch after the first conversation.",
+      "link": { "text": "Learn more about us", "path": "/about-us" }
+    },
+    {
+      "id": "service-cards",
+      "type": "serviceCards",
+      "title": "Our Solutions",
+      "copy": "Protection, investments and long-term planning aligned with your goals."
+    },
+    {
+      "id": "how-we-work",
+      "type": "processSteps",
+      "title": "How We Work",
+      "steps": [
+        "We listen to your goals and circumstances.",
+        "We explain the options available and their risks.",
+        "We help with the application or transaction process through the relevant provider.",
+        "We stay available for follow-up and servicing."
+      ]
+    },
+    {
+      "id": "partners",
+      "type": "partnersGallery",
+      "title": "Partners & Affiliations",
+      "copy": "We work with confirmed financial institutions and insurers."
+    },
+    {
+      "id": "educational-cards",
+      "type": "insightsPreview",
+      "title": "Learn Before You Invest",
+      "items": [
+        { "title": "Understanding Risk", "summary": "How to assess risk before choosing an investment.", "link": "/insights" },
+        { "title": "Time Horizon", "summary": "Matching your goals to short, medium, and long term horizons.", "link": "/insights" },
+        { "title": "Diversification", "summary": "Why spreading across asset classes helps manage uncertainty.", "link": "/insights" }
+      ]
+    },
+    {
+      "id": "faqs",
+      "type": "faq",
+      "title": "Frequently Asked Questions"
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Talk to an Advisor",
+      "copy": "Start a clear conversation about your financial goals."
+    }
+  ]
+}
+

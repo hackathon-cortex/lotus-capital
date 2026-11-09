@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, Request, status
 from sqlalchemy.orm import Session
 from app.dependencies.database import get_db
-from app.schemas.enquiry import EnquiryCreate, EnquirySubmitResponse
-from app.schemas.common import APIResponse
+from app.schemas.enquiry import EnquiryCreate
 from app.services.enquiry_service import EnquiryService
 
 router = APIRouter()
@@ -10,7 +9,6 @@ router = APIRouter()
 
 @router.post(
     "/enquiries",
-    response_model=APIResponse[EnquirySubmitResponse],
     status_code=status.HTTP_201_CREATED,
     summary="Submit Customer Enquiry",
 )
@@ -22,11 +20,18 @@ def submit_enquiry(
     ip_address = request.client.host if request.client else None
     service = EnquiryService(db)
     result = service.create_enquiry(payload, ip_address=ip_address)
-    return APIResponse(
-        success=True,
-        message="Enquiry submitted successfully.",
-        data=result,
-    )
+    return {
+        "success": True,
+        "enquiry_id": result.reference_id,
+        "reference_id": result.reference_id,
+        "message": "Enquiry submitted successfully.",
+        "status": "received",
+        "data": {
+            "enquiry_id": result.reference_id,
+            "reference_id": result.reference_id,
+            "status": result.status,
+        },
+    }
 
 
 @router.get(
@@ -43,7 +48,7 @@ def verify_reference_id(
     return {
         "success": True,
         "valid": True,
+        "enquiry_id": enquiry.reference_id,
         "reference_id": enquiry.reference_id,
         "status": enquiry.status,
     }
-

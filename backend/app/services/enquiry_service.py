@@ -41,22 +41,32 @@ class EnquiryService:
         return f"LC-{random_suffix}"
 
     def get_valid_service_slugs(self) -> List[str]:
+        valid = {
+            "general-insurance",
+            "life-insurance",
+            "health-insurance",
+            "mutual-funds",
+            "equity",
+            "other-solutions",
+            "insights",
+            "retirement-planning",
+            "tax-planning",
+            "wealth-management",
+            "vehicle-insurance",
+            "property-insurance",
+            "fixed-deposits",
+        }
         services_file = settings.CONTENT_DATA_DIR / "services.json"
         if services_file.exists():
             try:
                 with open(services_file, "r", encoding="utf-8") as f:
                     services_data = json.load(f)
-                    return [s["slug"] for s in services_data if s.get("active", True)]
+                    for s in services_data:
+                        if s.get("slug"):
+                            valid.add(s["slug"])
             except Exception:
                 pass
-        return [
-            "mutual-funds",
-            "health-insurance",
-            "life-insurance",
-            "retirement-planning",
-            "tax-planning",
-            "wealth-management",
-        ]
+        return list(valid)
 
     def create_enquiry(self, payload: EnquiryCreate, ip_address: Optional[str] = None) -> EnquirySubmitResponse:
         # Check rate limiting per IP

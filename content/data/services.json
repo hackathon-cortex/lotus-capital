@@ -1,51 +1,121 @@
 [
   {
-    "slug": "mutual-funds",
-    "title": "Mutual Funds",
-    "short_description": "Systematic Investment Plans (SIP) and lump-sum mutual fund advisory aligned with long-term financial goals.",
-    "icon": "TrendingUp",
-    "order": 1,
-    "active": true
-  },
-  {
-    "slug": "health-insurance",
-    "title": "Health Insurance",
-    "short_description": "Comprehensive health protection and family floater plans ensuring medical security against unforeseen emergencies.",
-    "icon": "ShieldCheck",
-    "order": 2,
-    "active": true
+    "slug": "general-insurance",
+    "title": "General Insurance",
+    "shortDescription": "Understand cover for your vehicle, property and business.",
+    "category": "insurance",
+    "statId": "motor_policies",
+    "statDisplayText": "140+ motor policies",
+    "path": "/services/general-insurance",
+    "theme": {
+      "accent": "#0A2540",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "boardVariant": "coverage-ring",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 100%)"
+    }
   },
   {
     "slug": "life-insurance",
     "title": "Life Insurance",
-    "short_description": "Term insurance and life coverage solutions crafted to safeguard your family's future and financial independence.",
-    "icon": "HeartHandshake",
-    "order": 3,
-    "active": true
+    "shortDescription": "Term, savings and retirement protection.",
+    "category": "insurance",
+    "statId": "life_policies",
+    "statDisplayText": "180+ life policies",
+    "path": "/services/life-insurance",
+    "theme": {
+      "accent": "#1F6F8B",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "subtleHighlight": "rgba(31, 111, 139, 0.15)",
+      "warmRose": "rgba(244, 63, 94, 0.08)",
+      "boardVariant": "protection-board",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 60%, #1F6F8B 100%)"
+    }
   },
   {
-    "slug": "retirement-planning",
-    "title": "Retirement Planning",
-    "short_description": "Strategic retirement corpus construction tailored for lifelong passive income and post-work peace of mind.",
-    "icon": "Compass",
-    "order": 4,
-    "active": true
+    "slug": "health-insurance",
+    "title": "Health Insurance",
+    "shortDescription": "Compare individual, family and senior healthcare plans.",
+    "category": "insurance",
+    "statId": "health_policies",
+    "statDisplayText": "250+ health policies",
+    "path": "/services/health-insurance",
+    "theme": {
+      "accent": "#0A2540",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "boardVariant": "care-board",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 100%)"
+    }
   },
   {
-    "slug": "tax-planning",
-    "title": "Tax Planning Support",
-    "short_description": "Optimized tax-saving investment strategies under relevant IT provisions (ELSS, PPF, NPS).",
-    "icon": "FileText",
-    "order": 5,
-    "active": true
+    "slug": "mutual-funds",
+    "title": "Mutual Funds",
+    "shortDescription": "Goal-based SIP and lump-sum investing with disciplined reviews.",
+    "category": "investment",
+    "statId": "mf_folios",
+    "statDisplayText": "1,200+ mutual fund folios",
+    "path": "/investments/mutual-funds",
+    "theme": {
+      "accent": "#2F6FB0",
+      "secondaryAccent": "#123D67",
+      "silverBlue": "#5B8DB8",
+      "highlight": "#D9232D",
+      "boardVariant": "sip-illustration",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 60%, #2F6FB0 100%)"
+    }
   },
   {
-    "slug": "wealth-management",
-    "title": "Wealth Guidance",
-    "short_description": "Holistic asset allocation and periodic portfolio reviews for disciplined wealth creation.",
-    "icon": "PieChart",
-    "order": 6,
-    "active": true
+    "slug": "equity",
+    "title": "Equity & Investments",
+    "shortDescription": "Demat, trading and IPO access through our broking partner.",
+    "category": "investment",
+    "statId": "demat_accounts",
+    "statDisplayText": "800+ demat accounts",
+    "path": "/investments/equity",
+    "theme": {
+      "accent": "#4F5FB0",
+      "secondaryAccent": "#123D67",
+      "coolSteel": "#8FA3C8",
+      "silver": "#D7D9DC",
+      "highlight": "#D9232D",
+      "boardVariant": "market-board",
+      "gradient": "linear-gradient(135deg, #051329 0%, #0A2540 50%, #4F5FB0 100%)"
+    }
+  },
+  {
+    "slug": "other-solutions",
+    "title": "More Solutions",
+    "shortDescription": "Fixed deposits, bonds, NPS and related financial services.",
+    "category": "investment",
+    "statId": "fd_aum",
+    "statDisplayText": "₹50 lakh+ in fixed deposits across corporate issuers",
+    "path": "/investments/other-solutions",
+    "theme": {
+      "accent": "#0A2540",
+      "secondaryAccent": "#123D67",
+      "highlight": "#D9232D",
+      "boardVariant": "options-board",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 100%)"
+    }
+  },
+  {
+    "slug": "insights",
+    "title": "Educational Insights",
+    "shortDescription": "Creative learning hub, clear guides, and financial jargon buster.",
+    "category": "education",
+    "statId": "insights_guides",
+    "statDisplayText": "6 in-depth guides",
+    "path": "/insights",
+    "theme": {
+      "accent": "#5B8DB8",
+      "secondaryAccent": "#123D67",
+      "canvas": "#EEF1F4",
+      "cardBg": "#FFFFFF",
+      "highlight": "#D9232D",
+      "boardVariant": "learning-hub",
+      "gradient": "linear-gradient(135deg, #0A2540 0%, #123D67 60%, #5B8DB8 100%)"
+    }
   }
 ]
-

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "award_2008",
+    "year": 2008,
+    "award": "Certificate of Recognition as Trusted Advisor (Equity)",
+    "issuedBy": "Association of Investors",
+    "status": "confirmed"
+  },
+  {
+    "id": "award_2012",
+    "year": 2012,
+    "award": "Best Investment Advisor (Equity)",
+    "issuedBy": "Religare Broking, Gujarat",
+    "status": "confirmed"
+  },
+  {
+    "id": "award_2014",
+    "year": 2014,
+    "award": "Leading Distributor in Mutual Fund Distribution",
+    "issuedBy": "Religare Broking, Gujarat",
+    "status": "confirmed"
+  },
+  {
+    "id": "award_2016",
+    "year": 2016,
+    "award": "Top Performer in Insurance Product Distribution",
+    "issuedBy": null,
+    "status": "confirmed"
+  },
+  {
+    "id": "award_2019",
+    "year": 2019,
+    "award": "Top Performing Team Leader",
+    "issuedBy": "Care Health Insurance, Gujarat",
+    "status": "confirmed"
+  },
+  {
+    "id": "award_2021",
+    "year": 2021,
+    "award": "Best Claim Service Provider (Covid pandemic)",
+    "issuedBy": "Care Health Insurance",
+    "status": "confirmed"
+  }
+]
