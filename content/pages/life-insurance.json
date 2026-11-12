@@ -1,0 +1,86 @@
+{
+  "route": "/services/life-insurance",
+  "title": "Life Insurance",
+  "headline": "Protect Your Family. Plan for Tomorrow.",
+  "intro": "Protection planning starts with understanding your responsibilities.",
+  "serviceSlug": "life-insurance",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Protect Your Family. Plan for Tomorrow.",
+      "copy": "Life insurance products differ in purpose, cover, duration, premium, benefits and exclusions. The right choice depends on your circumstances. Contact Lotus Capital to understand the options we can arrange and the information needed to begin."
+    },
+    {
+      "id": "stat-block",
+      "type": "statBlock",
+      "statIds": ["life_policies"]
+    },
+    {
+      "id": "overview",
+      "type": "overview",
+      "title": "Overview",
+      "copy": "A structured life insurance plan provides income replacement and family security against premature demise, or builds long-term maturity savings."
+    },
+    {
+      "id": "categories",
+      "type": "categories",
+      "title": "Product Categories",
+      "items": [
+        "Pure Term Life Insurance",
+        "Savings-oriented Endowment Plans",
+        "Participating and Non-participating Plans",
+        "Retirement and Pension Products",
+        "Unit-Linked Insurance Plans (where suitable)"
+      ]
+    },
+    {
+      "id": "insurer-partners",
+      "type": "partnersGallery",
+      "title": "Insurer Partners",
+      "copy": "Options available through confirmed life insurers including Bharti AXA Life, HDFC Life, ICICI Prudential, and LIC."
+    },
+    {
+      "id": "compare",
+      "type": "checklist",
+      "title": "Key Considerations",
+      "items": [
+        "Sum assured adequacy relative to family annual expenses and debt",
+        "Policy term and premium paying term",
+        "Premium affordability over the long term",
+        "Specific exclusions and waiting periods",
+        "Surrender charges and paid-up conditions",
+        "Riders (critical illness, accidental disability)"
+      ]
+    },
+    {
+      "id": "quote-steps",
+      "type": "processSteps",
+      "title": "Purchase & Servicing Guide",
+      "steps": [
+        "Initial consultation to assess financial protection needs.",
+        "Evaluating suitable options across partner life insurers.",
+        "Application documentation and medical underwriting review.",
+        "Policy issuance, receipt verification, and annual renewal servicing."
+      ]
+    },
+    {
+      "id": "faqs",
+      "type": "faq",
+      "title": "Frequently Asked Questions",
+      "page": "life-insurance"
+    },
+    {
+      "id": "risk-note",
+      "type": "riskNote",
+      "content": "Insurance is the subject matter of solicitation. Life insurance is not a guaranteed investment return unless explicitly stated in the policy terms. Read all scheme and policy documents carefully."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Discuss Your Life Insurance Needs",
+      "serviceSlug": "life-insurance"
+    }
+  ]
+}
+

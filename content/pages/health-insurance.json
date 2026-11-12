@@ -1,0 +1,93 @@
+{
+  "route": "/services/health-insurance",
+  "title": "Health Insurance",
+  "headline": "Healthcare Decisions Shouldn't Become Financial Burdens.",
+  "intro": "Choose health cover with the details in view.",
+  "serviceSlug": "health-insurance",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Healthcare Decisions Shouldn't Become Financial Burdens.",
+      "copy": "Health insurance policies differ in cover, exclusions, waiting periods, room-rent limits, co-payments, network hospitals, renewal terms and claim process. Ask the Lotus Capital team about the options available and read the insurer's policy documents before you decide."
+    },
+    {
+      "id": "stat-block",
+      "type": "statBlock",
+      "statIds": ["health_policies"]
+    },
+    {
+      "id": "overview",
+      "type": "overview",
+      "title": "Overview",
+      "copy": "Comprehensive health insurance covers hospitalisation, treatment expenses, and modern medical procedures, shielding family savings during medical emergencies."
+    },
+    {
+      "id": "categories",
+      "type": "categories",
+      "title": "Policy Types",
+      "items": [
+        "Individual Health Plans",
+        "Family Floater Plans",
+        "Senior Citizen Health Coverage",
+        "Critical Illness & Top-up / Super Top-up Covers",
+        "Group Health Schemes"
+      ]
+    },
+    {
+      "id": "insurer-partners",
+      "type": "partnersGallery",
+      "title": "Insurer Partners",
+      "copy": "Associated with Care Health Insurance (since 2012) and other confirmed insurers."
+    },
+    {
+      "id": "compare",
+      "type": "checklist",
+      "title": "Comparison Checklist",
+      "items": [
+        "Adequate sum insured and restoration benefit",
+        "Pre-existing disease waiting periods (typically 1 to 3 years)",
+        "Room rent sub-limits and proportionate deduction clauses",
+        "Co-payment terms and deductible options",
+        "Empanelled network hospitals for cashless admission in Gujarat and nationwide",
+        "Specific disease exclusions and day-care treatment coverage",
+        "Claim settlement record and lifetime renewability"
+      ]
+    },
+    {
+      "id": "quote-steps",
+      "type": "processSteps",
+      "title": "How to Request a Quotation",
+      "steps": [
+        "Send an enquiry specifying the age and medical history of family members.",
+        "Receive tailored plan comparisons with clear disclosure of waiting periods.",
+        "Review insurer policy documents and proposal form disclosures.",
+        "Complete payment directly with the insurer and receive policy documents."
+      ]
+    },
+    {
+      "id": "claim-support",
+      "type": "infoBlock",
+      "title": "Claim Support Assistance",
+      "copy": "We assist clients with documentation, intimation, and query resolution during cashless requests and reimbursement claims."
+    },
+    {
+      "id": "faqs",
+      "type": "faq",
+      "title": "Frequently Asked Questions",
+      "page": "health-insurance"
+    },
+    {
+      "id": "risk-note",
+      "type": "riskNote",
+      "content": "Insurance is the subject matter of solicitation. Cover is subject to insurer acceptance, policy wording, pre-existing condition declarations, waiting periods, and exclusions."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Find Health Coverage for Your Needs",
+      "serviceSlug": "health-insurance"
+    }
+  ]
+}
+

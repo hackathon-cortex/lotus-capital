@@ -1,0 +1,352 @@
+[
+  {
+    "id": "faq_home_1",
+    "page": "home",
+    "category": "All",
+    "question": "What services does Lotus Capital offer?",
+    "answer": "Lotus Capital assists with general insurance, life insurance, health insurance, mutual funds, equity access via Religare Broking Limited, and fixed deposits."
+  },
+  {
+    "id": "faq_home_2",
+    "page": "home",
+    "category": "All",
+    "question": "How do I get started with Lotus Capital?",
+    "answer": "Start with a conversation. Reach out via our enquiry form or call our Godhra office to discuss your financial goals and requirements."
+  },
+  {
+    "id": "faq_home_3",
+    "page": "home",
+    "category": "All",
+    "question": "What documents are required to begin investing or taking insurance?",
+    "answer": "Requirements vary by provider but generally include standard identity verification (KYC), address proof, and bank details."
+  },
+  {
+    "id": "faq_home_4",
+    "page": "home",
+    "category": "All",
+    "question": "Where can I register a complaint or service grievance?",
+    "answer": "You can reach out directly via our complaints contact or visit our Complaints page for designated channels and provider escalation processes."
+  },
+  {
+    "id": "faq_gi_1",
+    "page": "general-insurance",
+    "category": "All",
+    "question": "What can Lotus Capital help with?",
+    "answer": "Lotus Capital assists individuals and businesses with general insurance covers including vehicle insurance (cars and two-wheelers), property protection, marine transit, business liability, and travel insurance through our partner insurers."
+  },
+  {
+    "id": "faq_gi_2",
+    "page": "general-insurance",
+    "category": "Motor",
+    "question": "How does motor renewal work?",
+    "answer": "Motor policy renewal involves reviewing your existing policy schedule, verifying vehicle details and No Claim Bonus (NCB), comparing renewal terms from insurer partners, and completing the renewal before your current policy expires."
+  },
+  {
+    "id": "faq_gi_3",
+    "page": "general-insurance",
+    "category": "All",
+    "question": "What documents are usually needed?",
+    "answer": "For motor insurance, you typically need your previous policy copy and Vehicle Registration Certificate (RC). For commercial or property insurance, property details, asset valuation documents, and basic KYC details are usually required."
+  },
+  {
+    "id": "faq_gi_4",
+    "page": "general-insurance",
+    "category": "Motor",
+    "question": "What are add-ons?",
+    "answer": "Add-ons are optional riders that extend your base policy coverage for an additional premium. Common motor add-ons include zero depreciation, engine protection, roadside assistance, and return-to-invoice cover."
+  },
+  {
+    "id": "faq_gi_5",
+    "page": "general-insurance",
+    "category": "Claims",
+    "question": "What is IDV?",
+    "answer": "Insured Declared Value (IDV) is the maximum sum insured fixed by the insurer for a vehicle, reflecting its current market value after applying manufacturer depreciation based on age. It represents the maximum compensation payable in case of total loss or theft."
+  },
+  {
+    "id": "faq_gi_6",
+    "page": "general-insurance",
+    "category": "Claims",
+    "question": "What is a deductible?",
+    "answer": "A deductible is the portion of a claim amount that the policyholder agrees to pay out-of-pocket before the insurance company covers the remainder. Policies typically include a compulsory deductible set by regulations, along with an optional voluntary deductible."
+  },
+  {
+    "id": "faq_li_1",
+    "page": "life-insurance",
+    "category": "Basics",
+    "question": "What is the difference between term and savings-oriented life insurance?",
+    "answer": "Term insurance provides pure financial protection for a defined period with a sum assured payable upon demise, without investment or maturity returns. Savings-oriented plans combine life cover with an endowment or savings component, providing benefits according to the specific policy terms."
+  },
+  {
+    "id": "faq_li_2",
+    "page": "life-insurance",
+    "category": "Basics",
+    "question": "What is sum assured?",
+    "answer": "Sum assured is the fixed amount that the insurance company contracts to pay to your designated nominees in the event of an unfortunate demise during the policy term, subject to policy terms and conditions."
+  },
+  {
+    "id": "faq_li_3",
+    "page": "life-insurance",
+    "category": "Policy terms",
+    "question": "What is a free-look period?",
+    "answer": "A free-look period allows a policyholder to review the policy terms and conditions after receiving the official policy bond. If you disagree with any terms, you can request a cancellation and refund; the exact duration and conditions depend on the underwriting insurer and policy terms."
+  },
+  {
+    "id": "faq_li_4",
+    "page": "life-insurance",
+    "category": "Policy terms",
+    "question": "What is a nominee?",
+    "answer": "A nominee is an individual designated by the policyholder to receive policy benefits in the event of the insured's demise. Keeping nominee details accurate and updated is essential for smooth claim processing."
+  },
+  {
+    "id": "faq_li_5",
+    "page": "life-insurance",
+    "category": "Policy terms",
+    "question": "What are riders?",
+    "answer": "Riders are optional supplementary benefits that can be attached to a base life insurance policy for an additional premium to extend protection. Common riders include critical illness, accidental death and disability, and waiver of premium."
+  },
+  {
+    "id": "faq_li_6",
+    "page": "life-insurance",
+    "category": "Claims & renewals",
+    "question": "How are premiums and renewals handled?",
+    "answer": "Premiums can be scheduled annually, semi-annually, quarterly, or monthly depending on the plan. Insurers offer a standard grace period for premium payments. Lotus Capital assists clients in Godhra with premium notices and renewal coordination."
+  },
+  {
+    "id": "faq_li_7",
+    "page": "life-insurance",
+    "category": "Basics",
+    "question": "What documents are usually needed?",
+    "answer": "Standard requirements include age and identity proof (such as PAN or Aadhaar for KYC verification), address proof, passport-size photographs, and bank account details. Income verification documents or medical assessments may be required depending on age and sum assured."
+  },
+  {
+    "id": "faq_li_8",
+    "page": "life-insurance",
+    "category": "Claims & renewals",
+    "question": "What happens after the policy is issued?",
+    "answer": "Once underwritten and approved, the insurer issues a digital policy schedule and physical policy bond. You should review the schedule details, notify your nominees, and store the policy document safely. Lotus Capital continues to assist with annual servicing and claim facilitation."
+  },
+  {
+    "id": "faq_hi_1",
+    "page": "health-insurance",
+    "category": "Basics",
+    "question": "What is sum insured?",
+    "answer": "Sum insured is the maximum monetary limit the insurance company will reimburse or pay for medical expenses incurred during a policy year, subject to policy terms, sub-limits, and conditions."
+  },
+  {
+    "id": "faq_hi_2",
+    "page": "health-insurance",
+    "category": "Waiting periods & exclusions",
+    "question": "What are waiting periods in health insurance?",
+    "answer": "Waiting periods are initial durations during which specific illnesses, specified surgical procedures, or pre-existing ailments are not covered. Once completed, eligible conditions become covered under the policy terms."
+  },
+  {
+    "id": "faq_hi_3",
+    "page": "health-insurance",
+    "category": "Claims & renewals",
+    "question": "What is cashless hospitalisation?",
+    "answer": "Cashless hospitalisation allows medical expenses to be settled directly between the empanelled network hospital and the insurance company, subject to policy admissibility, deductibles, and approvals."
+  },
+  {
+    "id": "faq_hi_4",
+    "page": "health-insurance",
+    "category": "Basics",
+    "question": "What is the difference between an individual policy and a family floater?",
+    "answer": "An individual policy provides a dedicated sum insured exclusively for one person. A family floater provides a single combined sum insured shared among all enrolled members (spouse, children, or parents)."
+  },
+  {
+    "id": "faq_hi_5",
+    "page": "health-insurance",
+    "category": "Waiting periods & exclusions",
+    "question": "What are exclusions in health insurance?",
+    "answer": "Exclusions are specific treatments, medical conditions, or circumstances that the policy does not cover, such as experimental therapies, non-medical items, or conditions excluded by the insurer's policy wording."
+  },
+  {
+    "id": "faq_hi_6",
+    "page": "health-insurance",
+    "category": "Waiting periods & exclusions",
+    "question": "What are co-payments and room-rent limits?",
+    "answer": "A co-payment is a predefined percentage of admissible claim expenses that the policyholder bears out of pocket. Room-rent limits cap the room tier covered; exceeding room caps can trigger proportionate deductions on linked treatment costs."
+  },
+  {
+    "id": "faq_hi_7",
+    "page": "health-insurance",
+    "category": "Claims & renewals",
+    "question": "How are policy renewals handled?",
+    "answer": "Health policies must be renewed annually before expiration to maintain continuity benefits, such as accrued waiting period credits and No Claim Bonus (NCB). Lotus Capital assists clients with renewal coordination."
+  },
+  {
+    "id": "faq_hi_8",
+    "page": "health-insurance",
+    "category": "Basics",
+    "question": "What documents are usually needed to apply?",
+    "answer": "Standard requirements include basic KYC verification (identity and address proof) for covered members, age proof, and accurate health disclosures in the insurer proposal form. Medical check-ups may be required based on age and sum insured."
+  },
+  {
+    "id": "faq_mf_1",
+    "page": "mutual-funds",
+    "category": "Basics",
+    "question": "What is Net Asset Value (NAV)?",
+    "answer": "Net Asset Value (NAV) represents the market value per unit of a mutual fund scheme, calculated by dividing the total net value of assets held in the portfolio by the outstanding number of units. NAV is calculated at the end of each business day based on the closing market prices of underlying securities, and fluctuates based on market movements and portfolio valuation."
+  },
+  {
+    "id": "faq_mf_2",
+    "page": "mutual-funds",
+    "category": "Costs",
+    "question": "What is the difference between direct and regular mutual fund plans?",
+    "answer": "Regular plans are invested through an AMFI-registered distributor (such as Lotus Capital) and include distribution commission in their total expense ratio. Direct plans are purchased directly from the Asset Management Company (AMC) without distributor commission, resulting in a slightly lower expense ratio. The underlying portfolio of stocks or bonds is identical in both plans."
+  },
+  {
+    "id": "faq_mf_3",
+    "page": "mutual-funds",
+    "category": "Costs",
+    "question": "What is an expense ratio?",
+    "answer": "The Total Expense Ratio (TER) is an annual operational fee charged by the Asset Management Company (AMC) to manage the fund. It covers fund management fees, registrar and administrative costs, regulatory expenses, and distributor commissions (in regular plans). TER is regulated by SEBI with defined upper caps based on scheme assets under management (AUM) and is deducted daily from scheme net assets before publishing NAV."
+  },
+  {
+    "id": "faq_mf_4",
+    "page": "mutual-funds",
+    "category": "Risk",
+    "question": "What risks do mutual funds carry?",
+    "answer": "Mutual fund investments are subject to market risks and returns are never guaranteed or assured. Depending on the scheme's mandate, risks include equity market volatility, interest rate risk, issuer credit risk, liquidity risk, and sector concentration risk. The value of your investment may fluctuate up or down depending on market conditions and the performance of underlying securities."
+  },
+  {
+    "id": "faq_mf_5",
+    "page": "mutual-funds",
+    "category": "Basics",
+    "question": "What is the difference between a SIP and a lump-sum investment?",
+    "answer": "A Systematic Investment Plan (SIP) involves committing a fixed rupee amount at regular intervals (such as monthly), allowing you to accumulate units across varying market cycles and NAV levels (rupee cost averaging). A lump sum involves investing available surplus capital in one single transaction, where the entry valuation reflects that specific day's market prices."
+  },
+  {
+    "id": "faq_mf_6",
+    "page": "mutual-funds",
+    "category": "Costs",
+    "question": "How is mutual fund taxation handled?",
+    "answer": "Taxation on mutual funds depends on the fund classification (equity-oriented, debt, or hybrid), the duration for which units are held (short-term vs. long-term holding periods), and prevailing statutory tax regulations at the time of redemption. Capital gains taxes and applicable surcharge or cess vary by category. Investors should review current tax provisions or consult a qualified chartered accountant or tax professional for personalised advice."
+  },
+  {
+    "id": "faq_mf_7",
+    "page": "mutual-funds",
+    "category": "Process",
+    "question": "How does mutual fund redemption work?",
+    "answer": "Investors can request redemption of their mutual fund units on any business day through the distributor, AMC portal, or registrar. The redemption payout is processed at the applicable NAV based on statutory cut-off timings, after deducting applicable exit load (if redeemed before the scheme's specified exit-load period) and applicable taxes. Payout proceeds are credited directly to the investor's verified bank account per AMC settlement cycles."
+  },
+  {
+    "id": "faq_mf_8",
+    "page": "mutual-funds",
+    "category": "Process",
+    "question": "What do I need to begin investing in mutual funds?",
+    "answer": "To start investing, you need compliant KYC (Know Your Customer) verification. Required documents include identity proof (such as PAN card), address proof (such as Aadhaar or passport), a passport-sized photograph, and bank account proof (a cancelled cheque or bank statement with IFSC). Investors must also review the Scheme Information Document (SID), Key Information Memorandum (KIM), and Statement of Additional Information (SAI) before choosing a scheme."
+  },
+  {
+    "id": "faq_eq_1",
+    "page": "equity",
+    "category": "Basics",
+    "question": "In what capacity does Lotus Capital offer equity services?",
+    "answer": "Lotus Capital operates as an Authorised Person of Religare Broking Limited (NSE AP007909931, BSE AP0130040172963). We assist clients in Godhra with account opening and access to secondary markets through our broking partner."
+  },
+  {
+    "id": "faq_eq_2",
+    "page": "equity",
+    "category": "Basics",
+    "question": "How do IPO applications work?",
+    "answer": "IPO applications allow investors to apply for shares during an initial public offering through ASBA and UPI linked mandates facilitated by our broking partner. Allotment is subject to subscription demand and lottery/pro-rata allocation by the registrar, with no guarantee of allotment."
+  },
+  {
+    "id": "faq_eq_3",
+    "page": "equity",
+    "category": "Account",
+    "question": "What is a demat account, and how does it differ from a trading account?",
+    "answer": "A demat account holds securities in electronic form for secure custody, whereas a trading account is used to place buy and sell orders on the stock exchanges (NSE and BSE). Both accounts work together to complete market transactions and settlement."
+  },
+  {
+    "id": "faq_eq_4",
+    "page": "equity",
+    "category": "Account",
+    "question": "What documents are usually needed to open an account?",
+    "answer": "To initiate onboarding through our broking partner, clients generally need standard identity proof (such as PAN), address proof, and active bank account details, in accordance with regulatory KYC guidelines."
+  },
+  {
+    "id": "faq_eq_5",
+    "page": "equity",
+    "category": "Costs & risk",
+    "question": "What risks are involved in equity investing?",
+    "answer": "Investments in securities markets are subject to market risks. Share prices can fluctuate and investors may lose part or all of their invested capital due to company performance, sector dynamics, or macroeconomic conditions."
+  },
+  {
+    "id": "faq_eq_6",
+    "page": "equity",
+    "category": "Costs & risk",
+    "question": "Are returns in equity markets guaranteed?",
+    "answer": "No. Equity investments never offer guaranteed, fixed, or assured returns. Lotus Capital does not provide price targets, profit guarantees, or assured return schemes."
+  },
+  {
+    "id": "faq_eq_7",
+    "page": "equity",
+    "category": "Costs & risk",
+    "question": "What costs and charges apply to equity trading?",
+    "answer": "Transactions incur brokerage fees set by our broking partner, statutory taxes (STT, stamp duty, GST), exchange transaction charges, and SEBI regulatory fees. Please speak with our team for the current schedule of brokerage and related charges."
+  },
+  {
+    "id": "faq_eq_8",
+    "page": "equity",
+    "category": "Support",
+    "question": "Where can I raise a service query or complaint?",
+    "answer": "For service assistance or questions regarding your account, reach out to our Godhra office. For formal grievances, visit our Complaints page (/complaints) or follow Religare Broking Limited's designated investor grievance escalation mechanism."
+  },
+  {
+    "id": "faq_os_1",
+    "page": "other-solutions",
+    "category": "Basics",
+    "question": "What is a corporate fixed deposit?",
+    "answer": "A corporate fixed deposit is a term deposit placed with a company or financial institution for a predetermined tenure at a specified interest rate. Unlike bank fixed deposits, corporate deposits carry credit risk associated with the corporate issuer and are not covered by deposit insurance; terms, interest payout frequencies, and minimums depend on the issuer."
+  },
+  {
+    "id": "faq_os_2",
+    "page": "other-solutions",
+    "category": "Basics",
+    "question": "What is a bond or debenture?",
+    "answer": "A bond or debenture is a debt instrument where an investor lends capital to a government body or corporate issuer in exchange for scheduled periodic interest payments and principal repayment at maturity. Terms, credit risk, liquidity, and product features depend on the specific issuer and offer document."
+  },
+  {
+    "id": "faq_os_3",
+    "page": "other-solutions",
+    "category": "Basics",
+    "question": "What is the National Pension System (NPS)?",
+    "answer": "NPS is a voluntary retirement savings scheme governed by the Pension Fund Regulatory and Development Authority (PFRDA) and facilitated through Religare Broking Limited (registration 4199). It is designed to assist long-term retirement planning with regulated contribution, investment allocation, lock-in, and withdrawal guidelines."
+  },
+  {
+    "id": "faq_os_4",
+    "page": "other-solutions",
+    "category": "Risks & terms",
+    "question": "What is credit risk in fixed-income instruments?",
+    "answer": "Credit risk is the risk that a corporate or institutional issuer may delay or default on contractual interest payments or principal repayments. Evaluating independent credit ratings and reviewing provider offer documents helps understand the issuer's financial strength and risk profile."
+  },
+  {
+    "id": "faq_os_5",
+    "page": "other-solutions",
+    "category": "Risks & terms",
+    "question": "What is liquidity and how do lock-in terms work?",
+    "answer": "Liquidity refers to how readily an investment can be liquidated or redeemed prior to scheduled maturity. Many fixed-income products and pension plans involve mandatory lock-in periods or impose specific premature withdrawal restrictions and penalties outlined in their offer documents."
+  },
+  {
+    "id": "faq_os_6",
+    "page": "other-solutions",
+    "category": "Tax & liquidity",
+    "question": "How is tax treatment decided on these instruments?",
+    "answer": "Tax treatment depends on the specific instrument category, investment tenure, the investor's applicable income tax slab, and prevailing statutory tax laws. Taxation on interest payouts and capital realizations varies by product; review current tax guidelines before deciding."
+  },
+  {
+    "id": "faq_os_7",
+    "page": "other-solutions",
+    "category": "Tax & liquidity",
+    "question": "What documents are usually needed to invest?",
+    "answer": "Standard requirements generally include primary KYC identity verification (such as PAN and Aadhaar), address proof, bank account details (cancelled cheque), and a completed application or proposal form for the chosen issuer or scheme."
+  },
+  {
+    "id": "faq_os_8",
+    "page": "other-solutions",
+    "category": "Basics",
+    "question": "What happens after you enquire with Lotus Capital?",
+    "answer": "Our Godhra team discusses your investment horizons, risk tolerance, and liquidity requirements, provides official provider documentation and term disclosures, and guides you through the application process without pressure."
+  }
+]

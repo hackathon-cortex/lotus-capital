@@ -1,0 +1,29 @@
+{
+  "phone": "+919328852555",
+  "phoneDisplay": "+91 93288 52555",
+  "email": "lotuscapitalinfo@gmail.com",
+  "address": {
+    "line1": "Shri Chudasama Bhuvan",
+    "line2": "M.G. Road",
+    "landmark": "Near Police Chowki No. 1",
+    "city": "Godhra",
+    "pincode": "389001",
+    "district": "Panchmahals",
+    "state": "Gujarat",
+    "full": "Shri Chudasama Bhuvan, M.G. Road, Near Police Chowki No. 1, Godhra 389001, Panchmahals, Gujarat"
+  },
+  "mapsShareUrl": "https://maps.app.goo.gl/yDNpMs4ospifExkp9?g_st=aw",
+  "mapsEmbedUrl": "https://www.google.com/maps?q=Shri+Chudasama+Bhuvan,+M.G.+Road,+Godhra+389001,+Gujarat&output=embed",
+  "social": {
+    "handle": "lotuscapital.investments",
+    "platformPendingConfirmation": true
+  },
+  "whatsapp": {
+    "enabled": true,
+    "number": "+919328852555",
+    "statusNote": "Confirmed official WhatsApp business contact"
+  },
+  "whatsappConfirmed": false,
+  "hours": null,
+  "officeHours": null
+}

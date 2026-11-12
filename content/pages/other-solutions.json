@@ -1,0 +1,70 @@
+{
+  "route": "/investments/other-solutions",
+  "title": "More Solutions",
+  "headline": "More Ways to Build and Protect Your Wealth.",
+  "intro": "Explore these options with their terms and trade-offs in view.",
+  "serviceSlug": "other-solutions",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "More Ways to Build and Protect Your Wealth.",
+      "copy": "Explore these options with their terms and trade-offs in view. Fixed deposits, bonds, pension planning, and structured solutions have distinct credit risks, liquidity terms, and tax treatments."
+    },
+    {
+      "id": "stat-block",
+      "type": "statBlock",
+      "statIds": ["fd_aum"]
+    },
+    {
+      "id": "fixed-deposits",
+      "type": "solutionBlock",
+      "title": "Corporate Fixed Deposits",
+      "copy": "Fixed deposits with corporate issuers offer specified interest rates for defined tenures. Corporate FDs carry credit and issuer default risk; credit ratings from rating agencies (CRISIL, ICRA, CARE) indicate creditworthiness at the time of rating."
+    },
+    {
+      "id": "bonds",
+      "type": "solutionBlock",
+      "title": "Bonds & Debentures",
+      "copy": "Government and corporate bonds provide fixed income streams subject to credit risk, interest rate risk, and secondary market liquidity."
+    },
+    {
+      "id": "nps",
+      "type": "solutionBlock",
+      "title": "National Pension System (NPS)",
+      "copy": "NPS is a voluntary retirement savings scheme governed by PFRDA. Offered through Religare Broking Limited (registration 4199). Features tiered accounts (Tier I with tax deductions and lock-in, and flexible Tier II)."
+    },
+    {
+      "id": "mlds",
+      "type": "solutionBlock",
+      "title": "Market-Linked Debentures (MLDs)",
+      "copy": "Structured debt securities whose final yield is tied to the performance of an underlying market index. Subject to market and credit risks; capital is not guaranteed."
+    },
+    {
+      "id": "real-estate",
+      "type": "realEstateBlock",
+      "featureFlag": "SHOW_REAL_ESTATE",
+      "title": "Real Estate Advisory (Vadodara & Ahmedabad)",
+      "copy": "Facilitation of commercial and residential property transactions. RERA Gujarat registration is currently under process. Real estate brokerage is not promoted as a guaranteed yield product.",
+      "statIds": ["real_estate_properties", "real_estate_rent"]
+    },
+    {
+      "id": "loan-assistance",
+      "type": "solutionBlock",
+      "title": "Loan Assistance",
+      "copy": "Assisting clients with documentation and loan sourcing through empanelled banking and NBFC partners, subject to lender underwriting criteria."
+    },
+    {
+      "id": "risk-note",
+      "type": "riskNote",
+      "content": "All investment products involve financial and counterparty risks. Terms and conditions are governed by respective issuers and regulatory bodies."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Explore Your Options",
+      "serviceSlug": "other-solutions"
+    }
+  ]
+}
+

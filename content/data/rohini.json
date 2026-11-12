@@ -1,0 +1,230 @@
+{
+  "serviceSlug": "rohini-cashless-empanelment",
+  "title": "ROHINI Registration & Cashless Empanelment",
+  "shortTitle": "ROHINI & Cashless",
+  "category": "healthcare-b2b",
+  "targetAudience": "Hospitals, Nursing Homes & Medical Day-Care Centres",
+  "eyebrow": "FOR HOSPITALS AND DAY-CARE CENTRES",
+  "headline": "Hospitals: Get Registered on ROHINI and Empanelled for Cashless Claims",
+  "leadCopy": "Independent guidance for healthcare providers in Gujarat to register on the official ROHINI portal and coordinate empanelment documentation across insurer and TPA networks.",
+  "offered": true,
+  "clientConfirmationStatus": "Confirmed via Lotus Capital welcome letter services list",
+  "sources": [
+    {
+      "name": "Insurance Information Bureau of India (IIB) - ROHINI Portal",
+      "url": "https://rohini.iib.gov.in",
+      "lastChecked": "2026-11-12",
+      "verified": true
+    },
+    {
+      "name": "Insurance Regulatory and Development Authority of India (IRDAI)",
+      "url": "https://iib.gov.in",
+      "lastChecked": "2026-11-12",
+      "verified": true
+    }
+  ],
+  "whatIsRohini": {
+    "title": "What is ROHINI?",
+    "description": "ROHINI (Registry of Hospitals in Network of Insurers) is a centralised registry of hospitals and day-care medical centres participating in the cashless health insurance network in India. Developed and maintained by the Insurance Information Bureau of India (IIB)—an initiative promoted by the Insurance Regulatory and Development Authority of India (IRDAI)—each registered facility receives a globally unique 13-digit GS1-based identifier with verified geocoded location data.",
+    "sourceUrl": "https://rohini.iib.gov.in",
+    "lastChecked": "2026-11-12"
+  },
+  "whoNeedsIt": {
+    "title": "Who Needs ROHINI Registration?",
+    "description": "All hospitals, nursing homes, and day-care centres that currently offer or intend to offer cashless hospitalisation claims under health insurance policies are expected to maintain an active registration on the ROHINI registry per regulatory directives.",
+    "sourceUrl": "https://rohini.iib.gov.in",
+    "lastChecked": "2026-11-12"
+  },
+  "registrationSteps": [
+    {
+      "step": 1,
+      "title": "Online Portal Application",
+      "description": "Submit facility profile, state medical registration details, clinical establishment certificate, and geocoded premises coordinates directly through the official IIB ROHINI portal."
+    },
+    {
+      "step": 2,
+      "title": "IIB Verification & Review",
+      "description": "The Insurance Information Bureau evaluates submitted facility data, institutional accreditations, and establishment credentials."
+    },
+    {
+      "step": 3,
+      "title": "Subscription Payment",
+      "description": "Remit the prescribed subscription payment to IIB (subscription is periodic; institutional fees are set directly by IIB)."
+    },
+    {
+      "step": 4,
+      "title": "13-Digit ROHINI ID Allocation",
+      "description": "Upon verification, IIB assigns the unique 13-digit identifier, publishing the facility in the national insurer network registry."
+    },
+    {
+      "step": 5,
+      "title": "Periodic Renewal",
+      "description": "Maintain active listing through periodic renewal before term expiry to prevent disruptions to cashless network claims."
+    }
+  ],
+  "cashlessEmpanelment": {
+    "title": "Cashless Network Empanelment",
+    "description": "Individual general insurers, standalone health insurers, and Third Party Administrators (TPAs) empanel medical facilities into their cashless provider networks at their independent discretion. Empanelment criteria and tariff structures vary by insurer and TPA.",
+    "note": "Requirements vary by insurer and TPA. Empanelment decisions remain at the sole discretion of each insurer or TPA."
+  },
+  "documentsChecklist": [
+    {
+      "id": "rohini-id",
+      "label": "Valid 13-Digit ROHINI ID Certificate",
+      "category": "mandatory",
+      "hint": "Issued by Insurance Information Bureau of India (IIB)"
+    },
+    {
+      "id": "cea-reg",
+      "label": "Registration under Clinical Establishments Act (or State Equivalent)",
+      "category": "mandatory",
+      "hint": "Valid registration certificate from State Health / Municipal Authority"
+    },
+    {
+      "id": "pan-card",
+      "label": "Hospital / Organisation PAN Copy",
+      "category": "mandatory",
+      "hint": "Self-attested PAN card copy of the hospital or trust"
+    },
+    {
+      "id": "cancelled-cheque",
+      "label": "Cancelled Cheque & Bank Account Details",
+      "category": "mandatory",
+      "hint": "Original cancelled cheque showing hospital/entity name and IFSC for claims settlement"
+    },
+    {
+      "id": "schedule-charges",
+      "label": "Current Schedule of Charges / Tariff List",
+      "category": "mandatory",
+      "hint": "Room rent categories, ICU charges, procedure charges, and diagnostic tariffs"
+    },
+    {
+      "id": "discount-letter",
+      "label": "Network Discount Offer Letter (where applicable)",
+      "category": "recommended",
+      "hint": "Agreed percentage discount on published hospital tariffs for insurer patients"
+    },
+    {
+      "id": "nabh-status",
+      "label": "NABH / NABL Accreditation Certificate or Application Acknowledgement",
+      "category": "recommended",
+      "hint": "Full, entry-level, or documented acknowledgement of accreditation application"
+    },
+    {
+      "id": "facility-details",
+      "label": "Infrastructure & Staffing Profile",
+      "category": "mandatory",
+      "hint": "Bed count (ICU/general), OT specifications, qualified medical/nursing staff rosters, and bio-medical waste certificate"
+    }
+  ],
+  "howLotusCapitalHelps": [
+    {
+      "title": "Document Readiness Audit",
+      "description": "Review your existing statutory registrations, Clinical Establishments Act certifications, and tariff schedules against standard insurer submission checklists."
+    },
+    {
+      "title": "ROHINI Application Guidance",
+      "description": "Step-by-step assistance in compiling facility parameters and navigating the official Insurance Information Bureau (IIB) registration portal."
+    },
+    {
+      "title": "Empanelment Coordination",
+      "description": "Assisting with submission of empanelment packets and discount proposals to leading health insurers and TPAs operating across Gujarat."
+    },
+    {
+      "title": "Renewal Tracking & Reminders",
+      "description": "Timely alerts for periodic ROHINI renewals, accreditation expiries, and insurer MOU review cycles to ensure uninterrupted cashless billing."
+    }
+  ],
+  "benefits": {
+    "forHospitals": [
+      "Standardised 13-digit identification across all Indian insurance company systems",
+      "Eligibility to participate in cashless claim settlement networks",
+      "Verified listing visibility in national insurer hospital locators",
+      "Streamlined claims adjudication and fewer identifier mismatch disputes"
+    ],
+    "forPatients": [
+      "Greater choice of cashless treatment facilities near home",
+      "Reduced out-of-pocket deposits during emergency and planned hospitalisations",
+      "Smoother pre-authorisation processing through verified facility records"
+    ]
+  },
+  "processTimeline": [
+    {
+      "step": "01",
+      "title": "Share Hospital Details",
+      "description": "Provide basic facility information, operational bed count, and current registration status."
+    },
+    {
+      "step": "02",
+      "title": "Document & Registration Review",
+      "description": "We evaluate your Clinical Establishment Act certificate, tariff schedule, and documentation readiness."
+    },
+    {
+      "step": "03",
+      "title": "ROHINI Application Guidance",
+      "description": "Navigate submission on the official IIB ROHINI portal through to 13-digit ID allotment."
+    },
+    {
+      "step": "04",
+      "title": "Prepare Empanelment Dossiers",
+      "description": "Compile standard insurer dossiers including tariff schedules, discount letters, and facility specs."
+    },
+    {
+      "step": "05",
+      "title": "Submit Requests to Insurers & TPAs",
+      "description": "Transmit empanelment proposals to relevant general and standalone health insurance underwriters."
+    },
+    {
+      "step": "06",
+      "title": "Follow-Up & Renewal Reminders",
+      "description": "Track query resolutions with insurer network teams and receive timely reminders for renewal cycles."
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq-rohini-1",
+      "question": "What is a ROHINI ID?",
+      "answer": "A ROHINI ID is a unique 13-digit identification code based on globally unique GS1 standards assigned to hospitals and day-care centres in India. It is generated by the Insurance Information Bureau of India (IIB) to uniquely identify healthcare facilities across insurer and Third Party Administrator (TPA) databases."
+    },
+    {
+      "id": "faq-rohini-2",
+      "question": "Is ROHINI registration mandatory for cashless claims?",
+      "answer": "Yes. Regulatory guidelines from IRDAI expect hospitals and day-care centres participating in cashless health insurance networks to be registered on the central ROHINI database maintained by IIB."
+    },
+    {
+      "id": "faq-rohini-3",
+      "question": "Who maintains the ROHINI registry?",
+      "answer": "The registry is developed and operated by the Insurance Information Bureau of India (IIB), an independent body promoted by the Insurance Regulatory and Development Authority of India (IRDAI)."
+    },
+    {
+      "id": "faq-rohini-4",
+      "question": "Does having a ROHINI ID guarantee empanelment with insurers?",
+      "answer": "No. ROHINI registration is a prerequisite identifier, but empanelment into a cashless network is strictly at the individual discretion of each insurance company and TPA based on their geographic network needs, tariff negotiations, and clinical standards."
+    },
+    {
+      "id": "faq-rohini-5",
+      "question": "What documents are usually needed for cashless empanelment?",
+      "answer": "Insurers typically request your 13-digit ROHINI ID, Clinical Establishments Act registration (or state equivalent), hospital PAN copy, cancelled bank cheque, current tariff schedule, facility and staffing profile, and where available, NABH/NABL accreditation or application acknowledgement. Requirements vary by insurer."
+    },
+    {
+      "id": "faq-rohini-6",
+      "question": "How long does the registration process take?",
+      "answer": "The timeline depends on the completeness of your documentation and verification by the Insurance Information Bureau of India (IIB). Contact our team to review your document readiness before submission."
+    },
+    {
+      "id": "faq-rohini-7",
+      "question": "Can medical day-care centres register on ROHINI?",
+      "answer": "Yes. Dedicated day-care centres (such as dialysis units, eye care surgical clinics, and chemotherapy day centres) that perform procedures covered under health insurance policies are eligible to apply for ROHINI registration."
+    },
+    {
+      "id": "faq-rohini-8",
+      "question": "How do ROHINI renewals work?",
+      "answer": "ROHINI registration requires periodic renewal with IIB before the expiry of the subscription period to ensure facility credentials and operating details remain updated in the insurer network."
+    }
+  ],
+  "disclosures": {
+    "boxText": "ROHINI registration is carried out by the Insurance Information Bureau of India (IIB). Empanelment decisions rest entirely with each individual insurer and TPA. Lotus Capital provides documentation guidance and coordination assistance and does not guarantee registration, empanelment approval, or turnaround timelines. Statutory fees, if any, are determined and collected directly by the respective authorities.",
+    "isB2B": true
+  }
+}
+

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <style>
+      .bharti-red { fill: #E31837; }
+      .axa-blue { fill: #00008F; }
+      .text-life { fill: #556270; font-family: 'Poppins', 'Segoe UI', Arial, sans-serif; font-weight: 600; font-size: 19px; letter-spacing: 0.18em; }
+    </style>
+  </defs>
+  <!-- Bharti Arc Symbol -->
+  <path class="bharti-red" d="M35 78 C25 65 24 45 36 32 C48 19 68 18 80 28 C70 24 54 26 44 36 C34 46 34 62 42 72 Z" />
+  <!-- Bharti Text -->
+  <text x="88" y="52" font-family="'Poppins', 'Segoe UI', Arial, sans-serif" font-weight="700" font-size="34" fill="#E31837" letter-spacing="-0.02em">bharti</text>
+  <!-- AXA Text with diagonal slash -->
+  <text x="210" y="53" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="38" fill="#00008F" letter-spacing="0.04em">AXA</text>
+  <line x1="210" y1="62" x2="310" y2="62" stroke="#E31837" stroke-width="4" stroke-linecap="round"/>
+  <!-- Subtitle: Life Insurance -->
+  <text x="90" y="86" class="text-life">LIFE INSURANCE</text>
+</svg>
+

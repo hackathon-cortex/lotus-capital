@@ -1,0 +1,87 @@
+{
+  "route": "/services/general-insurance",
+  "title": "General Insurance",
+  "headline": "Protection for the Things That Matter.",
+  "intro": "Understand the cover before you choose the policy.",
+  "serviceSlug": "general-insurance",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "headline": "Protection for the Things That Matter.",
+      "copy": "General insurance protects against specified risks, subject to the policy's terms, exclusions, limits, deductibles and claim conditions. Lotus Capital can explain the options available through its insurer partners and help you with the enquiry and policy process."
+    },
+    {
+      "id": "stat-block",
+      "type": "statBlock",
+      "statIds": ["motor_policies"]
+    },
+    {
+      "id": "overview",
+      "type": "overview",
+      "title": "Overview",
+      "copy": "General insurance policies protect personal vehicles, commercial property, and enterprise assets against unexpected damage and liabilities."
+    },
+    {
+      "id": "categories",
+      "type": "categories",
+      "title": "Product Categories",
+      "items": [
+        "Vehicle insurance (car and two-wheeler)",
+        "Commercial and residential property",
+        "Marine and transit insurance",
+        "Professional liability",
+        "Business and commercial packages",
+        "Travel insurance"
+      ]
+    },
+    {
+      "id": "insurer-partners",
+      "type": "partnersGallery",
+      "title": "Insurer Partners",
+      "copy": "Policies are underwritten by confirmed partner insurers such as ICICI Lombard, HDFC ERGO, and Bajaj Allianz General Insurance."
+    },
+    {
+      "id": "compare",
+      "type": "checklist",
+      "title": "What to Compare",
+      "items": [
+        "Cover scope and key exclusions",
+        "Inspection requirements and vehicle IDV",
+        "Deductibles and co-pay terms",
+        "Premium rates and available add-ons",
+        "Claim settlement process and garage network",
+        "Renewal terms and no-claim bonus (NCB)"
+      ]
+    },
+    {
+      "id": "quote-steps",
+      "type": "processSteps",
+      "title": "How to Request a Quotation",
+      "steps": [
+        "Send an enquiry or call our Godhra office.",
+        "Tell us what you want to insure and share previous policy/RC details.",
+        "We share options and quote comparisons from our insurer partners.",
+        "You review the policy terms, conditions, and exclusions before deciding."
+      ]
+    },
+    {
+      "id": "faqs",
+      "type": "faq",
+      "title": "Frequently Asked Questions",
+      "page": "general-insurance"
+    },
+    {
+      "id": "risk-note",
+      "type": "riskNote",
+      "content": "Insurance is the subject matter of solicitation. Cover depends on the selected policy's terms, conditions, waiting periods, limits, and exclusions. Claim settlement is subject to insurer evaluation."
+    },
+    {
+      "id": "enquiry",
+      "type": "enquiry",
+      "title": "Request a General Insurance Quote",
+      "serviceSlug": "general-insurance"
+    }
+  ]
+}
+

@@ -1,0 +1,18 @@
+{
+  "route": "*",
+  "title": "Not Found",
+  "headline": "We couldn't find that page.",
+  "intro": "The link may be outdated or the address may have been entered incorrectly. You can return to the homepage or browse our services.",
+  "sections": [
+    {
+      "id": "recovery",
+      "type": "errorRecovery",
+      "actions": [
+        { "text": "Go Home", "path": "/" },
+        { "text": "Explore Services", "path": "/services" },
+        { "text": "Contact Us", "path": "/contact-us" }
+      ]
+    }
+  ]
+}
+
