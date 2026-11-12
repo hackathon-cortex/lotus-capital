@@ -24,29 +24,24 @@ export interface CategoryBentoProps {
 
 export const DEFAULT_GI_CATEGORIES: CategoryItem[] = [
   {
-    id: 'motor',
-    serviceDetail: 'vehicle',
-    title: 'Vehicle Insurance',
+    id: 'travel',
+    serviceDetail: 'travel',
+    title: 'Travel Insurance',
     featured: true,
     spanCols: 2,
-    badge: '140+ Serviced',
+    badge: 'Popular',
     description:
-      'Comprehensive and bumper-to-bumper zero-depreciation coverage for private four-wheelers, two-wheelers, and commercial logistics fleets with seamless renewal assistance.',
+      'Comprehensive medical and baggage protection for trips across India and international destinations. Ask us about visa-compliant Schengen, US, and worldwide travel coverage.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-        <circle cx="7" cy="17" r="2" />
-        <path d="M9 17h6" />
-        <circle cx="17" cy="17" r="2" />
+        <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
       </svg>
     ),
     illustration: (
       <svg width="180" height="90" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 70 L35 70 M65 70 L135 70 M165 70 L180 70" stroke="#0a2540" strokeWidth="2.5" />
-        <circle cx="50" cy="70" r="14" stroke="#d9232d" strokeWidth="2.5" />
-        <circle cx="150" cy="70" r="14" stroke="#d9232d" strokeWidth="2.5" />
-        <path d="M35 65 L45 42 Q50 35 65 35 L125 35 Q140 35 155 52 L172 58 Q180 60 180 68 L180 70" stroke="#0a2540" strokeWidth="2" fill="rgba(10,37,64,0.03)" />
-        <path d="M70 35 L70 55 L120 55 L135 35" stroke="rgba(10,37,64,0.3)" strokeWidth="1.5" />
+        <path d="M20 75 L180 75" stroke="#0a2540" strokeWidth="2" strokeDasharray="6 4" opacity="0.3" />
+        <path d="M45 62 L80 48 L120 48 L150 32 L160 34 L140 52 L160 52 L170 45 L175 47 L165 57 L140 57 L120 72 L110 72 L120 57 L70 57 Z" stroke="#d9232d" strokeWidth="2.5" fill="rgba(217, 35, 45, 0.05)" />
+        <circle cx="45" cy="62" r="3" fill="#0a2540" />
       </svg>
     ),
   },
@@ -104,34 +99,13 @@ export const DEFAULT_GI_CATEGORIES: CategoryItem[] = [
       </svg>
     ),
   },
-  {
-    id: 'travel',
-    serviceDetail: 'travel',
-    title: 'Travel Insurance',
-    featured: true,
-    spanCols: 2,
-    description:
-      'Cover for trips in India and abroad. Coverage and exclusions depend on the policy; ask us what is included.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
-      </svg>
-    ),
-    illustration: (
-      <svg width="180" height="90" viewBox="0 0 200 100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 75 L180 75" stroke="#0a2540" strokeWidth="2" strokeDasharray="6 4" opacity="0.3" />
-        <path d="M45 62 L80 48 L120 48 L150 32 L160 34 L140 52 L160 52 L170 45 L175 47 L165 57 L140 57 L120 72 L110 72 L120 57 L70 57 Z" stroke="#d9232d" strokeWidth="2.5" fill="rgba(217, 35, 45, 0.05)" />
-        <circle cx="45" cy="62" r="3" fill="#0a2540" />
-      </svg>
-    ),
-  },
 ];
 
 export const CategoryBento: React.FC<CategoryBentoProps> = ({
   id = 'categories',
   eyebrow = 'PRODUCT TAXONOMY',
   title = 'General Insurance Solutions',
-  subtitle = 'Protecting personal mobility, enterprise facilities, and commercial risks in Godhra.',
+  subtitle = 'Protecting domestic and international travel, enterprise facilities, and commercial risks in Godhra.',
   categories = DEFAULT_GI_CATEGORIES,
   onSelectCategory,
   onCategorySelect,

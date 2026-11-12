@@ -41,3 +41,4 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20.12.0
+

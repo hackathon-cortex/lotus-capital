@@ -94,7 +94,8 @@ img, svg, video, canvas {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-heading, "Poppins", sans-serif) !important;
+  font-style: normal !important;
   color: var(--navy-900);
   line-height: 1.25;
   margin-bottom: 0.75rem;

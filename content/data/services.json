@@ -2,23 +2,16 @@
   {
     "slug": "general-insurance",
     "title": "General Insurance",
-    "shortDescription": "Understand cover for your vehicle, travel, property and business.",
+    "shortDescription": "Understand cover for your travel, property, marine and business.",
     "category": "insurance",
-    "statId": "motor_policies",
-    "statDisplayText": "140+ motor policies",
+    "statId": "travel_policies",
+    "statDisplayText": "570+ policies serviced",
     "path": "/services/general-insurance",
     "categories": [
       {
-        "id": "vehicle",
-        "title": "Vehicle Insurance",
-        "description": "Comprehensive and third-party cover for cars and two-wheelers.",
-        "featured": true,
-        "offered": true
-      },
-      {
         "id": "travel",
         "title": "Travel Insurance",
-        "description": "Cover for trips in India and abroad. Coverage and exclusions depend on the policy; ask us what is included.",
+        "description": "Comprehensive domestic and overseas travel protection covering medical emergencies, flight cancellations, and lost luggage.",
         "featured": true,
         "offered": true
       },

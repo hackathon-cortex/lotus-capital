@@ -17,7 +17,7 @@ export const GeneralInsurance: React.FC = () => {
   const sectionQuery = searchParams.get('section');
 
   // Selected categories for Enquiry preselection
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(['vehicle']);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['travel']);
 
   // Confirmed GI partners (ICICI Lombard, HDFC ERGO, Religare Broking)
   const confirmedPartners = partnersData.filter(
@@ -290,7 +290,7 @@ export const GeneralInsurance: React.FC = () => {
             selectedServiceDetails={selectedCategories}
             onServiceDetailChange={setSelectedCategories}
             title="Request a General Insurance quotation"
-            subtitle="Share your vehicle registration or asset notes for a personalised quotation."
+            subtitle="Share your travel itinerary or asset notes for a personalised quotation."
             reassuranceLines={[
               'Direct consultation with our licensed advisor in Godhra',
               'No automated robo-calls or spam',
