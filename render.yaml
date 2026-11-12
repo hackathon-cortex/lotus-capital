@@ -1,0 +1,43 @@
+services:
+  # 1. Backend FastAPI Service
+  - type: web
+    name: lotus-capital-backend
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: PROJECT_NAME
+        value: Lotus Capital API
+      - key: API_V1_STR
+        value: /api/v1
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SECURITY_PASSWORD_PEPPER
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "720"
+      - key: DATABASE_URL
+        value: sqlite:////tmp/lotus_capital.db
+      - key: CORS_ORIGINS
+        value: "*"
+
+  # 2. Frontend React SPA Static Site
+  - type: static
+    name: lotus-capital-frontend
+    rootDir: frontend
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: 20.12.0
