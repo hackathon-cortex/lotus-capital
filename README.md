@@ -299,8 +299,23 @@ npm run build
 | [`adminZeroRecordAndLeadsCrud.test.tsx`](frontend/tests/adminZeroRecordAndLeadsCrud.test.tsx) | Zero-record dashboard, drawer validation, duplicate phone check, soft delete, undo, typed-`DELETE` purge |
 | [`adminBrandAndShell.test.tsx`](frontend/tests/adminBrandAndShell.test.tsx)                | Brand colour whitelist, zero emoji, responsive sidebar, Bento tiles                              |
 | [`adminNoPlaceholders.test.tsx`](frontend/tests/adminNoPlaceholders.test.tsx)              | No placeholder, roadmap, or mock text on any admin route                                         |
+| [`adminSecurityIncident.test.tsx`](frontend/tests/adminSecurityIncident.test.tsx)          | Fail-closed zero-trust authentication; redirect to `/admin/login` on unauthenticated access      |
+| [`iosSafariAndCrossDevice.test.tsx`](frontend/tests/iosSafariAndCrossDevice.test.tsx)      | Dedicated BrandLogo vector assets, hero artwork layout isolation, mobile input zoom prevention    |
 | [`test_admin_leads_crud.py`](backend/tests/test_admin_leads_crud.py)                       | Empty-DB startup, manual create, duplicate check, delete/restore/purge, role enforcement, seed/purge scripts |
 | [`mutualFundsCompliance.test.ts`](frontend/tests/mutualFundsCompliance.test.ts), [`equityCompliance.test.ts`](frontend/tests/equityCompliance.test.ts) | Statutory disclaimers present; Tier C statistics withheld |
+
+---
+
+## 10. Browser Support & Device Hardening
+
+Lotus Capital is tested and verified across modern mobile and desktop browsers:
+- **iOS Safari**: iOS 14.0+ (iPhone 13, 14, 15 viewports, WebKit layout containment)
+- **Desktop Safari**: Safari 14.0+
+- **Google Chrome & Edge**: Versions 90+
+- **Mozilla Firefox**: Versions 100+
+
+Full details are documented in [`docs/BROWSER_SUPPORT.md`](docs/BROWSER_SUPPORT.md) and [`docs/SECURITY_REVIEW.md`](docs/SECURITY_REVIEW.md).
+
 
 ---
 

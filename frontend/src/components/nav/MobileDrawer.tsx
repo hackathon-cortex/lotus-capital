@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { NAV_ITEMS, SERVICES_MENU_ITEMS, ServiceMenuItem, getActiveNavItem } from '../../config/navigation';
 import { LotusLogo } from '../common/LotusLogo';
+import { BrandLogo } from '../common/BrandLogo';
 import { ServiceNavIcon } from './ServiceNavIcon';
 
 export interface MobileDrawerProps {
@@ -107,7 +109,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const drawerContent = (
     <div className="mobile-drawer-portal">
       {/* Backdrop */}
       <div
@@ -133,7 +135,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
         {/* Top Header Row */}
         <div className="mobile-drawer-header">
           <div className="mobile-drawer-brand">
-            <LotusLogo variant="light" height={38} width="auto" />
+            <BrandLogo variant="light" height={36} width={150} />
           </div>
           <button
             ref={closeBtnRef}
@@ -300,4 +302,8 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined'
+    ? createPortal(drawerContent, document.body)
+    : drawerContent;
 };

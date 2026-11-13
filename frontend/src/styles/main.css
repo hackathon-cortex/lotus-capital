@@ -44,6 +44,7 @@ html {
   max-width: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -4158,7 +4159,30 @@ button.nav-link:hover {
     animation: none !important;
   }
   .hero-lotus-art {
-    display: none !important;
+    display: block !important;
+    position: absolute !important;
+    right: -10% !important;
+    top: 45% !important;
+    transform: translateY(-50%) !important;
+    width: 260px !important;
+    height: 260px !important;
+    opacity: 0.18 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    max-width: 35vw !important;
+    overflow: hidden !important;
+  }
+  .home-hero__content {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  .home-hero__text {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+    -webkit-appearance: none;
   }
   .home-hero__cta-group {
     flex-direction: column !important;

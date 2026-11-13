@@ -76,6 +76,38 @@ SVG uploads are parsed via XML defused parser; any presence of `<script>`, `java
 
 ---
 
-## 4. Conclusion & Production Readiness
-The application passes all automated backend security regression tests (`backend/app/tests/test_security_and_rohini.py`) and frontend integration tests. No high or critical security vulnerabilities remain unmitigated.
+## 4. Incident Review: /admin Route Unauthenticated Access Fix & Zero-Trust Hardening
+
+### 4.1 Incident Summary
+- **Incident Reference**: `docs/ADMIN_AUTH_INCIDENT.md`
+- **Vulnerability**: Visiting `/admin` on deployed frontend rendered the administrative dashboard without authentication.
+- **Root Cause**:
+  1. `AuthContext.tsx` initialized `user` to `defaultAdminUser` (a non-null mock admin object). At initial load ($t=0$), `isAuthenticated` evaluated to `true`, allowing `RequireAuth` to mount the admin shell before network checks finished.
+  2. `checkAuthSession` error handlers caught network or token refresh errors and reset `user` to `defaultAdminUser` rather than clearing state.
+  3. `RequireAuth` did not block rendering during the indeterminate `isLoading = true` state.
+
+### 4.2 Comprehensive Remediation
+1. **Frontend Auth Context Hardening (`frontend/src/context/AuthContext.tsx`)**:
+   - `user` starts strictly as `null`.
+   - `isAuthenticated` evaluates to `false`.
+   - `isLoading` starts as `true`.
+   - Any network error, invalid session, or refresh failure calls `logout()` and clears tokens.
+2. **Fail-Closed Route Guards (`frontend/src/guards/RequireAuth.tsx`)**:
+   - Renders neutral branded dark loading screen while `isLoading === true`.
+   - Unauthenticated access redirects immediately to `/admin/login?next={currentPath}`.
+3. **Backend Mandatory Dependency (`backend/app/api/v1/endpoints/admin.py`)**:
+   - Every `/admin/*` endpoint strictly enforces `current_user: User = Depends(require_admin)` or `require_super_admin`.
+   - Anonymous requests receive `HTTP 401 Unauthorized` before any database queries execute.
+4. **Vercel Edge Security Headers (`vercel.json`)**:
+   - `/admin/(.*)` configured with:
+     - `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0`
+     - `Pragma: no-cache`
+     - `Expires: 0`
+     - `X-Robots-Tag: noindex, nofollow, noarchive`
+
+---
+
+## 5. Conclusion & Production Readiness
+The application passes all automated backend security regression tests (`backend/app/tests/test_security_and_rohini.py`, `backend/app/tests/test_admin.py`) and frontend integration tests (`frontend/tests/adminSecurityIncident.test.tsx`, `frontend/tests/iosSafariAndCrossDevice.test.tsx`). No high or critical security vulnerabilities remain unmitigated.
+
 

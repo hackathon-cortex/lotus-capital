@@ -36,3 +36,23 @@ def test_user_management_rbac(client, editor_token, superadmin_token):
     assert res_patch.status_code == 200
     assert res_patch.json()["data"]["role"] == "editor"
 
+
+
+def test_admin_endpoints_require_authentication(client):
+    admin_routes = [
+        ("GET", "/api/v1/admin/dashboard"),
+        ("GET", "/api/v1/admin/followups/count"),
+        ("GET", "/api/v1/admin/enquiries"),
+        ("GET", "/api/v1/admin/reports/conversion"),
+        ("GET", "/api/v1/admin/users"),
+        ("GET", "/api/v1/admin/audit-logs"),
+        ("GET", "/api/v1/admin/statistics"),
+        ("POST", "/api/v1/admin/media/upload"),
+        ("GET", "/api/v1/auth/me"),
+    ]
+    for method, path in admin_routes:
+        if method == "GET":
+            res = client.get(path)
+        else:
+            res = client.post(path)
+        assert res.status_code == 401, f"Expected 401 Unauthorized for anonymous {method} {path}, got {res.status_code}"

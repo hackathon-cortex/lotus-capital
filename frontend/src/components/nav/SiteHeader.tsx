@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LotusLogo } from '../common/LotusLogo';
+import { BrandLogo } from '../common/BrandLogo';
 import { useContactDrawer } from '../../context/ContactDrawerContext';
 import { getHeaderTone } from '../../config/navigation';
 import { NavTrack } from './NavTrack';
@@ -228,11 +228,11 @@ export const SiteHeader: React.FC<SiteHeaderProps> = ({ onMenuToggle }) => {
             aria-label="Lotus Capital Home"
           >
             <div className="site-header__logo-wrapper">
-              <LotusLogo
+              <BrandLogo
                 variant="light"
-                height={scrolled ? 50 : 54}
-                width="auto"
-                className="site-header__logo-svg"
+                height={scrolled ? 48 : 54}
+                width={190}
+                className="site-header__logo-img"
               />
             </div>
           </Link>

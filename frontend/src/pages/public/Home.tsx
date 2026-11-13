@@ -108,12 +108,9 @@ export const Home: React.FC = () => {
       <section className="home-hero" id="hero" data-tone="dark" aria-labelledby="home-hero-title">
         <div className="home-hero__bg">
           <img
-            src="/images/hero.jpg"
+            src="/images/hero.svg"
             alt="Lotus Capital — Partnering Wealth Creation"
             className="home-hero__image anim-settle"
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
           />
           <div className="home-hero__scrim" />
         </div>
@@ -126,7 +123,7 @@ export const Home: React.FC = () => {
           }}
           aria-hidden="true"
         >
-          <LotusLogo variant="watermark" width={520} height={520} />
+          <LotusLogo variant="watermark" width={480} height={480} />
         </div>
 
         <div className="container home-hero__content">
