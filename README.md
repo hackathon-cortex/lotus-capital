@@ -19,7 +19,6 @@ The public site presents advisory journeys for Mutual Funds, Equity & Derivative
 9. [Testing](#9-testing)
 10. [Project Structure](#10-project-structure)
 11. [Design System](#11-design-system)
-12. [License](#12-license)
 
 ---
 
