@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth, UserRole } from '../context/MockAuthContext';
+import { useAuth, UserRole } from '../context/AuthContext';
 
 interface RequireRoleProps {
   role: UserRole;
@@ -11,14 +11,26 @@ export const RequireRole: React.FC<RequireRoleProps> = ({ role, children }) => {
 
   if (!hasRole(role)) {
     return (
-      <div className="container section-padding">
-        <div className="card" style={{ borderColor: 'var(--danger)', padding: '2rem' }}>
-          <h2>Access Denied (HTTP 403)</h2>
-          <p>
-            Your current mock account role does not have permission to view this administrative screen.
-            Required role: <strong>{role}</strong>.
+      <div className="container section-padding" style={{ padding: '3rem 1.5rem' }}>
+        <div
+          className="card"
+          style={{
+            borderColor: 'var(--red-600, #B91C1C)',
+            padding: '2rem',
+            backgroundColor: '#0A2540',
+            color: '#FFFFFF',
+            borderRadius: '16px',
+            maxWidth: '600px',
+            margin: '0 auto',
+          }}
+        >
+          <h2 style={{ color: '#E92332', fontSize: '1.5rem', marginBottom: '1rem' }}>
+            Access Denied (HTTP 403)
+          </h2>
+          <p style={{ color: '#D7D9DC', lineHeight: 1.6 }}>
+            Your account does not have sufficient administrative privileges to view this section.
+            Required role: <strong style={{ color: '#FFFFFF' }}>{role}</strong>.
           </p>
-          <p>You can switch roles in the mock authentication context for testing.</p>
         </div>
       </div>
     );
@@ -26,4 +38,3 @@ export const RequireRole: React.FC<RequireRoleProps> = ({ role, children }) => {
 
   return children;
 };
-

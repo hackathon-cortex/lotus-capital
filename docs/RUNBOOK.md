@@ -125,3 +125,32 @@ Uploaded media (such as team member portraits and hospital certificates) is pers
 docker compose exec backend find /app/uploads/temp -type f -mtime +1 -delete
 ```
 
+---
+
+## 6. iOS Safari & Mobile Asset Health Checks
+
+### Verification Steps for New Builds
+1. **Asset Integrity Check**:
+   Ensure dedicated vector assets exist and return HTTP 200:
+   - `/images/logo/light.svg` (Header & dark backgrounds)
+   - `/images/logo/dark.svg` (Light backgrounds)
+   - `/images/logo/mark.svg` (Favicons & watermarks)
+   - `/images/hero.svg` (Hero banner background)
+2. **Mobile Header Sizing**:
+   Verify header height on viewports <= 1023px is locked to 60px with `--logo-h: 40px;` and container `contain: layout paint;`.
+3. **Form Inputs**:
+   Verify inputs on mobile render at 16px font-size to prevent automatic Safari viewport zooming.
+
+---
+
+## 7. Administrative Zero-Trust Session Verification
+
+To confirm that the administrative shell fails closed without credentials:
+1. Open an incognito browser window.
+2. Directly navigate to `/admin`.
+3. Expected behavior: Instant redirect to `/admin/login?next=%2Fadmin` without flashing dashboard cards or mock records.
+4. Verify HTTP Response Headers:
+   - `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0`
+   - `X-Robots-Tag: noindex, nofollow, noarchive`
+
+

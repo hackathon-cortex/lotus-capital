@@ -20,6 +20,10 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    target: ['es2019', 'safari14'],
+    cssTarget: 'safari14',
+  },
   test: {
     globals: true,
     environment: 'jsdom',

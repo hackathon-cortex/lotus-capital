@@ -27,18 +27,12 @@ export interface AuthContextType {
   changePassword: (oldPass: string, newPass: string) => Promise<{ success: boolean; error?: string }>;
 }
 
-const defaultAdminUser: AuthUser = {
-  id: 'usr_mock_001',
-  name: 'Abhilash Chudasama',
-  email: 'admin@lotuscapital.in',
-  role: 'admin',
-  permissions: ['all'],
-};
-
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<AuthUser | null>(defaultAdminUser);
+  // Security Hardening: Initial state MUST be null (fail-closed).
+  // No hardcoded defaultAdminUser in production.
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [backendConnected, setBackendConnected] = useState<boolean>(false);
   const [token, setTokenState] = useState<string | null>(getAccessToken());
@@ -54,48 +48,64 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     let mounted = true;
 
-    // In unit test runner without existing token, skip background async probe
-    if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test' && !getAccessToken()) {
-      setIsLoading(false);
-      return;
-    }
-
     async function checkAuthSession() {
       try {
-        const health = await api.public.checkHealth();
-        if (mounted && health && health.status === 'healthy') {
-          setBackendConnected(true);
+        const existingToken = getAccessToken();
+
+        // If no token exists, immediately fail-closed and finish loading
+        if (!existingToken) {
+          if (mounted) {
+            setUser(null);
+            setTokenState(null);
+            setIsLoading(false);
+          }
+          return;
         }
 
-        const existingToken = getAccessToken();
-        if (existingToken) {
+        // Verify backend health
+        try {
+          const health = await api.public.checkHealth();
+          if (mounted && health && health.status === 'healthy') {
+            setBackendConnected(true);
+          }
+        } catch {
+          // Health check non-critical if offline
+        }
+
+        // Verify existing token with backend /api/v1/auth/me
+        try {
+          const profile = await api.auth.getMe();
+          if (mounted && profile) {
+            setUser(mapBackendUser(profile));
+            setTokenState(existingToken);
+            setBackendConnected(true);
+          }
+        } catch {
+          // Attempt silent refresh
           try {
-            const profile = await api.auth.getMe();
-            if (mounted && profile) {
-              setUser(mapBackendUser(profile));
-              setTokenState(existingToken);
+            const refreshed = await api.auth.refreshToken();
+            if (mounted && refreshed?.user) {
+              setUser(mapBackendUser(refreshed.user));
+              setTokenState(refreshed.access_token);
+              setAccessToken(refreshed.access_token);
+              setBackendConnected(true);
+            } else {
+              throw new Error('Refresh failed');
             }
           } catch {
-            // Attempt silent refresh
-            try {
-              const refreshed = await api.auth.refreshToken();
-              if (mounted && refreshed?.user) {
-                setUser(mapBackendUser(refreshed.user));
-                setTokenState(refreshed.access_token);
-              }
-            } catch {
-              setAccessToken(null);
-              if (mounted) {
-                setTokenState(null);
-                setUser(defaultAdminUser);
-              }
+            // Failed refresh: wipe tokens and force unauthenticated
+            setAccessToken(null);
+            if (mounted) {
+              setTokenState(null);
+              setUser(null);
             }
           }
         }
       } catch {
         if (mounted) {
           setBackendConnected(false);
-          setUser(defaultAdminUser);
+          setUser(null);
+          setTokenState(null);
         }
       } finally {
         if (mounted) {
@@ -114,42 +124,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (
     email: string,
     passwordOrRole?: string,
-    role: UserRole = 'admin'
+    _role?: UserRole
   ): Promise<{ success: boolean; error?: string; mfa_required?: boolean; mfa_token?: string }> => {
-    const isMockRole = passwordOrRole === 'admin' || passwordOrRole === 'staff';
-    const isRealPassword = passwordOrRole && !isMockRole && passwordOrRole.length >= 6;
-
-    if (isRealPassword) {
-      try {
-        const tokenRes = await api.auth.login(email, passwordOrRole);
-        if (tokenRes.mfa_required) {
-          return { success: false, mfa_required: true, mfa_token: tokenRes.mfa_token };
-        }
-        if (tokenRes.user) {
-          const mapped = mapBackendUser(tokenRes.user);
-          setUser(mapped);
-        }
-        setTokenState(tokenRes.access_token);
-        setBackendConnected(true);
-        return { success: true };
-      } catch (err: any) {
-        return {
-          success: false,
-          error: err.message || 'Invalid email or password. Please verify credentials.',
-        };
-      }
+    if (!passwordOrRole || passwordOrRole.length < 6) {
+      return { success: false, error: 'Password must be at least 6 characters.' };
     }
 
-    // Mock role fallback
-    const assignedRole = (isMockRole ? passwordOrRole : role) as UserRole;
-    setUser({
-      id: 'usr_mock_session',
-      name: email.split('@')[0],
-      email,
-      role: assignedRole,
-      permissions: assignedRole === 'admin' ? ['all'] : ['view_leads', 'edit_content'],
-    });
-    return { success: true };
+    try {
+      const tokenRes = await api.auth.login(email, passwordOrRole);
+      if (tokenRes.mfa_required) {
+        return { success: false, mfa_required: true, mfa_token: tokenRes.mfa_token };
+      }
+      if (tokenRes.user) {
+        const mapped = mapBackendUser(tokenRes.user);
+        setUser(mapped);
+      }
+      setTokenState(tokenRes.access_token);
+      setBackendConnected(true);
+      return { success: true };
+    } catch (err: any) {
+      return {
+        success: false,
+        error: err.message || 'Invalid email or password. Please verify credentials.',
+      };
+    }
   };
 
   const validateMfa = async (mfaToken: string, code: string): Promise<{ success: boolean; error?: string }> => {
@@ -192,7 +190,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: !!user,
+        isAuthenticated: !!user && !!token,
         isLoading,
         backendConnected,
         token,
@@ -208,8 +206,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-export const MockAuthProvider = AuthProvider;
-
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -217,4 +213,3 @@ export const useAuth = () => {
   }
   return context;
 };
-

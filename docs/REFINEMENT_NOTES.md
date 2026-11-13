@@ -1063,3 +1063,34 @@ The admin portal has been comprehensively overhauled into a unified, config-driv
 - **DPDP Act & PII**: Structured JSON logging masks phone numbers and emails. Lead deletion cascades anonymize audit log entries (`anonymize_entity`).
 - **Production DevOps**: Multi-stage Dockerfiles (`backend/Dockerfile`, `frontend/Dockerfile`), `docker-compose.yml`, and GitHub Actions CI workflow (`.github/workflows/ci.yml`).
 
+---
+
+## 26. iOS Safari Layout Hardening & Admin Authentication Zero-Trust Remediation
+
+### 26.1 iOS Safari Layout Defects & Remediation
+- **Defect**: On iPhone 13 Safari, the header pill appeared empty, while a giant thin-serif "LOTUS C..." wordmark with a horizontal rule rendered across the hero text at 2-3x the viewport width, striking through the hero paragraph, and the lotus watermark overlapped the headline and eyebrow.
+- **Root Cause**:
+  1. Inline SVG rendered inside a flex container with `overflow: visible` and `backdrop-filter: blur(14px)`. Lacking explicit width/height attributes, WebKit expanded the inline SVG to its full coordinate box (725x405), spilling across the screen.
+  2. The `watermark` variant of `LotusLogo` included the 60px Felix Titling brand name and the 674px divider rule (`M 18 342 L 692 342`), which struck through the hero intro.
+  3. `<img src="/images/hero.jpg">` errored and hid itself because only `hero.svg` existed on disk.
+- **Remediation**:
+  1. Shipped dedicated un-recolored SVG vector assets in `frontend/public/images/logo/` (`light.svg`, `dark.svg`, `mark.svg`) with explicit `width`, `height`, `viewBox`, and `preserveAspectRatio="xMinYMid meet"`.
+  2. Built `BrandLogo` component using `<picture>`/`<img>` with explicit dimensions, `max-width: min(190px, 46vw)`, and wrapper isolation (`overflow: hidden; contain: layout paint; flex: 0 0 auto; min-width: 0;`).
+  3. Sanitized `LotusLogo` watermark variant: restricted `viewBox` to `235 0 250 250` (emblem petals only), completely removing wordmark text and divider lines.
+  4. Switched hero background to `<img src="/images/hero.svg">`.
+  5. Positioned `.hero-lotus-art` on mobile (below 768px) behind text (`z-index: 0; pointer-events: none; opacity: 0.18; max-width: 35vw;`) with hero text container elevated to `z-index: 2;`.
+  6. Added `viewport-fit=cover`, `-webkit-text-size-adjust: 100%`, 16px font-size on mobile form inputs, and BFCache `pageshow` listener.
+  7. Configured Vite build targets to `['es2019', 'safari14']` and browserslist to `["iOS >= 14", "Safari >= 14", "Chrome >= 90", "Edge >= 90", "Firefox >= 100"]`.
+
+### 26.2 /admin Authentication Incident Remediation
+- **Defect**: Visiting `/admin` on Vercel rendered the administrative shell and dashboard without prompting for authentication.
+- **Root Cause**: `AuthContext.tsx` initialized `user` to `defaultAdminUser` (mock object). At load time ($t=0$), `isAuthenticated` evaluated to `true`, bypassing `RequireAuth` before the network check could finish. Errors in `checkAuthSession` also fell back to `defaultAdminUser`.
+- **Remediation**:
+  1. Removed `defaultAdminUser`. Initial state is strictly `user = null`, `isLoading = true`, and `isAuthenticated = false`.
+  2. `RequireAuth` displays a branded dark loader while `isLoading === true` and redirects immediately to `/admin/login?next=...` on unauthenticated state.
+  3. Isolated `MockAuthProvider` to `tests/` and test runners only.
+  4. Lazy-loaded all admin routes and auth pages with `React.lazy()` so no admin JS is served to unauthenticated users.
+  5. Backend `/admin/*` router enforces mandatory `require_admin` dependency returning `HTTP 401 Unauthorized` for anonymous requests.
+  6. Vercel edge configuration (`vercel.json`) applies strict `Cache-Control: no-store` and `X-Robots-Tag: noindex, nofollow` to `/admin/*`.
+
+

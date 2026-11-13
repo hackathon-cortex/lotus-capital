@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { PublicLayout } from '../layouts/PublicLayout';
-import { AdminLayout } from '../layouts/AdminLayout';
 import { RequireAuth } from '../guards/RequireAuth';
 import { RequireRole } from '../guards/RequireRole';
 import { TrailingSlashRedirect } from './redirects';
@@ -26,26 +25,78 @@ import { NotFound } from '../pages/public/NotFound';
 // Dev page
 import { DataRegisterPage } from '../pages/dev/DataRegisterPage';
 
-// Admin pages
-import { AdminLogin, AdminSignUp, AdminForgotPassword, AdminResetPassword } from '../pages/admin/AdminAuthPages';
-import { AdminDashboard } from '../pages/admin/AdminDashboard';
-import { AdminLeads } from '../pages/admin/AdminLeads';
-import { AdminFollowups } from '../pages/admin/AdminFollowups';
-import { AdminReports } from '../pages/admin/AdminReports';
-import { AdminContentPages } from '../pages/admin/AdminContentPages';
-import { AdminPageEditor } from '../pages/admin/AdminPageEditor';
-import { AdminFaqs } from '../pages/admin/AdminFaqs';
-import { AdminTeam } from '../pages/admin/AdminTeam';
-import { AdminPartnersAwards } from '../pages/admin/AdminPartnersAwards';
-import { AdminTestimonials } from '../pages/admin/AdminTestimonials';
-import { AdminContactSettings } from '../pages/admin/AdminContactSettings';
-import { AdminInsights } from '../pages/admin/AdminInsights';
-import { AdminInsightEditor } from '../pages/admin/AdminInsightEditor';
-import { AdminStatistics } from '../pages/admin/AdminStatistics';
-import { AdminMedia } from '../pages/admin/AdminMedia';
-import { AdminUsers } from '../pages/admin/AdminUsers';
-import { AdminAuditLogs } from '../pages/admin/AdminAuditLogs';
-import { AdminAccount } from '../pages/admin/AdminAccount';
+// Lazy-loaded Admin Layout & Auth Pages
+const AdminLayout = React.lazy(() =>
+  import('../layouts/AdminLayout').then((m) => ({ default: m.AdminLayout }))
+);
+const AdminLogin = React.lazy(() =>
+  import('../pages/admin/AdminAuthPages').then((m) => ({ default: m.AdminLogin }))
+);
+const AdminSignUp = React.lazy(() =>
+  import('../pages/admin/AdminAuthPages').then((m) => ({ default: m.AdminSignUp }))
+);
+const AdminForgotPassword = React.lazy(() =>
+  import('../pages/admin/AdminAuthPages').then((m) => ({ default: m.AdminForgotPassword }))
+);
+const AdminResetPassword = React.lazy(() =>
+  import('../pages/admin/AdminAuthPages').then((m) => ({ default: m.AdminResetPassword }))
+);
+
+// Lazy-loaded Admin Screens (Keeps admin code completely isolated from public bundle)
+const AdminDashboard = React.lazy(() =>
+  import('../pages/admin/AdminDashboard').then((m) => ({ default: m.AdminDashboard }))
+);
+const AdminLeads = React.lazy(() =>
+  import('../pages/admin/AdminLeads').then((m) => ({ default: m.AdminLeads }))
+);
+const AdminFollowups = React.lazy(() =>
+  import('../pages/admin/AdminFollowups').then((m) => ({ default: m.AdminFollowups }))
+);
+const AdminReports = React.lazy(() =>
+  import('../pages/admin/AdminReports').then((m) => ({ default: m.AdminReports }))
+);
+const AdminContentPages = React.lazy(() =>
+  import('../pages/admin/AdminContentPages').then((m) => ({ default: m.AdminContentPages }))
+);
+const AdminPageEditor = React.lazy(() =>
+  import('../pages/admin/AdminPageEditor').then((m) => ({ default: m.AdminPageEditor }))
+);
+const AdminFaqs = React.lazy(() =>
+  import('../pages/admin/AdminFaqs').then((m) => ({ default: m.AdminFaqs }))
+);
+const AdminTeam = React.lazy(() =>
+  import('../pages/admin/AdminTeam').then((m) => ({ default: m.AdminTeam }))
+);
+const AdminPartnersAwards = React.lazy(() =>
+  import('../pages/admin/AdminPartnersAwards').then((m) => ({ default: m.AdminPartnersAwards }))
+);
+const AdminTestimonials = React.lazy(() =>
+  import('../pages/admin/AdminTestimonials').then((m) => ({ default: m.AdminTestimonials }))
+);
+const AdminContactSettings = React.lazy(() =>
+  import('../pages/admin/AdminContactSettings').then((m) => ({ default: m.AdminContactSettings }))
+);
+const AdminInsights = React.lazy(() =>
+  import('../pages/admin/AdminInsights').then((m) => ({ default: m.AdminInsights }))
+);
+const AdminInsightEditor = React.lazy(() =>
+  import('../pages/admin/AdminInsightEditor').then((m) => ({ default: m.AdminInsightEditor }))
+);
+const AdminStatistics = React.lazy(() =>
+  import('../pages/admin/AdminStatistics').then((m) => ({ default: m.AdminStatistics }))
+);
+const AdminMedia = React.lazy(() =>
+  import('../pages/admin/AdminMedia').then((m) => ({ default: m.AdminMedia }))
+);
+const AdminUsers = React.lazy(() =>
+  import('../pages/admin/AdminUsers').then((m) => ({ default: m.AdminUsers }))
+);
+const AdminAuditLogs = React.lazy(() =>
+  import('../pages/admin/AdminAuditLogs').then((m) => ({ default: m.AdminAuditLogs }))
+);
+const AdminAccount = React.lazy(() =>
+  import('../pages/admin/AdminAccount').then((m) => ({ default: m.AdminAccount }))
+);
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -55,6 +106,44 @@ const ContactRedirect: React.FC = () => {
   nextParams.set('contact', 'open');
   return <Navigate to={`/?${nextParams.toString()}`} replace />;
 };
+
+const AdminLoader: React.FC = () => (
+  <div
+    data-testid="admin-chunk-loader"
+    style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#071B30',
+      color: '#FFFFFF',
+    }}
+  >
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+      <div
+        style={{
+          width: '32px',
+          height: '32px',
+          border: '3px solid rgba(255, 255, 255, 0.15)',
+          borderTopColor: '#D9232D',
+          borderRadius: '50%',
+          animation: 'spin 0.8s linear infinite',
+        }}
+      />
+      <span
+        style={{
+          fontSize: '11px',
+          letterSpacing: '0.12em',
+          color: '#8A949D',
+          textTransform: 'uppercase',
+          fontFamily: 'system-ui, sans-serif',
+        }}
+      >
+        Loading Administration...
+      </span>
+    </div>
+  </div>
+);
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -75,7 +164,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/investments" element={<Navigate to="/services" replace />} />
         <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
         <Route path="/terms" element={<Navigate to="/terms-and-conditions" replace />} />
-        
+
         {/* Insights legacy slug redirects */}
         <Route path="/insights/mutual-funds-direct-vs-regular" element={<Navigate to="/insights/mutual-funds-direct-vs-regular-plan" replace />} />
         <Route path="/insights/what-nav-means" element={<Navigate to="/insights/what-is-nav" replace />} />
@@ -115,57 +204,154 @@ export const AppRoutes: React.FC = () => {
         </Route>
 
         {/* ========================================================= */}
-        {/* 3. Admin Auth Routes                                      */}
+        {/* 3. Admin Auth Routes (Public login/password reset)        */}
         {/* ========================================================= */}
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/admin/login" element={<AdminLogin defaultTab="login" />} />
-        <Route path="/admin/signup" element={<AdminSignUp />} />
-        <Route path="/admin/register" element={<AdminSignUp />} />
-        <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
-        <Route path="/admin/reset-password/:token" element={<AdminResetPassword />} />
+        <Route
+          path="/admin/login"
+          element={
+            <Suspense fallback={<AdminLoader />}>
+              <AdminLogin defaultTab="login" />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/signup"
+          element={
+            <Suspense fallback={<AdminLoader />}>
+              <AdminSignUp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/register"
+          element={
+            <Suspense fallback={<AdminLoader />}>
+              <AdminSignUp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/forgot-password"
+          element={
+            <Suspense fallback={<AdminLoader />}>
+              <AdminForgotPassword />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/reset-password/:token"
+          element={
+            <Suspense fallback={<AdminLoader />}>
+              <AdminResetPassword />
+            </Suspense>
+          }
+        />
 
         {/* ========================================================= */}
-        {/* 4. Protected Admin Routes (AdminLayout)                   */}
+        {/* 4. Protected Admin Routes (RequireAuth Guard)             */}
         {/* ========================================================= */}
         <Route
           path="/admin"
           element={
             <RequireAuth>
-              <AdminLayout />
+              <Suspense fallback={<AdminLoader />}>
+                <AdminLayout />
+              </Suspense>
             </RequireAuth>
           }
         >
-          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route
+            path="dashboard"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminDashboard />
+              </Suspense>
+            }
+          />
 
           {/* Leads */}
-          <Route path="leads" element={<AdminLeads />} />
-          <Route path="leads/:leadId" element={<AdminLeads />} />
+          <Route
+            path="leads"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminLeads />
+              </Suspense>
+            }
+          />
+          <Route
+            path="leads/:leadId"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminLeads />
+              </Suspense>
+            }
+          />
 
           {/* Follow-ups */}
-          <Route path="followups" element={<AdminFollowups />} />
+          <Route
+            path="followups"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminFollowups />
+              </Suspense>
+            }
+          />
 
           {/* Reports (Admin only) */}
           <Route
             path="reports"
             element={
               <RequireRole role="admin">
-                <AdminReports />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminReports />
+                </Suspense>
               </RequireRole>
             }
           />
 
           {/* Content Pages */}
-          <Route path="content/pages" element={<AdminContentPages />} />
-          <Route path="content/pages/:pageKey" element={<AdminPageEditor />} />
+          <Route
+            path="content/pages"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminContentPages />
+              </Suspense>
+            }
+          />
+          <Route
+            path="content/pages/:pageKey"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminPageEditor />
+              </Suspense>
+            }
+          />
 
           {/* Other Content Screens */}
-          <Route path="content/faqs" element={<AdminFaqs />} />
-          <Route path="content/team" element={<AdminTeam />} />
+          <Route
+            path="content/faqs"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminFaqs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="content/team"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminTeam />
+              </Suspense>
+            }
+          />
           <Route
             path="content/partners"
             element={
               <RequireRole role="admin">
-                <AdminPartnersAwards />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminPartnersAwards />
+                </Suspense>
               </RequireRole>
             }
           />
@@ -173,7 +359,9 @@ export const AppRoutes: React.FC = () => {
             path="content/achievements"
             element={
               <RequireRole role="admin">
-                <AdminPartnersAwards />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminPartnersAwards />
+                </Suspense>
               </RequireRole>
             }
           />
@@ -181,7 +369,9 @@ export const AppRoutes: React.FC = () => {
             path="content/testimonials"
             element={
               <RequireRole role="admin">
-                <AdminTestimonials />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminTestimonials />
+                </Suspense>
               </RequireRole>
             }
           />
@@ -189,32 +379,59 @@ export const AppRoutes: React.FC = () => {
             path="content/contact"
             element={
               <RequireRole role="admin">
-                <AdminContactSettings />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminContactSettings />
+                </Suspense>
               </RequireRole>
             }
           />
-          <Route path="content/insights" element={<AdminInsights />} />
-          <Route path="content/insights/:insightId" element={<AdminInsightEditor />} />
+          <Route
+            path="content/insights"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminInsights />
+              </Suspense>
+            }
+          />
+          <Route
+            path="content/insights/:insightId"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminInsightEditor />
+              </Suspense>
+            }
+          />
 
           {/* Statistics (Tier A/B/C gating) */}
           <Route
             path="statistics"
             element={
               <RequireRole role="admin">
-                <AdminStatistics />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminStatistics />
+                </Suspense>
               </RequireRole>
             }
           />
 
           {/* Media */}
-          <Route path="media" element={<AdminMedia />} />
+          <Route
+            path="media"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminMedia />
+              </Suspense>
+            }
+          />
 
           {/* Users & Roles (Admin only) */}
           <Route
             path="users"
             element={
               <RequireRole role="admin">
-                <AdminUsers />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminUsers />
+                </Suspense>
               </RequireRole>
             }
           />
@@ -222,7 +439,9 @@ export const AppRoutes: React.FC = () => {
             path="users/:userId"
             element={
               <RequireRole role="admin">
-                <AdminUsers />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminUsers />
+                </Suspense>
               </RequireRole>
             }
           />
@@ -232,19 +451,28 @@ export const AppRoutes: React.FC = () => {
             path="audit-logs"
             element={
               <RequireRole role="admin">
-                <AdminAuditLogs />
+                <Suspense fallback={<AdminLoader />}>
+                  <AdminAuditLogs />
+                </Suspense>
               </RequireRole>
             }
           />
 
           {/* Account */}
-          <Route path="account" element={<AdminAccount />} />
+          <Route
+            path="account"
+            element={
+              <Suspense fallback={<AdminLoader />}>
+                <AdminAccount />
+              </Suspense>
+            }
+          />
 
           {/* Admin 404 */}
           <Route
             path="*"
             element={
-              <div className="card" style={{ padding: '2rem' }}>
+              <div className="card" style={{ padding: '2rem', backgroundColor: '#0A2540', color: '#fff' }}>
                 <h3>Admin Page Not Found</h3>
                 <p>The requested administrative screen does not exist.</p>
               </div>
@@ -255,4 +483,3 @@ export const AppRoutes: React.FC = () => {
     </TrailingSlashRedirect>
   );
 };
-
