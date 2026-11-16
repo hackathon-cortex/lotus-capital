@@ -37,22 +37,23 @@ export const EnquirySubmitResponseSchema = z.object({
 
 export const UserProfileSchema = z.object({
   id: z.number(),
-  full_name: z.string(),
+  full_name: z.string().nullable().optional().default(''),
   email: z.string().email(),
   role: z.enum(['super_admin', 'admin', 'editor']),
-  is_active: z.boolean(),
-  is_superuser: z.boolean().optional(),
-  created_at: z.string().optional(),
+  is_active: z.boolean().default(true),
+  is_superuser: z.boolean().nullable().optional().default(false),
+  mfa_enabled: z.boolean().nullable().optional().default(false),
+  created_at: z.string().nullable().optional(),
   last_login_at: z.string().nullable().optional(),
 });
 
 export const TokenResponseSchema = z.object({
-  access_token: z.string().optional().default(''),
-  refresh_token: z.string().optional().default(''),
-  token_type: z.string().default('bearer'),
-  mfa_required: z.boolean().optional().default(false),
-  mfa_token: z.string().optional(),
-  user: UserProfileSchema.optional(),
+  access_token: z.string().nullable().optional().default(''),
+  refresh_token: z.string().nullable().optional().default(''),
+  token_type: z.string().nullable().optional().default('bearer'),
+  mfa_required: z.boolean().nullable().optional().default(false),
+  mfa_token: z.string().nullable().optional(),
+  user: UserProfileSchema.nullable().optional(),
 });
 
 export const BackendEnquirySchema = z.object({

@@ -251,6 +251,19 @@ export async function request<T>(
   throw lastError;
 }
 
+function parseTokenResponse(data: unknown): TokenResponse {
+  const result = TokenResponseSchema.safeParse(data);
+  if (!result.success) {
+    console.error('[API Boundary Validation Error] TokenResponseSchema mismatch:', result.error.issues);
+    throw new ApiClientError('Authentication response validation failed.', {
+      status: 500,
+      code: 'VALIDATION_ERROR',
+      details: result.error.issues,
+    });
+  }
+  return result.data;
+}
+
 /**
  * Type-Safe Domain Client
  */
@@ -272,8 +285,10 @@ export const api = {
         body: JSON.stringify({ email, password }),
         skipAuthRefresh: true,
       });
-      const parsed = TokenResponseSchema.parse(data);
-      setAccessToken(parsed.access_token);
+      const parsed = parseTokenResponse(data);
+      if (parsed.access_token) {
+        setAccessToken(parsed.access_token);
+      }
       return parsed;
     },
 
@@ -281,7 +296,16 @@ export const api = {
       const data = await request<unknown>('/auth/me', {
         method: 'GET',
       });
-      return UserProfileSchema.parse(data);
+      const result = UserProfileSchema.safeParse(data);
+      if (!result.success) {
+        console.error('[API Boundary Validation Error] UserProfileSchema mismatch:', result.error.issues);
+        throw new ApiClientError('User profile validation failed.', {
+          status: 500,
+          code: 'VALIDATION_ERROR',
+          details: result.error.issues,
+        });
+      }
+      return result.data;
     },
 
     refreshToken: async (token?: string): Promise<TokenResponse> => {
@@ -290,8 +314,10 @@ export const api = {
         body: JSON.stringify(token ? { refresh_token: token } : {}),
         skipAuthRefresh: true,
       });
-      const parsed = TokenResponseSchema.parse(data);
-      setAccessToken(parsed.access_token);
+      const parsed = parseTokenResponse(data);
+      if (parsed.access_token) {
+        setAccessToken(parsed.access_token);
+      }
       return parsed;
     },
 
@@ -331,8 +357,10 @@ export const api = {
         body: JSON.stringify({ mfa_token, code }),
         skipAuthRefresh: true,
       });
-      const parsed = TokenResponseSchema.parse(res);
-      setAccessToken(parsed.access_token);
+      const parsed = parseTokenResponse(res);
+      if (parsed.access_token) {
+        setAccessToken(parsed.access_token);
+      }
       return parsed;
     },
 

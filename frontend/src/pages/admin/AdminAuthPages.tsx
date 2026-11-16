@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams, Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useAuth, UserRole } from '../../context/MockAuthContext';
+import { useAuth, UserRole, cleanAuthErrorMessage } from '../../context/AuthContext';
 import { api } from '../../api/client';
 
 export interface AdminLoginProps {
@@ -56,12 +56,15 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ defaultTab = 'login' }) 
         } else if (result.mfa_required && result.mfa_token) {
           setMfaRequired(true);
           setMfaToken(result.mfa_token);
+          setError(null);
+        } else if (result.mfa_required && !result.mfa_token) {
+          setError('MFA verification required. Please try signing in again.');
         } else {
-          setError(result.error || 'Authentication failed. Please verify credentials.');
+          setError(cleanAuthErrorMessage(result.error, 'Invalid email or password.'));
         }
       }
     } catch (err: any) {
-      setError(err.message || 'Unable to connect to backend service.');
+      setError(cleanAuthErrorMessage(err, 'Unable to connect to backend service.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -103,11 +106,11 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ defaultTab = 'login' }) 
           setPassword('');
           setActiveTab('login');
         } else {
-          setError(res?.message || 'Registration could not be completed.');
+          setError(cleanAuthErrorMessage(res?.message, 'Registration could not be completed.'));
         }
       }
     } catch (err: any) {
-      setError(err.message || 'Registration failed. The email address might already be registered.');
+      setError(cleanAuthErrorMessage(err, 'Registration failed. The email address might already be registered.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +118,14 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ defaultTab = 'login' }) 
 
   const handleMfaSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!mfaToken || !mfaCode.trim()) return;
+    if (!mfaToken) {
+      setError('MFA verification required. Please sign in again.');
+      return;
+    }
+    if (!mfaCode.trim()) {
+      setError('Invalid MFA verification code. Please enter your code.');
+      return;
+    }
     setError(null);
     setIsSubmitting(true);
 
@@ -124,10 +134,10 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ defaultTab = 'login' }) 
       if (res.success) {
         navigate(decodeURIComponent(next), { replace: true });
       } else {
-        setError(res.error || 'Invalid verification code. Please retry.');
+        setError(cleanAuthErrorMessage(res.error, 'Invalid MFA verification code.'));
       }
     } catch (err: any) {
-      setError(err.message || 'MFA validation failed.');
+      setError(cleanAuthErrorMessage(err, 'Invalid MFA verification code.'));
     } finally {
       setIsSubmitting(false);
     }
@@ -561,7 +571,7 @@ export const AdminResetPassword: React.FC = () => {
       await api.auth.resetPassword(token, password);
       setDone(true);
     } catch (err: any) {
-      setError(err.message || 'Password reset token is invalid or has expired.');
+      setError(cleanAuthErrorMessage(err, 'Password reset token is invalid or has expired.'));
     } finally {
       setLoading(false);
     }

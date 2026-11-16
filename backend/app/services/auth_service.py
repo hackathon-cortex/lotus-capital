@@ -214,11 +214,20 @@ class AuthService:
         )
 
     def validate_mfa_login(self, mfa_token: str, code: str, ip_address: Optional[str] = None) -> TokenResponse:
-        payload = decode_token(mfa_token)
+        if not mfa_token or not mfa_token.strip():
+            raise UnauthorizedException("MFA session expired or invalid. Please log in again.")
+        if not code or not code.strip():
+            raise UnauthorizedException("Invalid two-factor authentication code.")
+
+        clean_token = mfa_token.strip()
+        payload = decode_token(clean_token)
         if not payload or payload.get("type") != "mfa_pending":
             raise UnauthorizedException("MFA session expired or invalid. Please log in again.")
 
         user_id = payload.get("sub")
+        if not user_id:
+            raise UnauthorizedException("MFA session expired or invalid. Please log in again.")
+
         user = self.user_repo.get_by_id(int(user_id))
         if not user or not user.is_active:
             raise UnauthorizedException("Account not found or inactive.")
@@ -244,7 +253,7 @@ class AuthService:
             raise UnauthorizedException("Invalid two-factor authentication code.")
 
         # Invalidate the MFA challenge token
-        revoke_token(mfa_token)
+        revoke_token(clean_token)
 
         # Success - issue tokens
         user.last_login_at = datetime.now(timezone.utc)

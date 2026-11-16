@@ -27,6 +27,87 @@ export interface AuthContextType {
   changePassword: (oldPass: string, newPass: string) => Promise<{ success: boolean; error?: string }>;
 }
 
+/**
+ * Format and sanitize authentication error messages for user-facing UI.
+ * Never exposes raw Zod error JSON, Python tracebacks, or sensitive internal details.
+ */
+export function cleanAuthErrorMessage(err: any, defaultFallback = 'Authentication failed.'): string {
+  if (!err) return defaultFallback;
+
+  const rawMsg = typeof err === 'string' ? err : err.message || '';
+
+  // 1. If error message is a raw JSON string (such as Zod issues array or backend JSON)
+  if (rawMsg.startsWith('[') || rawMsg.startsWith('{')) {
+    try {
+      const parsed = JSON.parse(rawMsg);
+      if (
+        Array.isArray(parsed) &&
+        parsed.some((p: any) => p?.path?.includes('mfa_token') || p?.path?.includes('totp') || p?.path?.includes('code'))
+      ) {
+        return 'MFA verification required.';
+      }
+    } catch {
+      // ignore JSON parse error
+    }
+    return defaultFallback;
+  }
+
+  const lower = rawMsg.toLowerCase();
+
+  // 2. Specific auth error mappings
+  if (
+    lower.includes('invalid email or password') ||
+    lower.includes('invalid credentials') ||
+    lower.includes('incorrect password') ||
+    lower.includes('wrong password')
+  ) {
+    return 'Invalid email or password.';
+  }
+  if (
+    lower.includes('mfa session expired') ||
+    lower.includes('mfa verification required') ||
+    lower.includes('mfa session') ||
+    lower.includes('mfa challenge') ||
+    lower.includes('mfa token')
+  ) {
+    return 'MFA verification required. Please log in again.';
+  }
+  if (
+    lower.includes('two-factor') ||
+    lower.includes('mfa') ||
+    lower.includes('totp') ||
+    lower.includes('verification code') ||
+    lower.includes('recovery code')
+  ) {
+    return 'Invalid MFA verification code.';
+  }
+  if (lower.includes('deactivated') || lower.includes('inactive')) {
+    return 'Account is deactivated. Please contact an administrator.';
+  }
+  if (lower.includes('locked') || lower.includes('too many') || lower.includes('rate limit')) {
+    return 'Too many login attempts. Account temporarily locked. Please try again later.';
+  }
+  if (lower.includes('network') || lower.includes('failed to fetch') || lower.includes('timeout')) {
+    return 'Unable to connect to backend service. Please check your connection.';
+  }
+
+  // 3. Reject any technical stack traces, file paths, or long cryptic messages
+  if (
+    rawMsg.includes('Traceback') ||
+    rawMsg.includes(' at ') ||
+    rawMsg.includes('TypeError') ||
+    rawMsg.includes('SyntaxError') ||
+    rawMsg.includes('expected string') ||
+    rawMsg.includes('null') ||
+    rawMsg.includes('undefined') ||
+    rawMsg.length > 120
+  ) {
+    return defaultFallback;
+  }
+
+  return rawMsg;
+}
+
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -133,34 +214,48 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const tokenRes = await api.auth.login(email, passwordOrRole);
       if (tokenRes.mfa_required) {
-        return { success: false, mfa_required: true, mfa_token: tokenRes.mfa_token };
+        return {
+          success: false,
+          mfa_required: true,
+          mfa_token: tokenRes.mfa_token || undefined,
+        };
       }
       if (tokenRes.user) {
         const mapped = mapBackendUser(tokenRes.user);
         setUser(mapped);
       }
-      setTokenState(tokenRes.access_token);
+      setTokenState(tokenRes.access_token || null);
       setBackendConnected(true);
       return { success: true };
     } catch (err: any) {
       return {
         success: false,
-        error: err.message || 'Invalid email or password. Please verify credentials.',
+        error: cleanAuthErrorMessage(err, 'Invalid email or password. Please verify credentials.'),
       };
     }
   };
 
   const validateMfa = async (mfaToken: string, code: string): Promise<{ success: boolean; error?: string }> => {
+    if (!mfaToken || !mfaToken.trim()) {
+      return { success: false, error: 'MFA verification required. Please log in again.' };
+    }
+    if (!code || !code.trim()) {
+      return { success: false, error: 'Invalid MFA verification code.' };
+    }
+
     try {
-      const tokenRes = await api.auth.validateMfaLogin(mfaToken, code);
+      const tokenRes = await api.auth.validateMfaLogin(mfaToken.trim(), code.trim());
       if (tokenRes.user) {
         setUser(mapBackendUser(tokenRes.user));
       }
-      setTokenState(tokenRes.access_token);
+      setTokenState(tokenRes.access_token || null);
       setBackendConnected(true);
       return { success: true };
     } catch (err: any) {
-      return { success: false, error: err.message || 'Invalid verification code.' };
+      return {
+        success: false,
+        error: cleanAuthErrorMessage(err, 'Invalid MFA verification code.'),
+      };
     }
   };
 

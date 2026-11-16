@@ -155,6 +155,8 @@ def verify_password_reset_token(token: str) -> Optional[str]:
 
 
 def decode_token(token: str) -> Optional[Dict[str, Any]]:
+    if not token or not isinstance(token, str):
+        return None
     if is_token_revoked(token):
         return None
     try:
@@ -168,6 +170,8 @@ def decode_token(token: str) -> Optional[Dict[str, Any]]:
 
 
 def revoke_token(token: str) -> None:
+    if not token:
+        return
     _revoked_tokens.add(token)
     try:
         unverified = jwt.decode(token, options={"verify_signature": False})
@@ -179,6 +183,8 @@ def revoke_token(token: str) -> None:
 
 
 def is_token_revoked(identifier: str) -> bool:
+    if not identifier:
+        return False
     return identifier in _revoked_tokens
 
 

@@ -132,8 +132,15 @@ class MfaVerifyResponse(BaseModel):
 
 
 class MfaValidateLoginRequest(BaseModel):
-    mfa_token: str
-    code: str
+    mfa_token: str = Field(..., min_length=1, description="MFA pending challenge token")
+    code: str = Field(..., min_length=1, max_length=64, description="TOTP code or recovery code")
+
+    @field_validator("mfa_token", "code")
+    @classmethod
+    def check_non_empty(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("Field cannot be empty or whitespace.")
+        return v.strip()
 
 
 class DashboardSummaryResponse(BaseModel):

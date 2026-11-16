@@ -151,3 +151,101 @@ def test_auth_register_and_login(client):
     )
     assert login_res.status_code == 200
     assert "access_token" in login_res.json()
+
+
+def test_auth_login_mfa_disabled_payload_structure(client, admin_user):
+    """Verify that an admin without MFA gets a clean TokenResponse with mfa_token: null."""
+    response = client.post(
+        "/api/v1/auth/login",
+        json={"email": admin_user.email, "password": "AdminPass123!"},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["mfa_required"] is False
+    assert data["mfa_token"] is None
+    assert data["access_token"] is not None
+    assert data["refresh_token"] is not None
+    assert data["user"]["email"] == admin_user.email
+
+
+def test_auth_mfa_complete_flow_and_validation(client, db_session, admin_user):
+    """Verify complete MFA flow: setup, challenge, invalid code rejection, and successful validation."""
+    from app.core.security import generate_totp_secret, generate_recovery_codes
+
+    # 1. Enable MFA on admin_user
+    secret = generate_totp_secret()
+    plain_codes, hashed_codes_json = generate_recovery_codes(8)
+    recovery_code = plain_codes[0]
+    admin_user.mfa_secret = secret
+    admin_user.mfa_enabled = True
+    admin_user.recovery_codes = hashed_codes_json
+    db_session.commit()
+
+    # 2. Login returns challenge token, NO access token
+    login_res = client.post(
+        "/api/v1/auth/login",
+        json={"email": admin_user.email, "password": "AdminPass123!"},
+    )
+    assert login_res.status_code == 200
+    login_data = login_res.json()
+    assert login_data["mfa_required"] is True
+    assert login_data["access_token"] is None
+    assert login_data["user"] is None
+    assert login_data["mfa_token"] is not None
+    mfa_token = login_data["mfa_token"]
+
+    # 3. Attempting to use mfa_token as Bearer access token must FAIL (cannot bypass MFA)
+    bypass_res = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {mfa_token}"})
+    assert bypass_res.status_code == 401
+
+    # 4. Reject empty / whitespace / missing MFA token and code
+    empty_token_res = client.post(
+        "/api/v1/auth/mfa/validate",
+        json={"mfa_token": "   ", "code": "123456"},
+    )
+    assert empty_token_res.status_code in [401, 422]
+
+    empty_code_res = client.post(
+        "/api/v1/auth/mfa/validate",
+        json={"mfa_token": mfa_token, "code": "   "},
+    )
+    assert empty_code_res.status_code in [401, 422]
+
+    # 5. Reject invalid code
+    bad_code_res = client.post(
+        "/api/v1/auth/mfa/validate",
+        json={"mfa_token": mfa_token, "code": "INVALID_CODE_999"},
+    )
+    assert bad_code_res.status_code == 401
+    assert "Invalid two-factor authentication code" in bad_code_res.json()["message"]
+
+    # 6. Reject invalid mfa_token
+    bad_token_res = client.post(
+        "/api/v1/auth/mfa/validate",
+        json={"mfa_token": "not.a.valid.jwt", "code": recovery_code},
+    )
+    assert bad_token_res.status_code == 401
+
+    # 7. Valid recovery code successfully completes login
+    validate_res = client.post(
+        "/api/v1/auth/mfa/validate",
+        json={"mfa_token": mfa_token, "code": recovery_code},
+    )
+    assert validate_res.status_code == 200
+    val_data = validate_res.json()
+    assert val_data["mfa_required"] is False
+    assert val_data["mfa_token"] is None
+    assert val_data["access_token"] is not None
+    assert val_data["user"]["email"] == admin_user.email
+
+    # 8. Replay attack: Re-using the same mfa_token must FAIL because it was revoked
+    replay_res = client.post(
+        "/api/v1/auth/mfa/validate",
+        json={"mfa_token": mfa_token, "code": recovery_code},
+    )
+    assert replay_res.status_code == 401
+
+    # 9. Verify access token works on protected endpoints
+    me_res = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {val_data['access_token']}"})
+    assert me_res.status_code == 200
+    assert me_res.json()["email"] == admin_user.email
